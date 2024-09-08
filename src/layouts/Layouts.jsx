@@ -60,7 +60,7 @@ const AppLayout = () => {
             <Menu.Item key="8" icon={<RiSkull2Fill />}>
               <Link to="/risk-type">Risk Type</Link>
             </Menu.Item>
-            <Menu.Item key="8" icon={<RiSkull2Fill />}>
+            <Menu.Item key="9" icon={<RiSkull2Fill />}>
               <Link to="/crud">Crud</Link>
             </Menu.Item>
           </Menu>
