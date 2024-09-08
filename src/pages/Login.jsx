@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import login from "../assets/user/signin.png";
-import axios from "axios";
+import axios from "../apis/axiosInstance";
 import { Form, Input } from "antd";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
 
@@ -9,38 +9,29 @@ const Login = () => {
   const navigate = useNavigate();
 
   const onFinish = async (values) => {
-    // try {
-    //   const res = await axios.post("http://localhost:8090/user/login", {
-    //     email: values.email,
-    //     password: values.password,
-    //   });
-    //   const decoded = jwt_decode(res.data.token);
-    //   const originalToken = res.data.token;
-    //   const payload = {
-    //     decodedJWT: decoded,
-    //     originalToken: originalToken,
-    //   };
-    //   if (decoded.role === "Manager") {
-    //     navigate("/admin");
-    //   } else {
-    //     navigate("/");
-    //   }
-    // } catch (err) {
-    //   const res = err.response?.status === 401;
-    //   if (res) {
-    //     Swal.fire({
-    //       icon: "error",
-    //       title: "Oops...",
-    //       text: "Invalid Email or Password",
-    //     });
-    //   } else {
-    //     Swal.fire({
-    //       icon: "error",
-    //       title: "Oops...",
-    //       text: err.message,
-    //     });
-    //   }
-    // }
+    try {
+      const res = await axios.post("login", {
+        email: values.email,
+        password: values.password,
+      });
+      if (res.data.status != 200) {
+        throw new Error("Invalid User");
+      }
+      Swal.fire({
+        icon: "success",
+        title: "",
+        text: res.data.response,
+      });
+      navigate("/home");
+    } catch (err) {
+      console.log(err);
+
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: err,
+      });
+    }
   };
 
   const inputStyle =

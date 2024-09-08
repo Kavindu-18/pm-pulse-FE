@@ -16,17 +16,13 @@ const Register = () => {
         confirmButtonText: "Yes",
         denyButtonText: "No",
       });
-      const payload = {
-        name: values.name,
-        contactNumber: values.contactNumber,
-        email: values.email,
-        password: values.password,
-        role: values.role,
-        uniqueField: values.uniqueField,
-      };
+
       if (result.isConfirmed) {
         const res = await axios.post("/register", {
-          payload,
+          firstname: values.firstname,
+          lastname: values.lastname,
+          email: values.email,
+          password: values.password,
         });
         Swal.fire(
           "Congratulations! You Have Successfully Registered with PM Pulse",
@@ -66,17 +62,32 @@ const Register = () => {
           >
             <div className="pt-2">
               <Form.Item
-                name="name"
+                name="firstname"
                 rules={[
                   {
                     required: true,
-                    message: "Please input your nickname!",
+                    message: "Please input your FirstName!",
                     whitespace: true,
                   },
                 ]}
                 hasFeedback
               >
-                <Input className={inputStyle} placeholder="Full Name" />
+                <Input className={inputStyle} placeholder="First Name" />
+              </Form.Item>
+            </div>
+            <div className="pt-2">
+              <Form.Item
+                name="lastname"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your LastName!",
+                    whitespace: true,
+                  },
+                ]}
+                hasFeedback
+              >
+                <Input className={inputStyle} placeholder="Last Name" />
               </Form.Item>
             </div>
 
@@ -96,31 +107,6 @@ const Register = () => {
                 hasFeedback
               >
                 <Input className={inputStyle} placeholder="Email" />
-              </Form.Item>
-            </div>
-
-            <div className="pt-2">
-              <Form.Item
-                name="contactNumber"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your phone number!",
-                  },
-                  ({ getFieldValue }) => ({
-                    validator(_, value) {
-                      if (/^\d{10}$/.test(value)) {
-                        return Promise.resolve();
-                      }
-                      return Promise.reject(
-                        "Phone number must be 10 digits and contain only numbers."
-                      );
-                    },
-                  }),
-                ]}
-                hasFeedback
-              >
-                <Input className={inputStyle} placeholder="Phone Number" />
               </Form.Item>
             </div>
 

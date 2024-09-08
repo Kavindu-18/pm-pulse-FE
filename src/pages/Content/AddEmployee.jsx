@@ -8,6 +8,7 @@ const AddEmployee = () => {
   const [loading, setLoading] = useState(false); // Added loading state
   const onFinish = async (values) => {
     setLoading(true);
+    console.log(values);
     try {
       const res = await axios.post("employee/insert", {
         role: values.role,
@@ -206,8 +207,8 @@ const AddEmployee = () => {
               <Input />
             </Form.Item>
             <Form.Item
-              name="Bachelor's Degree"
-              label="Bachelor_Degree"
+              name="Bachelor_Degree"
+              label="Bachelor's Degree"
               rules={[
                 {
                   required: true,
@@ -224,8 +225,8 @@ const AddEmployee = () => {
           <div>
             {" "}
             <Form.Item
-              name="Master's Degree"
-              label="Master_Degree"
+              name="Master_Degree"
+              label="Master's Degree"
               rules={[
                 {
                   required: true,

@@ -7,7 +7,10 @@ const RiskType = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isViewPayloadModalVisible, setIsViewPayloadModalVisible] =
+    useState(false);
   const [form] = Form.useForm();
+  const [currentPayload, setCurrentPayload] = useState(null);
 
   const { Option } = Select;
 
@@ -61,8 +64,12 @@ const RiskType = () => {
   };
 
   const handleOk = async () => {
+    setLoading(true);
+    setIsModalVisible(false);
     try {
       const updatedPayload = await form.validateFields();
+      // Ensure "Expected Budget" is a number
+      updatedPayload.Expected_Budget = Number(updatedPayload.Expected_Budget);
       const res = await axios.post("risk/recal", {
         Domain: updatedPayload.Domain,
         "ML Components": updatedPayload.ML_Components,
@@ -80,8 +87,6 @@ const RiskType = () => {
       });
       setData(res.data);
       localStorage.setItem("SearchPayload", JSON.stringify(updatedPayload));
-      setIsModalVisible(false);
-      setLoading(true);
     } catch (error) {
       console.log("Validation Failed:", error);
     } finally {
@@ -93,13 +98,32 @@ const RiskType = () => {
     setIsModalVisible(false);
   };
 
+  const handleViewPayload = () => {
+    const payloadLocal = localStorage.getItem("SearchPayload");
+    if (payloadLocal) {
+      setCurrentPayload(JSON.parse(payloadLocal));
+      setIsViewPayloadModalVisible(true);
+    } else {
+      console.log("No payload found in local storage.");
+    }
+  };
+
+  const handleCloseViewPayloadModal = () => {
+    setIsViewPayloadModalVisible(false);
+  };
+
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
         <div className="text-2xl">Risk Analysis</div>
-        <Button onClick={reCalculate} type="primary">
-          Re Calculate
-        </Button>
+        <div>
+          <Button onClick={reCalculate} type="primary" className="mr-2">
+            Re Calculate
+          </Button>
+          <Button onClick={handleViewPayload} type="default">
+            View Current Payload
+          </Button>
+        </div>
       </div>
       <div className="mt-10">
         {loading ? (
@@ -173,6 +197,28 @@ const RiskType = () => {
             <Input type="number" />
           </Form.Item>
         </Form>
+      </Modal>
+
+      <Modal
+        title="Current Payload"
+        open={isViewPayloadModalVisible}
+        onOk={handleCloseViewPayloadModal}
+        onCancel={handleCloseViewPayloadModal}
+        footer={[
+          <Button
+            key="close"
+            type="primary"
+            onClick={handleCloseViewPayloadModal}
+          >
+            Close
+          </Button>,
+        ]}
+      >
+        {currentPayload ? (
+          <pre>{JSON.stringify(currentPayload, null, 2)}</pre>
+        ) : (
+          <div>No payload found in local storage.</div>
+        )}
       </Modal>
     </div>
   );

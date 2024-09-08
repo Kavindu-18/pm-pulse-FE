@@ -11,6 +11,7 @@ import ViewKPI from "../pages/Content/ViewKPI";
 import SkillInfo from "../pages/Content/SkillInfo";
 import RiskType from "../pages/Content/RiskType";
 import Home from "../pages/Content/Home";
+import Crud from "../pages/Content/Crud";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,7 @@ const router = createBrowserRouter([
       { path: "team", element: <Team /> },
       { path: "complexity", element: <Complexity /> },
       { path: "risk-type", element: <RiskType /> },
+      { path: "crud", element: <Crud /> },
     ],
   },
 ]);
