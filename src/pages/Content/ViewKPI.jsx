@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Button, Form, Table, Select } from "antd";
+import { Button, Form, Table, Select, Spin } from "antd";
 import axios from "../../apis/axiosInstance";
 
 const { Option } = Select;
+
 const columns = [
   {
     title: "Employee ID",
@@ -21,21 +22,27 @@ const columns = [
   },
 ];
 
-const data = {};
 const ViewKPI = () => {
   const [form] = Form.useForm();
   const [data, setData] = useState();
-  const onFinish = async (values) => {
-    console.log(values);
+  const [loading, setLoading] = useState(false); // Added loading state
+  const [error, setError] = useState(null); // Added error state
 
+  const onFinish = async (values) => {
+    setLoading(true); // Start loading
+    setError(null); // Reset error state
     try {
       const res = await axios.post("kpi/role", {
         domain: values.domain,
         role: values.role,
       });
-      console.log("res", res);
       setData(res.data.kpis);
-    } catch (error) {}
+    } catch (error) {
+      setError("Error fetching data");
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false); // End loading
+    }
   };
 
   return (
@@ -85,7 +92,7 @@ const ViewKPI = () => {
                 span: 16,
               }}
             >
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" loading={loading}>
                 Submit
               </Button>
             </Form.Item>
@@ -93,7 +100,8 @@ const ViewKPI = () => {
         </Form>
       </div>
       <div>
-        <Table columns={columns} dataSource={data} />;
+        {error && <div style={{ color: "red" }}>{error}</div>}
+        <Table columns={columns} dataSource={data} loading={loading} />{" "}
       </div>
     </div>
   );
