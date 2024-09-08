@@ -1,17 +1,20 @@
-// src/components/Layout.jsx
 import React, { useState } from "react";
 import {
   HomeOutlined,
   UserAddOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
 } from "@ant-design/icons";
 import { Button, Layout, Menu, theme } from "antd";
 import { Outlet, Link } from "react-router-dom";
-const { Header, Sider, Content } = Layout;
+const { Header, Sider, Content, Footer } = Layout;
+import { LuUsers2 } from "react-icons/lu";
+import { GrCircleInformation } from "react-icons/gr";
+import { TbUsersGroup, TbTopologyComplex } from "react-icons/tb";
+import { RiSkull2Fill } from "react-icons/ri";
+import { GrDocumentPerformance } from "react-icons/gr";
+import logo from "../assets/logoIcon.jpeg";
+import { CgProfile } from "react-icons/cg";
 
 const AppLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -20,35 +23,63 @@ const AppLayout = () => {
   } = theme.useToken();
 
   return (
-    <Layout>
+    <Layout style={{ minHeight: "100vh" }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="demo-logo-vertical" />
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
-          <Menu.Item key="1" icon={<HomeOutlined />}>
-            <Link to="/">Home</Link>
-          </Menu.Item>
-          <Menu.Item key="2" icon={<UserAddOutlined />}>
-            <Link to="/add-employee">Add Employee</Link>
-          </Menu.Item>
-          <Menu.Item key="3" icon={<VideoCameraOutlined />}>
-            <Link to="/view-employee">View Employees</Link>
-          </Menu.Item>
-          <Menu.Item key="4" icon={<UploadOutlined />}>
-            <Link to="/view-KPI">View KPI</Link>
-          </Menu.Item>
-          <Menu.Item key="5" icon={<UploadOutlined />}>
-            <Link to="/skill">Skill Info</Link>
-          </Menu.Item>
-          <Menu.Item key="6" icon={<UploadOutlined />}>
-            <Link to="/team">Team</Link>
-          </Menu.Item>
-          <Menu.Item key="7" icon={<UploadOutlined />}>
-            <Link to="/complexity">Complexity</Link>
-          </Menu.Item>
-          <Menu.Item key="8" icon={<UploadOutlined />}>
-            <Link to="/risk-type">Risk Type</Link>
-          </Menu.Item>
-        </Menu>
+        <div
+          style={{ display: "flex", flexDirection: "column", height: "100%" }}
+        >
+          <img src={logo} alt="logo" />
+
+          <Menu
+            theme="dark"
+            mode="inline"
+            defaultSelectedKeys={["1"]}
+            style={{ flex: 1 }}
+          >
+            <Menu.Item key="1" icon={<HomeOutlined />}>
+              <Link to="/home">Home</Link>
+            </Menu.Item>
+            <Menu.Item key="2" icon={<UserAddOutlined />}>
+              <Link to="/add-employee">Add Employee</Link>
+            </Menu.Item>
+            <Menu.Item key="3" icon={<LuUsers2 />}>
+              <Link to="/view-employee">View Employees</Link>
+            </Menu.Item>
+            <Menu.Item key="4" icon={<GrDocumentPerformance />}>
+              <Link to="/view-KPI">View KPI</Link>
+            </Menu.Item>
+            <Menu.Item key="5" icon={<GrCircleInformation />}>
+              <Link to="/skill">Skill Info</Link>
+            </Menu.Item>
+            <Menu.Item key="6" icon={<TbUsersGroup />}>
+              <Link to="/team">Team</Link>
+            </Menu.Item>
+            <Menu.Item key="7" icon={<TbTopologyComplex />}>
+              <Link to="/complexity">Complexity</Link>
+            </Menu.Item>
+            <Menu.Item key="8" icon={<RiSkull2Fill />}>
+              <Link to="/risk-type">Risk Type</Link>
+            </Menu.Item>
+          </Menu>
+          <Footer
+            style={{
+              textAlign: "center",
+              backgroundColor: "black",
+              color: "white",
+              padding: 10,
+            }}
+          >
+            <div className="flex justify-center items-center flex-row gap-3">
+              <div>
+                <CgProfile />
+              </div>
+              <div className="flex flex-col">
+                <div className="text-md">Admin</div>
+                <div className="text-[10px]">Project Manager</div>
+              </div>
+            </div>
+          </Footer>
+        </div>
       </Sider>
       <Layout>
         <Header
@@ -72,7 +103,7 @@ const AppLayout = () => {
           style={{
             margin: "24px 16px",
             padding: 24,
-            minHeight: 280,
+            minHeight: "80vh",
             background: colorBgContainer,
             borderRadius: borderRadiusLG,
           }}
