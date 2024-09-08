@@ -27,7 +27,7 @@ const AddEmployee = () => {
         },
       });
       console.log(res);
-      Swal.fire("Employee Saved", "", "success");
+      Swal.fire(res.data.response, "", "success");
     } catch (error) {
       console.error("Error fetching data:", error);
       Swal.fire("Details Not Saved", "", "error");
@@ -153,8 +153,8 @@ const AddEmployee = () => {
                       </div>
                       <Form.Item
                         {...experienceField}
-                        name={[experienceField.name, "domain"]}
-                        fieldKey={[experienceField.fieldKey, "domain"]}
+                        name={[experienceField.name, "Domain"]}
+                        fieldKey={[experienceField.fieldKey, "Domain"]}
                         rules={[
                           {
                             required: true,
@@ -166,8 +166,8 @@ const AddEmployee = () => {
                       </Form.Item>
                       <Form.Item
                         {...experienceField}
-                        name={[experienceField.name, "years"]}
-                        fieldKey={[experienceField.fieldKey, "years"]}
+                        name={[experienceField.name, "Years"]}
+                        fieldKey={[experienceField.fieldKey, "Years"]}
                         rules={[
                           {
                             required: true,

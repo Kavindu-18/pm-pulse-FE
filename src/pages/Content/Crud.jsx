@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Button, Form, Table, Select, Spin, Input } from "antd";
 import axios from "../../apis/axiosInstance";
+import Swal from "sweetalert2";
 
 const Crud = () => {
   const [form] = Form.useForm();
-  const [data, setData] = useState();
   const [loading, setLoading] = useState(false); // Added loading state
   const [error, setError] = useState(null); // Added error state
 
@@ -26,12 +26,15 @@ const Crud = () => {
           weight: values.weight,
         },
       });
-      setData(res.data.kpis);
+      console.log(res);
+
+      Swal.fire(res.data.response, "", "success");
     } catch (error) {
       setError("Error fetching data");
       console.error("Error fetching data:", error);
+      Swal.fire(error.response, "", "error");
     } finally {
-      setLoading(false); // End loading
+      setLoading(false);
     }
   };
   return (
