@@ -1,19 +1,28 @@
-import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+// src/routes.js
+import { createBrowserRouter } from "react-router-dom";
+import AppLayout from "../layouts/Layouts";
+import Team from "../pages/Content/Team";
+import Complexity from "../pages/Content/Complexity";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
-import NotFound from "../pages/NotFound";
-import Home from "../pages/Home";
 
-const Router = () => {
-  return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
-  );
-};
+const router = createBrowserRouter([
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
+  },
+  {
+    path: "/",
+    element: <AppLayout />,
+    children: [
+      { path: "team", element: <Team /> },
+      { path: "complexity", element: <Complexity /> },
+    ],
+  },
+]);
 
-export default Router;
+export default router;

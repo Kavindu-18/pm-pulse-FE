@@ -1,13 +1,10 @@
+// src/App.jsx
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
-import Layouts from "./layouts/Layouts";
+import { RouterProvider } from "react-router-dom";
+import router from "./router/Router";
 
-const App = () => (
-  <div>
-    <BrowserRouter>
-      <Layouts />
-    </BrowserRouter>
-  </div>
-);
+const App = () => {
+  return <RouterProvider router={router} />;
+};
 
 export default App;
