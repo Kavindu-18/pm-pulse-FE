@@ -85,7 +85,11 @@ const RiskType = () => {
         "Expected Team Size": updatedPayload.Expected_Team_Size,
         "Expected Budget": updatedPayload.Expected_Budget,
       });
-      setData(res.data);
+      const response = {
+        mitigation: "",
+        risk: res.data.response,
+      };
+      setData(response);
       localStorage.setItem("SearchPayload", JSON.stringify(updatedPayload));
     } catch (error) {
       console.log("Validation Failed:", error);
@@ -131,21 +135,23 @@ const RiskType = () => {
         ) : data ? (
           <div>
             <h2 className="text-lg mb-5">
-              Mitigation : <span className="text-xl">{data.mitigation}</span>
+              Risk Level : <span className="text-xl">{data.mitigation}</span>
             </h2>
 
             <p
               dangerouslySetInnerHTML={{
                 __html: data.risk
-                  .replace(
-                    /###\s*(.*)/g,
-                    "<strong style='font-size: 1.2em; margin-bottom: 16px; display: block;'>$1</strong>"
-                  ) // Make headers bold and larger
-                  .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // Replace **bold text** with <strong> tags
-                  .replace(
-                    /(\d+\.\s.*)/g,
-                    "<div style='font-size: 1em; margin-bottom: 8px;'>$1</div>"
-                  ), // Change font size for sentences with numbers and display them block-level
+                  ? data.risk
+                      .replace(
+                        /###\s*(.*)/g,
+                        "<strong style='font-size: 1.2em; margin-bottom: 16px; display: block;'>$1</strong>"
+                      ) // Make headers bold and larger
+                      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // Replace **bold text** with <strong> tags
+                      .replace(
+                        /(\d+\.\s.*)/g,
+                        "<div style='font-size: 1em; margin-bottom: 8px;'>$1</div>"
+                      ) // Change font size for sentences with numbers and display them block-level
+                  : "No Risk Data Available",
               }}
             ></p>
           </div>

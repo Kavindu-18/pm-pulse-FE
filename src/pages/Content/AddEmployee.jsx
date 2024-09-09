@@ -129,7 +129,7 @@ const AddEmployee = () => {
             </Form.Item>
           </div>
           <div className="pb-3 font-bold text-lg">
-            Experience of Related Domain
+            Experience of Related Domain (Add at least 4)
           </div>
           <div>
             {" "}
