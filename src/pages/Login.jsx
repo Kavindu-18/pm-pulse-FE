@@ -22,6 +22,7 @@ const Login = () => {
         title: "",
         text: res.data.response,
       });
+      localStorage.setItem("user", "true");
       navigate("/home");
     } catch (err) {
       console.log(err);

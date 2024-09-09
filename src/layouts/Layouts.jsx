@@ -15,6 +15,8 @@ import { RiSkull2Fill } from "react-icons/ri";
 import { GrDocumentPerformance } from "react-icons/gr";
 import logo from "../assets/logoIcon.jpeg";
 import { CgProfile } from "react-icons/cg";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const AppLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -22,6 +24,17 @@ const AppLayout = () => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
+  const navigate = useNavigate();
+  const logout = () => {
+    localStorage.removeItem("SearchPayload");
+    localStorage.removeItem("user");
+    Swal.fire({
+      icon: "success",
+      title: "",
+      text: "Logged Out",
+    });
+    navigate("/login");
+  };
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -72,13 +85,47 @@ const AppLayout = () => {
               padding: 10,
             }}
           >
-            <div className="flex justify-center items-center flex-row gap-3">
-              <div>
-                <CgProfile />
+            <div>
+              <div className="flex justify-center items-center flex-row gap-3">
+                <div>
+                  <CgProfile />
+                </div>
+                <div className="flex flex-col">
+                  <div className="text-md">Admin</div>
+                  <div className="text-[10px]">Project Manager</div>
+                </div>
               </div>
-              <div className="flex flex-col">
-                <div className="text-md">Admin</div>
-                <div className="text-[10px]">Project Manager</div>
+              <div>
+                {localStorage.getItem("user") === "true" ? (
+                  <Button
+                    type="primary"
+                    className="mt-5 cursor-pointer"
+                    onClick={logout}
+                  >
+                    Log Out
+                  </Button>
+                ) : (
+                  <div className="flex flex-row gap-3">
+                    <Button
+                      type="primary"
+                      className="mt-5 cursor-pointer"
+                      onClick={() => {
+                        navigate("/login");
+                      }}
+                    >
+                      Login
+                    </Button>
+                    <Button
+                      type="primary"
+                      className="mt-5 cursor-pointer"
+                      onClick={() => {
+                        navigate("/register");
+                      }}
+                    >
+                      Register
+                    </Button>
+                  </div>
+                )}
               </div>
             </div>
           </Footer>
