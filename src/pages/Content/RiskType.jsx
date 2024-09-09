@@ -130,8 +130,24 @@ const RiskType = () => {
           <Spin />
         ) : data ? (
           <div>
-            <div className="text-3xl mb-8">{data.mitigation}</div>
-            <div className="text-md">{data.risk}</div>
+            <h2 className="text-lg mb-5">
+              Mitigation : <span className="text-xl">{data.mitigation}</span>
+            </h2>
+
+            <p
+              dangerouslySetInnerHTML={{
+                __html: data.risk
+                  .replace(
+                    /###\s*(.*)/g,
+                    "<strong style='font-size: 1.2em; margin-bottom: 16px; display: block;'>$1</strong>"
+                  ) // Make headers bold and larger
+                  .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // Replace **bold text** with <strong> tags
+                  .replace(
+                    /(\d+\.\s.*)/g,
+                    "<div style='font-size: 1em; margin-bottom: 8px;'>$1</div>"
+                  ), // Change font size for sentences with numbers and display them block-level
+              }}
+            ></p>
           </div>
         ) : (
           "No Data Found! Please Provide Data"
