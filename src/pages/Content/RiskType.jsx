@@ -70,7 +70,7 @@ const RiskType = () => {
       const updatedPayload = await form.validateFields();
       // Ensure "Expected Budget" is a number
       updatedPayload.Expected_Budget = Number(updatedPayload.Expected_Budget);
-      const res = await axios.post("risk/recal", {
+      const res = await axios.post("risk", {
         Domain: updatedPayload.Domain,
         "ML Components": updatedPayload.ML_Components,
         Backend: updatedPayload.Backend,
@@ -85,11 +85,8 @@ const RiskType = () => {
         "Expected Team Size": updatedPayload.Expected_Team_Size,
         "Expected Budget": updatedPayload.Expected_Budget,
       });
-      const response = {
-        mitigation: "",
-        risk: res.data.response,
-      };
-      setData(response);
+
+      setData(res.data);
       localStorage.setItem("SearchPayload", JSON.stringify(updatedPayload));
     } catch (error) {
       console.log("Validation Failed:", error);

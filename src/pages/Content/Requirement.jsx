@@ -13,13 +13,13 @@ const Requirement = () => {
         Frontend: values.Frontend,
         Core_Features: values.Core_Features,
         Tech_Stack: values.Tech_Stack,
-        Mobile: 1,
-        Desktop: 1,
-        Web: 1,
-        IoT: 0,
-        Date_Difference: -10,
-        Expected_Team_Size: 22,
-        Expected_Budget: 101450,
+        Mobile: Number(values.Mobile),
+        Desktop: Number(values.Desktop),
+        Web: Number(values.Web),
+        IoT: Number(values.IoT),
+        Date_Difference: Number(values.Date_Difference),
+        Expected_Team_Size: Number(values.Expected_Team_Size),
+        Expected_Budget: Number(values.Expected_Budget),
       };
       localStorage.setItem("SearchPayload", JSON.stringify(payload));
       Swal.fire("Details Saved", "", "success");
