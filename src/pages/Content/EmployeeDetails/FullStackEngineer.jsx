@@ -19,9 +19,7 @@ const FullStackEngineer = () => {
         role: "FullStack Engineer",
         insert_json: {
           name: values.name,
-          age: values.age,
-          home: values.home,
-          phone: values.phone,
+
           "Proficiency in Frontend Technologies":
             values.Proficiency_in_Frontend_Technologies,
           "Proficiency in Backend Technologies ":

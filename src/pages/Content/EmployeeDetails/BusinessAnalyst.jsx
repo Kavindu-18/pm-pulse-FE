@@ -18,10 +18,6 @@ const BusinessAnalyst = () => {
       const res = await axios.post("employee/insert", {
         role: "Business Analyst",
         insert_json: {
-          name: values.name,
-          age: values.age,
-          home: values.home,
-          phone: values.phone,
           "Analytical Skills": values.Analytical_Skills,
           "Technical Proficiency": values.Technical_Proficiency,
           "Communication Skills": values.Communication_Skills,

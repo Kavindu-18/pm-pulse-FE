@@ -18,10 +18,6 @@ const ProjectManager = () => {
       const res = await axios.post("employee/insert", {
         role: "Project Manager",
         insert_json: {
-          name: values.name,
-          age: values.age,
-          home: values.home,
-          phone: values.phone,
           "planning & scheduling": values.planning_scheduling,
           "Leadership and Team Management":
             values.Leadership_and_Team_Management,
