@@ -194,8 +194,8 @@ const Crud = () => {
           </Form.Item>
         </div>
         <Form.Item
-          label="leadership"
-          name="leadership"
+          label="weight"
+          name="weight"
           rules={[
             {
               required: true,
