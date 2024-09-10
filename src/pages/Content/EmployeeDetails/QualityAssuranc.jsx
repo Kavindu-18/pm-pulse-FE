@@ -294,8 +294,8 @@ const QualityAssuranc = () => {
                         ]}
                       >
                         <Select placeholder="--Select Years--" allowClear>
-                          <Option value="0-5">0 - 5 Years</Option>
-                          <Option value="6-14">6 - 14 years</Option>
+                          <Option value="0 - 5">0 - 5 Years</Option>
+                          <Option value="6 - 14">6 - 14 years</Option>
                           <Option value="15+">15+ Years</Option>
                         </Select>
                       </Form.Item>

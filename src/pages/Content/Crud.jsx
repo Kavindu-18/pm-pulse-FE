@@ -70,8 +70,17 @@ const Crud = () => {
             ]}
             style={{ width: "48%" }}
           >
-            <Select placeholder="--Select Role--" allowClear>
+            <Select placeholder="--Select a Role--" allowClear>
               <Option value="Business Analyst">Business Analyst</Option>
+              <Option value="Quality Assurance Engineer">
+                Quality Assurance
+              </Option>
+              <Option value="DevOps Engineer">DevOps Engineer</Option>
+              <Option value="Tech Lead">Tech Lead</Option>
+              <Option value="Backend Engineer">Backend Engineer</Option>
+              <Option value="Frontend Engineer">Frontend Engineer</Option>
+              <Option value="FullStack Engineer">FullStack Engineer</Option>
+              <Option value="Project Manager">Project Manager</Option>
             </Select>
           </Form.Item>
         </div>
@@ -89,6 +98,8 @@ const Crud = () => {
           >
             <Select placeholder="--Select a Value--" allowClear>
               <Option value="skills">Skills</Option>
+              <Option value="education">Education</Option>
+              <Option value="expeirence">Expeirence</Option>
             </Select>
           </Form.Item>
           <Form.Item
@@ -106,61 +117,95 @@ const Crud = () => {
           </Form.Item>
         </div>
         <div className="flex flex-row justify-between">
-          <Form.Item
-            name="Novice"
-            label="Novice"
-            rules={[
-              {
-                required: true,
-                message: "Please Select a Type",
-              },
-            ]}
-            style={{ width: "48%" }}
-          >
+          <Form.Item name="Novice" label="Novice" style={{ width: "30%" }}>
             <Input type="number" />
           </Form.Item>
           <Form.Item
             label="Intermediate"
             name="Intermediate"
-            rules={[
-              {
-                required: true,
-                message: "Please input Criteria!",
-              },
-            ]}
+            style={{ width: "30%" }}
+          >
+            <Input type="number" />
+          </Form.Item>
+          <Form.Item name="Advanced" label="Advanced" style={{ width: "30%" }}>
+            <Input type="number" />
+          </Form.Item>
+        </div>
+        <div className="flex flex-row justify-between">
+          <Form.Item
+            name="1_2_years"
+            label="1-2 Years"
+            style={{ width: "30%" }}
+          >
+            <Input type="number" />
+          </Form.Item>
+          <Form.Item
+            name="3_5_years"
+            label="3-5 Years"
+            style={{ width: "30%" }}
+          >
+            <Input type="number" />
+          </Form.Item>
+          <Form.Item name="5_+_Years" label="5+ Years" style={{ width: "30%" }}>
+            <Input type="number" />
+          </Form.Item>
+        </div>
+        <div className="flex flex-row justify-between">
+          <Form.Item
+            name="0_5_years"
+            label="0-5 Years"
+            style={{ width: "30%" }}
+          >
+            <Input type="number" />
+          </Form.Item>
+          <Form.Item
+            name="6_14_years"
+            label="6-14 Years"
+            style={{ width: "30%" }}
+          >
+            <Input type="number" />
+          </Form.Item>
+          <Form.Item
+            name="15_+_Years"
+            label="15+ Years"
+            style={{ width: "30%" }}
+          >
+            <Input type="number" />
+          </Form.Item>
+        </div>
+        <div className="flex flex-row justify-between">
+          <Form.Item name="related" label="Related" style={{ width: "48%" }}>
+            <Input type="number" />
+          </Form.Item>
+          <Form.Item
+            name="un_related"
+            label="Un Related"
             style={{ width: "48%" }}
           >
             <Input type="number" />
           </Form.Item>
         </div>
         <div className="flex flex-row justify-between">
-          <Form.Item
-            name="Advanced"
-            label="Advanced"
-            rules={[
-              {
-                required: true,
-                message: "Please Select a Advanced",
-              },
-            ]}
-            style={{ width: "48%" }}
-          >
+          <Form.Item name="related" label="Related" style={{ width: "48%" }}>
             <Input type="number" />
           </Form.Item>
-          <Form.Item
-            label="weight"
-            name="weight"
-            rules={[
-              {
-                required: true,
-                message: "Please input weight!",
-              },
-            ]}
-            style={{ width: "48%" }}
-          >
+          <Form.Item name="non_lead" label="Non Lead" style={{ width: "48%" }}>
             <Input type="number" />
           </Form.Item>
         </div>
+        <Form.Item
+          label="leadership"
+          name="leadership"
+          rules={[
+            {
+              required: true,
+              message: "Please input weight!",
+            },
+          ]}
+          style={{ width: "48%" }}
+        >
+          <Input type="number" />
+        </Form.Item>
         <Form.Item className="flex justify-end">
           <Button type="primary" htmlType="submit" loading={loading}>
             CRUD Operation

@@ -226,8 +226,8 @@ const FullStackEngineer = () => {
               style={{ width: "48%" }}
             >
               <Select placeholder="--Select years--" allowClear>
-                <Option value="1-2 years">1 - 2 years</Option>
-                <Option value="3-5 years">3-5 years</Option>
+                <Option value="1 - 2 years">1 - 2 years</Option>
+                <Option value="3 - 5 years">3-5 years</Option>
                 <Option value="5+ years">5+ years</Option>
               </Select>
             </Form.Item>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Form, Select, message, Input } from "antd";
+import { Button, Form, Select, message } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import Swal from "sweetalert2";
 import axios from "../../../apis/axiosInstance";
@@ -54,65 +54,6 @@ const BackendEngineer = () => {
       <div className="mt-10">
         {/* Bind the form instance to the Form component */}
         <Form form={form} name="common" onFinish={onFinish} autoComplete="off">
-          <div className="text-2xl mb-8">Personal Details</div>
-          <div className="flex flex-row justify-between">
-            <Form.Item
-              label="Name"
-              name="name"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input Your Name!",
-                },
-              ]}
-              style={{ width: "48%" }}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item
-              label="Age"
-              name="age"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input Your Age!",
-                },
-              ]}
-              style={{ width: "48%" }}
-            >
-              <Input type="number" />
-            </Form.Item>
-          </div>
-          <div className="flex flex-row justify-between">
-            <Form.Item
-              label="Home Town"
-              name="home"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input Your Home Town!",
-                },
-              ]}
-              style={{ width: "48%" }}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item
-              label="Phone Number"
-              name="phone"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input Your Phone Number!",
-                },
-              ]}
-              style={{ width: "48%" }}
-            >
-              <Input />
-            </Form.Item>
-          </div>
           <div className="text-2xl mb-8">Skills</div>
           <Form.Item
             label="Proficiency in Programming Languages"
@@ -298,8 +239,8 @@ const BackendEngineer = () => {
                         ]}
                       >
                         <Select placeholder="--Select Years--" allowClear>
-                          <Option value="0-5">0 - 5 Years</Option>
-                          <Option value="6-14">6 - 14 years</Option>
+                          <Option value="0 - 5">0 - 5 Years</Option>
+                          <Option value="6 - 14">6 - 14 years</Option>
                           <Option value="15+">15+ Years</Option>
                         </Select>
                       </Form.Item>
