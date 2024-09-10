@@ -28,7 +28,6 @@ const Complexity = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [tableData, setTableData] = useState(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
     const sendDetails = async () => {
@@ -70,51 +69,13 @@ const Complexity = () => {
     sendDetails();
   }, []);
 
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
-
   return (
     <div>
-      <div className="text-2xl mb-8">
+      <div className="text-2xl mb-8">Complexity</div>
+      <div className="mb-8">
+        {" "}
         Complexity is {loading ? <Spin /> : data?.complexity}{" "}
       </div>
-      <div>
-        <Button type="primary" onClick={showModal}>
-          View Team Summary
-        </Button>
-      </div>
-      <Modal
-        title="Team Summary"
-        open={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        footer={[
-          <Button key="ok" type="primary" onClick={handleOk}>
-            OK
-          </Button>,
-        ]}
-      >
-        {loading ? (
-          <Spin />
-        ) : (
-          <div>
-            {Object.entries(data?.selected_team || {}).map(([role, count]) => (
-              <p key={role}>
-                {role}: {count}
-              </p>
-            ))}
-          </div>
-        )}
-      </Modal>
       <div>
         {error && <div style={{ color: "red" }}>{error}</div>}
         <Table columns={columns} dataSource={tableData} loading={loading} />

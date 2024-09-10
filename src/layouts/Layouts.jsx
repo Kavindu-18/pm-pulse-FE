@@ -29,6 +29,7 @@ const AppLayout = () => {
   const logout = () => {
     localStorage.removeItem("SearchPayload");
     localStorage.removeItem("user");
+    localStorage.removeItem("team");
     Swal.fire({
       icon: "success",
       title: "",
