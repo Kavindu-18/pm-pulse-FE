@@ -50,7 +50,7 @@ const AppLayout = () => {
             style={{ flex: 1 }}
           >
             <Menu.Item key="1" icon={<HomeOutlined />}>
-              <Link to="/home">Home</Link>
+              <Link to="/requirement">Requirements</Link>
             </Menu.Item>
             <Menu.Item key="2" icon={<UserAddOutlined />}>
               <Link to="/add-employee">Add Employee</Link>

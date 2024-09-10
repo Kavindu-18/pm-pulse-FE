@@ -1,4 +1,3 @@
-// src/routes.js
 import { createBrowserRouter } from "react-router-dom";
 import AppLayout from "../layouts/Layouts";
 import Team from "../pages/Content/Team";
@@ -10,31 +9,103 @@ import ViewEmployee from "../pages/Content/ViewEmployee";
 import ViewKPI from "../pages/Content/ViewKPI";
 import SkillInfo from "../pages/Content/SkillInfo";
 import RiskType from "../pages/Content/RiskType";
-import Home from "../pages/Content/Home";
 import Crud from "../pages/Content/Crud";
+import Requirements from "../pages/Content/Requirement";
+import { AuthGuard, ProtectedRoute } from "../guards/Authguard";
 
 const router = createBrowserRouter([
   {
     path: "/login",
-    element: <Login />,
+    element: (
+      <AuthGuard>
+        <Login />
+      </AuthGuard>
+    ),
   },
   {
     path: "/register",
-    element: <Register />,
+    element: (
+      <AuthGuard>
+        <Register />
+      </AuthGuard>
+    ),
   },
   {
     path: "/",
     element: <AppLayout />,
     children: [
-      { path: "home", element: <Home /> },
-      { path: "add-employee", element: <AddEmployee /> },
-      { path: "view-employee", element: <ViewEmployee /> },
-      { path: "view-KPI", element: <ViewKPI /> },
-      { path: "skill", element: <SkillInfo /> },
-      { path: "team", element: <Team /> },
-      { path: "complexity", element: <Complexity /> },
-      { path: "risk-type", element: <RiskType /> },
-      { path: "crud", element: <Crud /> },
+      {
+        path: "requirement",
+        element: (
+          <ProtectedRoute>
+            <Requirements />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "add-employee",
+        element: (
+          <ProtectedRoute>
+            <AddEmployee />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "view-employee",
+        element: (
+          <ProtectedRoute>
+            <ViewEmployee />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "view-KPI",
+        element: (
+          <ProtectedRoute>
+            <ViewKPI />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "skill",
+        element: (
+          <ProtectedRoute>
+            <SkillInfo />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "team",
+        element: (
+          <ProtectedRoute>
+            <Team />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "complexity",
+        element: (
+          <ProtectedRoute>
+            <Complexity />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "risk-type",
+        element: (
+          <ProtectedRoute>
+            <RiskType />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "crud",
+        element: (
+          <ProtectedRoute>
+            <Crud />
+          </ProtectedRoute>
+        ),
+      },
     ],
   },
 ]);

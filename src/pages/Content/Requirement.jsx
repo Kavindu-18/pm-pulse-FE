@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Form, Input, message, Select } from "antd";
 import Swal from "sweetalert2";
 
-const Home = () => {
+const Requirement = () => {
   const onFinish = (values) => {
     console.log("Success:", values);
     try {
@@ -83,8 +83,10 @@ const Home = () => {
             >
               <Select placeholder="--Select a Domain--" allowClear>
                 <Option value="Finance">Finance</Option>
+                <Option value="test">Test</Option>
               </Select>
             </Form.Item>
+
             <Form.Item
               label="ML Component"
               name="ML_Components"
@@ -238,4 +240,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Requirement;

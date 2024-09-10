@@ -55,6 +55,8 @@ const AddEmployee = () => {
             >
               <Select placeholder="--Select a Role--" allowClear>
                 <Option value="Business Analyst">Business Analyst</Option>
+                <Option value="backend developer">Backend Developer</Option>
+                <Option value="qa">qa</Option>
               </Select>
             </Form.Item>
             <Form.Item
@@ -162,7 +164,13 @@ const AddEmployee = () => {
                           },
                         ]}
                       >
-                        <Input placeholder="Domain" />
+                        <Select placeholder="--Select a Domain--" allowClear>
+                          <Option value="Business Analyst">Health</Option>
+                          <Option value="backend developer">
+                            Backend Developer
+                          </Option>
+                          <Option value="qa">qa</Option>
+                        </Select>
                       </Form.Item>
                       <Form.Item
                         {...experienceField}
