@@ -16,18 +16,17 @@ const BackendEngineer = () => {
     console.log(values);
     try {
       const res = await axios.post("employee/insert", {
-        role: "BackEnd Engineer",
+        role: "Backend Engineer",
         insert_json: {
           "Proficiency in Programming Languages":
             values.Proficiency_in_Programming_Languages,
-          "Leadership and Team Management":
-            values.Leadership_and_Team_Management,
+          "Database Management (SQL, NoSQL)": values.Database_Management,
           "API Development and Integration":
             values.API_Development_and_Integration,
           "Knowledge of Frameworks": values.Knowledge_of_Frameworks,
           "Understanding of Microservices Architecture":
             values.Understanding_of_Microservices_Architecture,
-          "Years of experience in BackEnd Engineer":
+          "Years of experience in Bacend Engineer":
             values.Years_of_experience_in_BackEnd_Engineer,
           "Experience of related Domain": values.experience,
           "Bachelor's Degree": values.Bachelor_Degree,

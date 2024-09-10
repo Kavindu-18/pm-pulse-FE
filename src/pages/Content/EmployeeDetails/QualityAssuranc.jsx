@@ -16,9 +16,9 @@ const QualityAssuranc = () => {
     console.log(values);
     try {
       const res = await axios.post("employee/insert", {
-        role: "QA",
+        role: "Quality Assurance Engineer",
         insert_json: {
-          "Excellent communication": values.Excellent_communication,
+          "Excellent communication ": values.Excellent_communication,
           "Test Automation": values.Test_Automation,
           "Knowledge of testing methodologies":
             values.Knowledge_of_testing_methodologies,
@@ -132,7 +132,7 @@ const QualityAssuranc = () => {
           <div className="flex flex-row justify-between">
             <Form.Item
               label="Years of experience in QA"
-              name="values.Years_of_experience_in_QA"
+              name="Years_of_experience_in_QA"
               rules={[
                 {
                   required: true,
