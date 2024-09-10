@@ -70,6 +70,9 @@ const ViewKPI = () => {
             >
               <Select placeholder="--Select a Domain--" allowClear>
                 <Option value="Finance">Finance</Option>
+                <Option value="E-Commerce">E-Commerce</Option>
+                <Option value="Health">Health</Option>
+                <Option value="Education">Education</Option>
               </Select>
             </Form.Item>
             <Form.Item
@@ -82,8 +85,17 @@ const ViewKPI = () => {
                 },
               ]}
             >
-              <Select placeholder="--Select Role--" allowClear>
+              <Select placeholder="--Select a Role--" allowClear>
                 <Option value="Business Analyst">Business Analyst</Option>
+                <Option value="Quality Assurance Engineer">
+                  Quality Assurance
+                </Option>
+                <Option value="DevOps Engineer">DevOps Engineer</Option>
+                <Option value="Tech Lead">Tech Lead</Option>
+                <Option value="Backend Engineer">Backend Engineer</Option>
+                <Option value="Frontend Engineer">Frontend Engineer</Option>
+                <Option value="FullStack Engineer">FullStack Engineer</Option>
+                <Option value="Project Manager">Project Manager</Option>
               </Select>
             </Form.Item>
             <Form.Item
