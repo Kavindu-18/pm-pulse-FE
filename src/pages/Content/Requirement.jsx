@@ -30,7 +30,7 @@ const Requirement = () => {
 
   return (
     <div>
-      <div className="text-2xl">Home</div>
+      <div className="text-2xl">Requirements</div>
       <div className="mt-10">
         <Form name="common" onFinish={onFinish} autoComplete="off">
           <div className="flex flex-row justify-between">
@@ -47,8 +47,9 @@ const Requirement = () => {
             >
               <Select placeholder="--Select a Technology--" allowClear>
                 <Option value="Node.js">Node Js</Option>
-                <Option value="Python">Python</Option>
-                <Option value="Nest.js">Nest Js</Option>
+                <Option value="Django">Django</Option>
+                <Option value="Flask">Flask</Option>
+                <Option value="Spring Boot">Spring Boot</Option>
               </Select>
             </Form.Item>
             <Form.Item
@@ -64,8 +65,9 @@ const Requirement = () => {
             >
               <Select placeholder="--Select a Technology--" allowClear>
                 <Option value="React">React Js</Option>
-                <Option value="Nest">Next Js</Option>
-                <Option value="Vue">Vue Js</Option>
+                <Option value="Angular">Angualr Js</Option>
+                <Option value="Vue.js">Vue Js</Option>
+                <Option value="Svelte">Svelte</Option>
               </Select>
             </Form.Item>
           </div>
@@ -83,7 +85,9 @@ const Requirement = () => {
             >
               <Select placeholder="--Select a Domain--" allowClear>
                 <Option value="Finance">Finance</Option>
-                <Option value="test">Test</Option>
+                <Option value="E-Commerce">E-Commerce</Option>
+                <Option value="Health">Health</Option>
+                <Option value="Education">Education</Option>
               </Select>
             </Form.Item>
 
@@ -100,6 +104,15 @@ const Requirement = () => {
             >
               <Select placeholder="--Select a ML Component--" allowClear>
                 <Option value="Prediction Model">Prediction Model</Option>
+                <Option value="Recommendation Engine">
+                  Recommendation Engine
+                </Option>
+                <Option value="Classification Model">
+                  Classification Model
+                </Option>
+                <Option value="Clustering Algorithm">
+                  Clustering Algorithm
+                </Option>
               </Select>
             </Form.Item>
           </div>
@@ -117,6 +130,9 @@ const Requirement = () => {
             >
               <Select placeholder="--Select a Core Feature--" allowClear>
                 <Option value="User Management">User Management</Option>
+                <Option value="Payment Gateway">Payment Gateway</Option>
+                <Option value="Appointment Booking">Appointment Booking</Option>
+                <Option value="Product Catalog">Product Catalog</Option>
               </Select>
             </Form.Item>
             <Form.Item
@@ -130,7 +146,11 @@ const Requirement = () => {
               ]}
               style={{ width: "48%" }}
             >
-              <Input />
+              <Select placeholder="--Select one--" allowClear>
+                <Option value="MERN">MERN</Option>
+                <Option value="LAMP">LAMP</Option>
+                <Option value="Serverless">Serverless</Option>
+              </Select>
             </Form.Item>
           </div>
           <div className="flex flex-row justify-between">
@@ -146,8 +166,8 @@ const Requirement = () => {
               style={{ width: "48%" }}
             >
               <Select placeholder="--Select one--" allowClear>
-                <Option value="1">1 (Yes)</Option>
-                <Option value="0">0 (No)</Option>
+                <Option value="1">Yes</Option>
+                <Option value="0">No</Option>
               </Select>
             </Form.Item>
             <Form.Item
@@ -162,8 +182,8 @@ const Requirement = () => {
               style={{ width: "48%" }}
             >
               <Select placeholder="--Select one--" allowClear>
-                <Option value="1">1 (Yes)</Option>
-                <Option value="0">0 (No)</Option>
+                <Option value="1">Yes</Option>
+                <Option value="0">No</Option>
               </Select>
             </Form.Item>
           </div>
@@ -180,8 +200,8 @@ const Requirement = () => {
               style={{ width: "48%" }}
             >
               <Select placeholder="--Select one--" allowClear>
-                <Option value="1">1 (Yes)</Option>
-                <Option value="0">0 (No)</Option>
+                <Option value="1">Yes</Option>
+                <Option value="0">No</Option>
               </Select>
             </Form.Item>
             <Form.Item
@@ -196,19 +216,19 @@ const Requirement = () => {
               style={{ width: "48%" }}
             >
               <Select placeholder="--Select one--" allowClear>
-                <Option value="1">1 (Yes)</Option>
-                <Option value="0">0 (No)</Option>
+                <Option value="1">Yes</Option>
+                <Option value="0">No</Option>
               </Select>
             </Form.Item>
           </div>
           <div className="flex flex-row justify-between">
             <Form.Item
-              label="Date_Difference"
+              label="Schedule Variance"
               name="Date_Difference"
               rules={[
                 {
                   required: true,
-                  message: "Please input Date_Difference!",
+                  message: "Please input Shcedule Variance!",
                 },
               ]}
               style={{ width: "48%" }}
@@ -216,7 +236,7 @@ const Requirement = () => {
               <Input type="number" />
             </Form.Item>
             <Form.Item
-              label="Expected_Team_Size"
+              label="Expected Team Size"
               name="Expected_Team_Size"
               rules={[
                 {
@@ -231,7 +251,7 @@ const Requirement = () => {
           </div>
           <div className="flex flex-row justify-between">
             <Form.Item
-              label="Expected_Budget"
+              label="Expected Budget ($)"
               name="Expected_Budget"
               rules={[
                 {
