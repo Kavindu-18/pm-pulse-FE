@@ -172,24 +172,24 @@ const RiskType = () => {
             </Select>
           </Form.Item>
           <Form.Item name="ML_Components" label="ML Components">
-            <Input />
+            <Select placeholder="--Select a ML Component--" allowClear>
+              <Option value="Prediction Model">Prediction Model</Option>
+            </Select>
           </Form.Item>
           <Form.Item name="Backend" label="Backend Technology">
             <Select placeholder="Select Backend Technology">
               <Option value="Node.js">Node.js</Option>
-              <Option value="Python">Python</Option>
-              <Option value="Nest.js">Nest.js</Option>
             </Select>
           </Form.Item>
           <Form.Item name="Frontend" label="Frontend Technology">
             <Select placeholder="Select Frontend Technology">
               <Option value="React">React.js</Option>
-              <Option value="Next">Next.js</Option>
-              <Option value="Vue">Vue.js</Option>
             </Select>
           </Form.Item>
           <Form.Item name="Core_Features" label="Core Features">
-            <Input />
+            <Select placeholder="--Select a Core Feature--" allowClear>
+              <Option value="User Management">User Management</Option>
+            </Select>
           </Form.Item>
           <Form.Item name="Tech_Stack" label="Tech Stack">
             <Input />

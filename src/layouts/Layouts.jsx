@@ -17,6 +17,7 @@ import logo from "../assets/logoIcon.jpeg";
 import { CgProfile } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { MdOutlineAddChart } from "react-icons/md";
 
 const AppLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -64,6 +65,9 @@ const AppLayout = () => {
             <Menu.Item key="5" icon={<GrCircleInformation />}>
               <Link to="/skill">Skill Info</Link>
             </Menu.Item>
+            <Menu.Item key="9" icon={<MdOutlineAddChart />}>
+              <Link to="/crud">Add Skills</Link>
+            </Menu.Item>
             <Menu.Item key="6" icon={<TbUsersGroup />}>
               <Link to="/team">Team</Link>
             </Menu.Item>
@@ -72,9 +76,6 @@ const AppLayout = () => {
             </Menu.Item>
             <Menu.Item key="8" icon={<RiSkull2Fill />}>
               <Link to="/risk-type">Risk Type</Link>
-            </Menu.Item>
-            <Menu.Item key="9" icon={<RiSkull2Fill />}>
-              <Link to="/crud">Crud</Link>
             </Menu.Item>
           </Menu>
           <Footer

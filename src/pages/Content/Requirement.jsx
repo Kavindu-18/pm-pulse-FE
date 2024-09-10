@@ -98,7 +98,9 @@ const Requirement = () => {
               ]}
               style={{ width: "48%" }}
             >
-              <Input />
+              <Select placeholder="--Select a ML Component--" allowClear>
+                <Option value="Prediction Model">Prediction Model</Option>
+              </Select>
             </Form.Item>
           </div>
           <div className="flex flex-row justify-between">
@@ -113,7 +115,9 @@ const Requirement = () => {
               ]}
               style={{ width: "48%" }}
             >
-              <Input />
+              <Select placeholder="--Select a Core Feature--" allowClear>
+                <Option value="User Management">User Management</Option>
+              </Select>
             </Form.Item>
             <Form.Item
               label="Tech Stack"
