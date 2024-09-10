@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form, Select } from "antd";
 import BusinessAnalyst from "./EmployeeDetails/BusinessAnalyst";
+import QualityAssuranc from "./EmployeeDetails/QualityAssuranc";
 
 const { Option } = Select;
 
@@ -41,7 +42,13 @@ const AddEmployee = () => {
         </Form>
       </div>
       <div className="mt-8">
-        {data === "BA" ? <BusinessAnalyst /> : <>Select a Role</>}
+        {data === "BA" ? (
+          <BusinessAnalyst />
+        ) : data === "QA" ? (
+          <QualityAssuranc />
+        ) : (
+          <>Select a Role</>
+        )}
       </div>
     </div>
   );

@@ -19,7 +19,7 @@ const BusinessAnalyst = () => {
         role: "Business Analyst",
         insert_json: {
           "Analytical Skills": values.Analytical_Skills,
-          "Technical Proficiency": values.Communication_Skills,
+          "Technical Proficiency": values.Technical_Proficiency,
           "Communication Skills": values.Communication_Skills,
           "Problem Solving Skills": values.Problem_Solving_Skills,
           "Years of experience in Business Analysis":
