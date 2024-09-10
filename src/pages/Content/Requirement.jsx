@@ -140,12 +140,15 @@ const Requirement = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please input Mobile count!",
+                  message: "Please input Mobile!",
                 },
               ]}
               style={{ width: "48%" }}
             >
-              <Input type="number" />
+              <Select placeholder="--Select one--" allowClear>
+                <Option value="1">1 (Yes)</Option>
+                <Option value="0">0 (No)</Option>
+              </Select>
             </Form.Item>
             <Form.Item
               label="Desktop"
@@ -153,12 +156,15 @@ const Requirement = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please input Desktop count!",
+                  message: "Please input Desktop!",
                 },
               ]}
               style={{ width: "48%" }}
             >
-              <Input type="number" />
+              <Select placeholder="--Select one--" allowClear>
+                <Option value="1">1 (Yes)</Option>
+                <Option value="0">0 (No)</Option>
+              </Select>
             </Form.Item>
           </div>
           <div className="flex flex-row justify-between">
@@ -173,7 +179,10 @@ const Requirement = () => {
               ]}
               style={{ width: "48%" }}
             >
-              <Input type="number" />
+              <Select placeholder="--Select one--" allowClear>
+                <Option value="1">1 (Yes)</Option>
+                <Option value="0">0 (No)</Option>
+              </Select>
             </Form.Item>
             <Form.Item
               label="IoT"
@@ -186,7 +195,10 @@ const Requirement = () => {
               ]}
               style={{ width: "48%" }}
             >
-              <Input type="number" />
+              <Select placeholder="--Select one--" allowClear>
+                <Option value="1">1 (Yes)</Option>
+                <Option value="0">0 (No)</Option>
+              </Select>
             </Form.Item>
           </div>
           <div className="flex flex-row justify-between">
