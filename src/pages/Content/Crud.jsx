@@ -23,7 +23,7 @@ const Crud = () => {
             Intermediate: values.Intermediate,
             Advanced: values.Advanced,
           },
-          weight: values.weight,
+          weight: values.weight / 100,
         },
       });
       console.log(res);
