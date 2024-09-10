@@ -9,6 +9,7 @@ const { Option } = Select;
 const BusinessAnalyst = () => {
   const [loading, setLoading] = useState(false); // Added loading state
   const [form] = Form.useForm(); // Form instance for resetting
+  const [selectedDomains, setSelectedDomains] = useState([]);
 
   const onFinish = async (values) => {
     setLoading(true);
@@ -41,6 +42,11 @@ const BusinessAnalyst = () => {
     }
   };
 
+  const handleDomainChange = (value, index) => {
+    const newSelectedDomains = [...selectedDomains];
+    newSelectedDomains[index] = value;
+    setSelectedDomains(newSelectedDomains);
+  };
   return (
     <div>
       <div className="mt-10">
@@ -177,9 +183,12 @@ const BusinessAnalyst = () => {
                         <h4>Experience {experienceIndex + 1}</h4>
                         {experienceFields.length > 1 && (
                           <MinusCircleOutlined
-                            onClick={() =>
-                              removeExperience(experienceField.name)
-                            }
+                            onClick={() => {
+                              removeExperience(experienceField.name);
+                              const newSelectedDomains = [...selectedDomains];
+                              newSelectedDomains.splice(experienceIndex, 1);
+                              setSelectedDomains(newSelectedDomains);
+                            }}
                           />
                         )}
                       </div>
@@ -191,15 +200,27 @@ const BusinessAnalyst = () => {
                         rules={[
                           {
                             required: true,
-                            message: "Please input domain!",
+                            message: "Please select a domain!",
                           },
                         ]}
                       >
-                        <Select placeholder="--Select a Domain--" allowClear>
-                          <Option value="Health">Health</Option>
-                          <Option value="Finance">Finance</Option>
-                          <Option value="E-Commerce">E-Commerce</Option>
-                          <Option value="Education">Education</Option>
+                        <Select
+                          placeholder="--Select a Domain--"
+                          allowClear
+                          onChange={(value) =>
+                            handleDomainChange(value, experienceIndex)
+                          }
+                          value={selectedDomains[experienceIndex]}
+                        >
+                          {["Health", "Finance", "E-Commerce", "Education"]
+                            .filter(
+                              (domain) => !selectedDomains.includes(domain)
+                            ) // Filter out already selected domains
+                            .map((domain) => (
+                              <Option key={domain} value={domain}>
+                                {domain}
+                              </Option>
+                            ))}
                         </Select>
                       </Form.Item>
 
