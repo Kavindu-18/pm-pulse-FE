@@ -186,7 +186,7 @@ const Crud = () => {
           </Form.Item>
         </div>
         <div className="flex flex-row justify-between">
-          <Form.Item name="related" label="Related" style={{ width: "48%" }}>
+          <Form.Item name="lead" label="Lead" style={{ width: "48%" }}>
             <Input type="number" />
           </Form.Item>
           <Form.Item name="non_lead" label="Non Lead" style={{ width: "48%" }}>
