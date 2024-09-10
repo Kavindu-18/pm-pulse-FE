@@ -27,7 +27,7 @@ const TechLead = () => {
           "Communication and Collaboration":
             values.Communication_and_Collaboration,
           "Years of experience in Tech Lead":
-            values.Years_of_experience_in_Business_Analysis,
+            values.Years_of_experience_in_Tech_Lead,
           "Experience of related Domain": values.experience,
           "Bachelor's Degree": values.Bachelor_Degree,
           "Master's Degree": values.Master_Degree,
@@ -151,13 +151,12 @@ const TechLead = () => {
 
           <div className="flex flex-row justify-between">
             <Form.Item
-              label="Years of experience in Business Analysis"
-              name="Years_of_experience_in_Business_Analysis"
+              label="Years of experience in Tech Lead"
+              name="Years_of_experience_in_Tech_Lead"
               rules={[
                 {
                   required: true,
-                  message:
-                    "Please input Years of experience in Business Analysis!",
+                  message: "Please input Years of experience in Tech Lead!",
                 },
               ]}
               style={{ width: "48%" }}

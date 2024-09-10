@@ -27,7 +27,7 @@ const DevopsEngineer = () => {
             values.Configuration_Management_Tools,
           "Monitoring and Logging Tools": values.Monitoring_and_Logging_Tools,
           "Years of experience in DevOps Engineer":
-            values.Years_of_experience_in_Business_Analysis,
+            values.Years_of_experience_in_Devops_Engineering,
           "Experience of related Domain": values.experience,
           "Leadership/Team lead experience":
             values.Leadership_Team_lead_experience,
@@ -154,13 +154,13 @@ const DevopsEngineer = () => {
 
           <div className="flex flex-row justify-between">
             <Form.Item
-              label="Years of experience in Business Analysis"
-              name="Years_of_experience_in_Business_Analysis"
+              label="Years of experience in Devops Engineering"
+              name="Years_of_experience_in_Devops_Engineering"
               rules={[
                 {
                   required: true,
                   message:
-                    "Please input Years of experience in Business Analysis!",
+                    "Please input Years of experience in Devops_Engineering!",
                 },
               ]}
               style={{ width: "48%" }}
