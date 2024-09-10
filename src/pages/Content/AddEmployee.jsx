@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import { Button, Form, Select } from "antd";
 import BusinessAnalyst from "./EmployeeDetails/BusinessAnalyst";
 import QualityAssuranc from "./EmployeeDetails/QualityAssuranc";
+import DevopsEngineer from "./EmployeeDetails/DevopsEngineer";
+import TechLead from "./EmployeeDetails/TechLead";
+import BackendEngineer from "./EmployeeDetails/BackendEngineer";
+import FrontendEngineer from "./EmployeeDetails/FrontendEngineer";
+import FullStackEngineer from "./EmployeeDetails/FullStackEngineer";
+import ProjectManager from "./EmployeeDetails/ProjectManager";
 
 const { Option } = Select;
 
@@ -46,6 +52,18 @@ const AddEmployee = () => {
           <BusinessAnalyst />
         ) : data === "QA" ? (
           <QualityAssuranc />
+        ) : data === "DE" ? (
+          <DevopsEngineer />
+        ) : data === "TL" ? (
+          <TechLead />
+        ) : data === "BE" ? (
+          <BackendEngineer />
+        ) : data === "FE" ? (
+          <FrontendEngineer />
+        ) : data === "FullE" ? (
+          <FullStackEngineer />
+        ) : data === "PM" ? (
+          <ProjectManager />
         ) : (
           <>Select a Role</>
         )}

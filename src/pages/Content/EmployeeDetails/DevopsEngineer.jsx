@@ -16,13 +16,17 @@ const DevopsEngineer = () => {
     console.log(values);
     try {
       const res = await axios.post("employee/insert", {
-        role: "",
+        role: "DevOps Engineer",
         insert_json: {
-          "Excellent communication": values.Analytical_Skills,
-          "Test Automation": values.Communication_Skills,
-          "Knowledge of testing methodologies": values.Communication_Skills,
-          "Bug tracking and reporting": values.Problem_Solving_Skills,
-          "Years of experience in QA":
+          "Scripting and Automation (Python, Bash)":
+            values.Scripting_and_Automation,
+          "Continuous Integration/Continuous Deployment":
+            values.Continuous_Integration_Continuous_Deployment,
+          "Cloud Platforms ( AWS, Azure, GCP)": values.Cloud_Platforms,
+          "Configuration Management Tools":
+            values.Configuration_Management_Tools,
+          "Monitoring and Logging Tools": values.Monitoring_and_Logging_Tools,
+          "Years of experience in DevOps Engineer":
             values.Years_of_experience_in_Business_Analysis,
           "Experience of related Domain": values.experience,
           "Leadership/Team lead experience":
@@ -54,12 +58,13 @@ const DevopsEngineer = () => {
         <Form form={form} name="common" onFinish={onFinish} autoComplete="off">
           <div className="text-2xl mb-8">Skills</div>
           <Form.Item
-            label="Analytical Skills"
-            name="Analytical_Skills"
+            label="Scripting and Automation (Python, Bash)"
+            name="Scripting_and_Automation"
             rules={[
               {
                 required: true,
-                message: "Please input Analytical Skills!",
+                message:
+                  "Please input Scripting and Automation (Python, Bash)!",
               },
             ]}
             style={{ width: "48%" }}
@@ -70,33 +75,51 @@ const DevopsEngineer = () => {
               <Option value="Advanced">Advanced</Option>
             </Select>
           </Form.Item>
-
-          <Form.Item
-            label="Technical Proficiency"
-            name="Technical_Proficiency"
-            rules={[
-              {
-                required: true,
-                message: "Please input Technical Proficiency!",
-              },
-            ]}
-            style={{ width: "48%" }}
-          >
-            <Select placeholder="--Select a Value--" allowClear>
-              <Option value="Novice">Novice</Option>
-              <Option value="Intermediate">Intermediate</Option>
-              <Option value="Advanced">Advanced</Option>
-            </Select>
-          </Form.Item>
-
           <div className="flex flex-row justify-between">
             <Form.Item
-              label="Communication Skills"
-              name="Communication_Skills"
+              label="Configuration Management Tools"
+              name="Configuration_Management_Tools"
               rules={[
                 {
                   required: true,
-                  message: "Please input Communication Skills!",
+                  message: "Please input Configuration Management Tools",
+                },
+              ]}
+              style={{ width: "48%" }}
+            >
+              <Select placeholder="--Select a Value--" allowClear>
+                <Option value="Novice">Novice</Option>
+                <Option value="Intermediate">Intermediate</Option>
+                <Option value="Advanced">Advanced</Option>
+              </Select>
+            </Form.Item>
+            <Form.Item
+              label="Continuous Integration/Continuous Deployment"
+              name="Continuous_Integration_Continuous_Deployment"
+              rules={[
+                {
+                  required: true,
+                  message:
+                    "Please input Continuous Integration/Continuous Deployment	!",
+                },
+              ]}
+              style={{ width: "48%" }}
+            >
+              <Select placeholder="--Select a Value--" allowClear>
+                <Option value="Novice">Novice</Option>
+                <Option value="Intermediate">Intermediate</Option>
+                <Option value="Advanced">Advanced</Option>
+              </Select>
+            </Form.Item>
+          </div>
+          <div className="flex flex-row justify-between">
+            <Form.Item
+              label="Cloud Platforms ( AWS, Azure, GCP)"
+              name="Cloud_Platforms"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input Cloud Platforms ( AWS, Azure, GCP)!",
                 },
               ]}
               style={{ width: "48%" }}
@@ -109,12 +132,12 @@ const DevopsEngineer = () => {
             </Form.Item>
 
             <Form.Item
-              label="Problem Solving Skills"
-              name="Problem_Solving_Skills"
+              label="Monitoring and Logging Tools"
+              name="Monitoring_and_Logging_Tools"
               rules={[
                 {
                   required: true,
-                  message: "Please input Problem Solving Skills!",
+                  message: "Please input Monitoring and Logging Tools",
                 },
               ]}
               style={{ width: "48%" }}
