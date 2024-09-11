@@ -14,6 +14,7 @@ const columns = [
     title: "KPI Value",
     dataIndex: "KPI",
     key: "kpi",
+    render: (text) => parseFloat(text).toFixed(2), // Format count to 2 decimal places
   },
   {
     title: "Role",

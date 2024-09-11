@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Table } from "antd";
 import axios from "../../apis/axiosInstance";
 
-// Define the table columns with renamed headers
 const columns = [
   {
     title: "Role",
