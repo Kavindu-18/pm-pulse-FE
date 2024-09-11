@@ -41,16 +41,15 @@ const AppLayout = () => {
     <Layout style={{ minHeight: "100vh" }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div
-          style={{ display: "flex", flexDirection: "column", height: "100%" }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            height: "100%",
+          }}
         >
           <img src={logo} alt="logo" />
 
-          <Menu
-            theme="dark"
-            mode="inline"
-            defaultSelectedKeys={["1"]}
-            style={{ flex: 1 }}
-          >
+          <Menu theme="dark" mode="inline" style={{ flex: 1 }}>
             <Menu.Item key="1" icon={<HomeOutlined />}>
               <Link to="/requirement">Requirements</Link>
             </Menu.Item>

@@ -164,55 +164,216 @@ const RiskType = () => {
         okText={"Re Calculate Values"}
         onCancel={handleCancel}
       >
-        <Form form={form} layout="vertical">
-          <Form.Item name="Domain" label="Domain">
-            <Select placeholder="Select Domain">
+        <Form form={form} layout="vertical" autoComplete="off">
+          <Form.Item
+            name="Domain"
+            label="Domain"
+            rules={[
+              {
+                required: true,
+                message: "Please Select a Domain",
+              },
+            ]}
+          >
+            <Select placeholder="--Select a Domain--" allowClear>
               <Option value="Finance">Finance</Option>
-              {/* Add more options as needed */}
+              <Option value="E-Commerce">E-Commerce</Option>
+              <Option value="Health">Health</Option>
+              <Option value="Education">Education</Option>
             </Select>
           </Form.Item>
-          <Form.Item name="ML_Components" label="ML Components">
+
+          <Form.Item
+            name="ML_Components"
+            label="ML Components"
+            rules={[
+              {
+                required: true,
+                message: "Please input ML Component!",
+              },
+            ]}
+          >
             <Select placeholder="--Select a ML Component--" allowClear>
               <Option value="Prediction Model">Prediction Model</Option>
+              <Option value="Recommendation Engine">
+                Recommendation Engine
+              </Option>
+              <Option value="Classification Model">Classification Model</Option>
+              <Option value="Clustering Algorithm">Clustering Algorithm</Option>
             </Select>
           </Form.Item>
-          <Form.Item name="Backend" label="Backend Technology">
-            <Select placeholder="Select Backend Technology">
+
+          <Form.Item
+            name="Backend"
+            label="Backend Technology"
+            rules={[
+              {
+                required: true,
+                message: "Please Select a Backend Technology",
+              },
+            ]}
+          >
+            <Select placeholder="--Select a Technology--" allowClear>
               <Option value="Node.js">Node.js</Option>
+              <Option value="Django">Django</Option>
+              <Option value="Flask">Flask</Option>
+              <Option value="Spring Boot">Spring Boot</Option>
             </Select>
           </Form.Item>
-          <Form.Item name="Frontend" label="Frontend Technology">
-            <Select placeholder="Select Frontend Technology">
+
+          <Form.Item
+            name="Frontend"
+            label="Frontend Technology"
+            rules={[
+              {
+                required: true,
+                message: "Please Select a Frontend Technology",
+              },
+            ]}
+          >
+            <Select placeholder="--Select a Technology--" allowClear>
               <Option value="React">React.js</Option>
+              <Option value="Angular">Angular.js</Option>
+              <Option value="Vue.js">Vue.js</Option>
+              <Option value="Svelte">Svelte</Option>
             </Select>
           </Form.Item>
-          <Form.Item name="Core_Features" label="Core Features">
+
+          <Form.Item
+            name="Core_Features"
+            label="Core Features"
+            rules={[
+              {
+                required: true,
+                message: "Please input Core Features!",
+              },
+            ]}
+          >
             <Select placeholder="--Select a Core Feature--" allowClear>
               <Option value="User Management">User Management</Option>
+              <Option value="Payment Gateway">Payment Gateway</Option>
+              <Option value="Appointment Booking">Appointment Booking</Option>
+              <Option value="Product Catalog">Product Catalog</Option>
             </Select>
           </Form.Item>
-          <Form.Item name="Tech_Stack" label="Tech Stack">
-            <Input />
+
+          <Form.Item
+            name="Tech_Stack"
+            label="Tech Stack"
+            rules={[
+              {
+                required: true,
+                message: "Please input Tech Stack!",
+              },
+            ]}
+          >
+            <Select placeholder="--Select one--" allowClear>
+              <Option value="MERN">MERN</Option>
+              <Option value="LAMP">LAMP</Option>
+              <Option value="Serverless">Serverless</Option>
+            </Select>
           </Form.Item>
-          <Form.Item name="Mobile" label="Mobile">
+
+          <Form.Item
+            name="Mobile"
+            label="Mobile"
+            rules={[
+              {
+                required: true,
+                message: "Please input Mobile!",
+              },
+            ]}
+          >
+            <Select placeholder="--Select one--" allowClear>
+              <Option value="1">Yes</Option>
+              <Option value="0">No</Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            name="Desktop"
+            label="Desktop"
+            rules={[
+              {
+                required: true,
+                message: "Please input Desktop!",
+              },
+            ]}
+          >
+            <Select placeholder="--Select one--" allowClear>
+              <Option value="1">Yes</Option>
+              <Option value="0">No</Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            name="Web"
+            label="Web"
+            rules={[
+              {
+                required: true,
+                message: "Please input Web!",
+              },
+            ]}
+          >
+            <Select placeholder="--Select one--" allowClear>
+              <Option value="1">Yes</Option>
+              <Option value="0">No</Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            name="IoT"
+            label="IoT"
+            rules={[
+              {
+                required: true,
+                message: "Please input IoT!",
+              },
+            ]}
+          >
+            <Select placeholder="--Select one--" allowClear>
+              <Option value="1">Yes</Option>
+              <Option value="0">No</Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            name="Date_Difference"
+            label="Schedule Variance"
+            rules={[
+              {
+                required: true,
+                message: "Please input Schedule Variance!",
+              },
+            ]}
+          >
             <Input type="number" />
           </Form.Item>
-          <Form.Item name="Desktop" label="Desktop">
+
+          <Form.Item
+            name="Expected_Team_Size"
+            label="Expected Team Size"
+            rules={[
+              {
+                required: true,
+                message: "Please input Expected Team Size!",
+              },
+            ]}
+          >
             <Input type="number" />
           </Form.Item>
-          <Form.Item name="Web" label="Web">
-            <Input type="number" />
-          </Form.Item>
-          <Form.Item name="IoT" label="IoT">
-            <Input type="number" />
-          </Form.Item>
-          <Form.Item name="Date_Difference" label="Date Difference">
-            <Input type="number" />
-          </Form.Item>
-          <Form.Item name="Expected_Team_Size" label="Expected Team Size">
-            <Input type="number" />
-          </Form.Item>
-          <Form.Item name="Expected_Budget" label="Expected Budget">
+
+          <Form.Item
+            name="Expected_Budget"
+            label="Expected Budget ($)"
+            rules={[
+              {
+                required: true,
+                message: "Please input Expected Budget!",
+              },
+            ]}
+          >
             <Input type="number" />
           </Form.Item>
         </Form>
