@@ -1,28 +1,30 @@
 import React, { useState } from "react";
-import { Button, Form, Table, Select, Spin, Input, Radio } from "antd";
+import { Button, Form, Select, Input, Radio } from "antd";
 import axios from "../../../apis/axiosInstance";
 import Swal from "sweetalert2";
 
+const { Option } = Select; // Import Option from Select
+
 const Education = () => {
   const [form] = Form.useForm();
-  const [loading, setLoading] = useState(false); // Added loading state
-  const [error, setError] = useState(null); // Added error state
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const [value, setValue] = useState(1);
+  const [value, setValue] = useState(1); // State to track selected radio button
+
   const onChange = (e) => {
-    console.log("radio checked", e.target.value);
     setValue(e.target.value);
   };
 
   const onFinish = async (values) => {
-    setLoading(true); // Start loading
-    setError(null); // Reset error state
+    setLoading(true);
+    setError(null);
     try {
       const res = await axios.post("kpi/crud", {
-        operation: values.operation,
+        operation: value,
         role: values.role,
         crud_json: {
-          type: "education",
+          type: "experience",
           criteria: values.criteria,
           level: {
             Novice: values.Novice,
@@ -32,7 +34,6 @@ const Education = () => {
           weight: values.weight / 100,
         },
       });
-      console.log(res);
 
       Swal.fire(res.data.response, "", "success");
     } catch (error) {
@@ -43,20 +44,15 @@ const Education = () => {
       setLoading(false);
     }
   };
+
   return (
     <div>
-      {" "}
       <Form name="common" onFinish={onFinish} autoComplete="off">
         <div className="flex flex-row justify-between">
           <Form.Item
             name="operation"
             label="Operation"
-            rules={[
-              {
-                required: true,
-                message: "Please Select a Operation",
-              },
-            ]}
+            rules={[{ required: true, message: "Please Select an Operation" }]}
             style={{ width: "48%" }}
           >
             <Radio.Group onChange={onChange} value={value}>
@@ -68,12 +64,7 @@ const Education = () => {
           <Form.Item
             name="role"
             label="Job Role"
-            rules={[
-              {
-                required: true,
-                message: "Please Select a Job Role",
-              },
-            ]}
+            rules={[{ required: true, message: "Please Select a Job Role" }]}
             style={{ width: "48%" }}
           >
             <Select placeholder="--Select a Role--" allowClear>
@@ -94,12 +85,7 @@ const Education = () => {
           <Form.Item
             label="Criteria"
             name="criteria"
-            rules={[
-              {
-                required: true,
-                message: "Please input Criteria!",
-              },
-            ]}
+            rules={[{ required: true, message: "Please input Criteria!" }]}
             style={{ width: "48%" }}
           >
             <Input />
@@ -108,82 +94,18 @@ const Education = () => {
 
         <div className="flex flex-row justify-between">
           <Form.Item
-            name="1_2_years"
-            label="1-2 Years"
-            style={{ width: "30%" }}
-            rules={[
-              {
-                required: true,
-                message: "Please input a value!",
-              },
-            ]}
+            name="related"
+            label="Related"
+            style={{ width: "48%" }}
+            rules={[{ required: true, message: "Please input a value!" }]}
           >
             <Input type="number" />
           </Form.Item>
           <Form.Item
-            name="3_5_years"
-            label="3-5 Years"
-            style={{ width: "30%" }}
-            rules={[
-              {
-                required: true,
-                message: "Please input a value!",
-              },
-            ]}
-          >
-            <Input type="number" />
-          </Form.Item>
-          <Form.Item
-            name="5_+_Years"
-            label="5+ Years"
-            style={{ width: "30%" }}
-            rules={[
-              {
-                required: true,
-                message: "Please input a value!",
-              },
-            ]}
-          >
-            <Input type="number" />
-          </Form.Item>
-        </div>
-        <div className="flex flex-row justify-between">
-          <Form.Item
-            name="0_5_years"
-            label="0-5 Years"
-            style={{ width: "30%" }}
-            rules={[
-              {
-                required: true,
-                message: "Please input a value!",
-              },
-            ]}
-          >
-            <Input type="number" />
-          </Form.Item>
-          <Form.Item
-            name="6_14_years"
-            label="6-14 Years"
-            style={{ width: "30%" }}
-            rules={[
-              {
-                required: true,
-                message: "Please input a value!",
-              },
-            ]}
-          >
-            <Input type="number" />
-          </Form.Item>
-          <Form.Item
-            name="15_+_Years"
-            label="15+ Years"
-            style={{ width: "30%" }}
-            rules={[
-              {
-                required: true,
-                message: "Please input a value!",
-              },
-            ]}
+            name="un_related"
+            label="Un Related"
+            style={{ width: "48%" }}
+            rules={[{ required: true, message: "Please input a value!" }]}
           >
             <Input type="number" />
           </Form.Item>
@@ -192,12 +114,7 @@ const Education = () => {
         <Form.Item
           label="weight"
           name="weight"
-          rules={[
-            {
-              required: true,
-              message: "Please input weight!",
-            },
-          ]}
+          rules={[{ required: true, message: "Please input weight!" }]}
           style={{ width: "48%" }}
         >
           <Input type="number" />

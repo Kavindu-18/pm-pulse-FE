@@ -1,34 +1,32 @@
 import React, { useState } from "react";
-import { Button, Form, Select, Input, Radio } from "antd";
+import { Button, Form, Table, Select, Spin, Input, Radio } from "antd";
 import axios from "../../../apis/axiosInstance";
 import Swal from "sweetalert2";
 
-const { Option } = Select; // Import Option from Select
-
 const Experience = () => {
   const [form] = Form.useForm();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false); // Added loading state
+  const [error, setError] = useState(null); // Added error state
   const [job, setJob] = useState(); // State to track selected job role
-  const [value, setValue] = useState(1); // State to track selected radio button
+  const [value, setValue] = useState(1);
 
   const onChange = (e) => {
+    console.log("radio checked", e.target.value);
     setValue(e.target.value);
   };
 
   const onChangeJob = (value) => {
     setJob(value); // Correctly update job state when a job role is selected
   };
-
   const onFinish = async (values) => {
-    setLoading(true);
-    setError(null);
+    setLoading(true); // Start loading
+    setError(null); // Reset error state
     try {
       const res = await axios.post("kpi/crud", {
-        operation: value,
+        operation: values.operation,
         role: values.role,
         crud_json: {
-          type: "experience",
+          type: "education",
           criteria: values.criteria,
           level: {
             Novice: values.Novice,
@@ -38,6 +36,7 @@ const Experience = () => {
           weight: values.weight / 100,
         },
       });
+      console.log(res);
 
       Swal.fire(res.data.response, "", "success");
     } catch (error) {
@@ -48,15 +47,20 @@ const Experience = () => {
       setLoading(false);
     }
   };
-
   return (
     <div>
+      {" "}
       <Form name="common" onFinish={onFinish} autoComplete="off">
         <div className="flex flex-row justify-between">
           <Form.Item
             name="operation"
             label="Operation"
-            rules={[{ required: true, message: "Please Select an Operation" }]}
+            rules={[
+              {
+                required: true,
+                message: "Please Select a Operation",
+              },
+            ]}
             style={{ width: "48%" }}
           >
             <Radio.Group onChange={onChange} value={value}>
@@ -68,7 +72,12 @@ const Experience = () => {
           <Form.Item
             name="role"
             label="Job Role"
-            rules={[{ required: true, message: "Please Select a Job Role" }]}
+            rules={[
+              {
+                required: true,
+                message: "Please Select a Job Role",
+              },
+            ]}
             style={{ width: "48%" }}
           >
             <Select
@@ -93,7 +102,12 @@ const Experience = () => {
           <Form.Item
             label="Criteria"
             name="criteria"
-            rules={[{ required: true, message: "Please input Criteria!" }]}
+            rules={[
+              {
+                required: true,
+                message: "Please input Criteria!",
+              },
+            ]}
             style={{ width: "48%" }}
           >
             <Input />
@@ -102,18 +116,42 @@ const Experience = () => {
 
         <div className="flex flex-row justify-between">
           <Form.Item
-            name="related"
-            label="Related"
-            style={{ width: "48%" }}
-            rules={[{ required: true, message: "Please input a value!" }]}
+            name="1_2_years"
+            label="1-2 Years"
+            style={{ width: "30%" }}
           >
             <Input type="number" />
           </Form.Item>
           <Form.Item
-            name="un_related"
-            label="Un Related"
-            style={{ width: "48%" }}
-            rules={[{ required: true, message: "Please input a value!" }]}
+            name="3_5_years"
+            label="3-5 Years"
+            style={{ width: "30%" }}
+          >
+            <Input type="number" />
+          </Form.Item>
+          <Form.Item name="5_+_Years" label="5+ Years" style={{ width: "30%" }}>
+            <Input type="number" />
+          </Form.Item>
+        </div>
+        <div className="flex flex-row justify-between">
+          <Form.Item
+            name="0_5_years"
+            label="0-5 Years"
+            style={{ width: "30%" }}
+          >
+            <Input type="number" />
+          </Form.Item>
+          <Form.Item
+            name="6_14_years"
+            label="6-14 Years"
+            style={{ width: "30%" }}
+          >
+            <Input type="number" />
+          </Form.Item>
+          <Form.Item
+            name="15_+_Years"
+            label="15+ Years"
+            style={{ width: "30%" }}
           >
             <Input type="number" />
           </Form.Item>
@@ -143,7 +181,12 @@ const Experience = () => {
         <Form.Item
           label="weight"
           name="weight"
-          rules={[{ required: true, message: "Please input weight!" }]}
+          rules={[
+            {
+              required: true,
+              message: "Please input weight!",
+            },
+          ]}
           style={{ width: "48%" }}
         >
           <Input type="number" />

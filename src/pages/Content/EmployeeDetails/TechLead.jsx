@@ -297,8 +297,8 @@ const TechLead = () => {
                         ]}
                       >
                         <Select placeholder="--Select Years--" allowClear>
-                          <Option value="0-5">0 - 5 Years</Option>
-                          <Option value="6-14">6 - 14 years</Option>
+                          <Option value="0 - 5">0 - 5 Years</Option>
+                          <Option value="6 - 14">6 - 14 years</Option>
                           <Option value="15+">15+ Years</Option>
                         </Select>
                       </Form.Item>
@@ -310,6 +310,7 @@ const TechLead = () => {
                       type="dashed"
                       onClick={() => addExperience()}
                       icon={<PlusOutlined />}
+                      disabled={experienceFields.length >= 4} // Disable the button if 4 or more fields are added
                     >
                       Add Experience
                     </Button>
