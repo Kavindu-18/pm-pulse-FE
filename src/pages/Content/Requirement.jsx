@@ -1,12 +1,14 @@
 import React from "react";
 import { Button, Form, Input, message, Select } from "antd";
 import Swal from "sweetalert2";
+import axios from "../../apis/axiosInstance";
 
 const Requirement = () => {
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     console.log("Success:", values);
     try {
-      const payload = {
+      const data = {
+        Name: values.name,
         Domain: values.domain,
         ML_Components: values.ML_Components,
         Backend: values.Backend,
@@ -21,7 +23,25 @@ const Requirement = () => {
         Expected_Team_Size: Number(values.Expected_Team_Size),
         Expected_Budget: Number(values.Expected_Budget),
       };
-      localStorage.setItem("SearchPayload", JSON.stringify(payload));
+      const res = await axios.post("save-data", {
+          Name: values.name,
+          // Num_of_stackholders:Num_of_stackholders,
+          Domain: values.domain,
+          ML_Components: values.ML_Components,
+          Backend: values.Backend,
+          Frontend: values.Frontend,
+          Core_Features: values.Core_Features,
+          Tech_Stack: values.Tech_Stack,
+          Mobile: Number(values.Mobile),
+          Desktop: Number(values.Desktop),
+          Web: Number(values.Web),
+          IoT: Number(values.IoT),
+          Date_Difference: Number(values.Date_Difference),
+          Expected_Team_Size: Number(values.Expected_Team_Size),
+          Expected_Budget: Number(values.Expected_Budget),
+      });
+
+      localStorage.setItem("SearchPayload", JSON.stringify(data));
       Swal.fire("Details Saved", "", "success");
     } catch (error) {
       console.log(error);
@@ -33,6 +53,19 @@ const Requirement = () => {
       <div className="text-2xl">Requirements</div>
       <div className="mt-10">
         <Form name="common" onFinish={onFinish} autoComplete="off">
+          <Form.Item
+            label="Project Name"
+            name="name"
+            rules={[
+              {
+                required: true,
+                message: "Please input project name",
+              },
+            ]}
+            style={{ width: "48%" }}
+          >
+            <Input type="text" />
+          </Form.Item>
           <div className="flex flex-row justify-between">
             <Form.Item
               name="Backend"
@@ -257,9 +290,9 @@ const Requirement = () => {
             >
               <Input type="number" />
             </Form.Item>
-            <Form.Item
+            {/* <Form.Item
               label="Number of Stakeholders"
-              name="Expected_Budget"
+              name="Num_of_stackholders"
               rules={[
                 {
                   required: true,
@@ -269,7 +302,7 @@ const Requirement = () => {
               style={{ width: "48%" }}
             >
               <Input type="number" />
-            </Form.Item>
+            </Form.Item> */}
           </div>
 
           <Form.Item className="flex justify-end">
