@@ -18,6 +18,10 @@ const DevopsEngineer = () => {
       const res = await axios.post("employee/insert", {
         role: "DevOps Engineer",
         insert_json: {
+          "Name": values.name,
+          "Age": values.age,
+          "Home Town": values.home,
+          "Phone Number": values.phone,
           "Scripting and Automation (Python, Bash)":
             values.Scripting_and_Automation,
           "Continuous Integration/Continuous Deployment":
