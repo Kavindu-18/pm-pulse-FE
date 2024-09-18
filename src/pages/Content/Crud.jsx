@@ -3,6 +3,7 @@ import { Form, Select } from "antd";
 import Education from "./skillTypes/Education";
 import Skills from "./skillTypes/Skills";
 import Experience from "./skillTypes/Experience";
+const { Option } = Select;
 
 const Crud = () => {
   const [data, setData] = useState();

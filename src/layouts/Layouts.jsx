@@ -62,9 +62,9 @@ const AppLayout = () => {
             <Menu.Item key="4" icon={<GrDocumentPerformance />}>
               <Link to="/view-KPI">View KPI</Link>
             </Menu.Item>
-            {/* <Menu.Item key="5" icon={<GrCircleInformation />}>
+            <Menu.Item key="5" icon={<GrCircleInformation />}>
               <Link to="/skill">Skill Info</Link>
-            </Menu.Item> */}
+            </Menu.Item>
             <Menu.Item key="9" icon={<MdOutlineAddChart />}>
               <Link to="/crud">Add Skills</Link>
             </Menu.Item>
