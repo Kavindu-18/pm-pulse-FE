@@ -94,12 +94,6 @@ const Requirement = () => {
             <Form.Item
               label="ML Component"
               name="ML_Components"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input ML Component!",
-                },
-              ]}
               style={{ width: "48%" }}
             >
               <Select placeholder="--Select a ML Component--" allowClear>
@@ -257,6 +251,19 @@ const Requirement = () => {
                 {
                   required: true,
                   message: "Please input Expected Budget!",
+                },
+              ]}
+              style={{ width: "48%" }}
+            >
+              <Input type="number" />
+            </Form.Item>
+            <Form.Item
+              label="Number of Stakeholders"
+              name="Expected_Budget"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input Stakeholders!",
                 },
               ]}
               style={{ width: "48%" }}
