@@ -35,18 +35,18 @@ const Crud = () => {
             </Select>
           </Form.Item>
         </div>
-        <div className="">
-          {data === "skills" ? (
-            <Skills />
-          ) : data === "education" ? (
-            <Education />
-          ) : data === "experience" ? (
-            <Experience />
-          ) : (
-            <>Select a Role</>
-          )}
-        </div>
       </Form>
+      <div className="">
+        {data === "skills" ? (
+          <Skills />
+        ) : data === "education" ? (
+          <Education />
+        ) : data === "experience" ? (
+          <Experience />
+        ) : (
+          <>Select a Role</>
+        )}
+      </div>
     </div>
   );
 };

@@ -29,9 +29,14 @@ const Experience = () => {
           type: "education",
           criteria: values.criteria,
           level: {
-            Novice: values.Novice,
-            Intermediate: values.Intermediate,
-            Advanced: values.Advanced,
+            "1-2 years": values.years_1_2,
+            "3-5 years": values.years3_5,
+            "5+ years": values.Years5_,
+            "0 - 5": values.years0_5,
+            "6 - 14": values.years6_14,
+            "15+": values.Years15_,
+            "Non-Lead": values.lead,
+            Leadership: values.non_lead,
           },
           weight: values.weight / 100,
         },
@@ -116,43 +121,31 @@ const Experience = () => {
 
         <div className="flex flex-row justify-between">
           <Form.Item
-            name="1_2_years"
+            name="years_1_2"
             label="1-2 Years"
             style={{ width: "30%" }}
           >
             <Input type="number" />
           </Form.Item>
-          <Form.Item
-            name="3_5_years"
-            label="3-5 Years"
-            style={{ width: "30%" }}
-          >
+          <Form.Item name="years3_5" label="3-5 Years" style={{ width: "30%" }}>
             <Input type="number" />
           </Form.Item>
-          <Form.Item name="5_+_Years" label="5+ Years" style={{ width: "30%" }}>
+          <Form.Item name="Years5_" label="5+ Years" style={{ width: "30%" }}>
             <Input type="number" />
           </Form.Item>
         </div>
         <div className="flex flex-row justify-between">
-          <Form.Item
-            name="0_5_years"
-            label="0-5 Years"
-            style={{ width: "30%" }}
-          >
+          <Form.Item name="years0_5" label="0-5 Years" style={{ width: "30%" }}>
             <Input type="number" />
           </Form.Item>
           <Form.Item
-            name="6_14_years"
+            name="years6_14"
             label="6-14 Years"
             style={{ width: "30%" }}
           >
             <Input type="number" />
           </Form.Item>
-          <Form.Item
-            name="15_+_Years"
-            label="15+ Years"
-            style={{ width: "30%" }}
-          >
+          <Form.Item name="Years15_" label="15+ Years" style={{ width: "30%" }}>
             <Input type="number" />
           </Form.Item>
         </div>
