@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import axios from "../../apis/axiosInstance";
 
 const Requirement = () => {
+  const [form] = Form.useForm();
   const onFinish = async (values) => {
     console.log("Success:", values);
     try {
@@ -24,27 +25,29 @@ const Requirement = () => {
         Expected_Budget: Number(values.Expected_Budget),
       };
       const res = await axios.post("save-data", {
-          Name: values.name,
-          // Num_of_stackholders:Num_of_stackholders,
-          Domain: values.domain,
-          ML_Components: values.ML_Components,
-          Backend: values.Backend,
-          Frontend: values.Frontend,
-          Core_Features: values.Core_Features,
-          Tech_Stack: values.Tech_Stack,
-          Mobile: Number(values.Mobile),
-          Desktop: Number(values.Desktop),
-          Web: Number(values.Web),
-          IoT: Number(values.IoT),
-          Date_Difference: Number(values.Date_Difference),
-          Expected_Team_Size: Number(values.Expected_Team_Size),
-          Expected_Budget: Number(values.Expected_Budget),
+        Name: values.name,
+        // Num_of_stackholders:Num_of_stackholders,
+        Domain: values.domain,
+        ML_Components: values.ML_Components,
+        Backend: values.Backend,
+        Frontend: values.Frontend,
+        Core_Features: values.Core_Features,
+        Tech_Stack: values.Tech_Stack,
+        Mobile: Number(values.Mobile),
+        Desktop: Number(values.Desktop),
+        Web: Number(values.Web),
+        IoT: Number(values.IoT),
+        Date_Difference: Number(values.Date_Difference),
+        Expected_Team_Size: Number(values.Expected_Team_Size),
+        Expected_Budget: Number(values.Expected_Budget),
       });
 
       localStorage.setItem("SearchPayload", JSON.stringify(data));
       Swal.fire("Details Saved", "", "success");
     } catch (error) {
       console.log(error);
+    } finally {
+      form.resetFields();
     }
   };
 
