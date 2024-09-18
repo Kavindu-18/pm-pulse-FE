@@ -4,51 +4,28 @@ import { Spin, Button, Modal, Form, Input, Select } from "antd";
 
 const RiskType = () => {
   const [data, setData] = useState();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isViewPayloadModalVisible, setIsViewPayloadModalVisible] =
     useState(false);
   const [form] = Form.useForm();
   const [currentPayload, setCurrentPayload] = useState(null);
+  const [projectName, setProjectName] = useState();
 
   const { Option } = Select;
 
   useEffect(() => {
-    const sendDetails = async () => {
-      const payloadLocal = localStorage.getItem("SearchPayload");
-
-      if (payloadLocal) {
-        try {
-          const payload = JSON.parse(payloadLocal);
-          const res = await axios.post("risk", {
-            Domain: payload.Domain,
-            "ML Components": payload.ML_Components,
-            Backend: payload.Backend,
-            Frontend: payload.Frontend,
-            "Core Features": payload.Core_Features,
-            "Tech Stack": payload.Tech_Stack,
-            Mobile: payload.Mobile,
-            Desktop: payload.Desktop,
-            Web: payload.Web,
-            IoT: payload.IoT,
-            Date_Difference: payload.Date_Difference,
-            "Expected Team Size": payload.Expected_Team_Size,
-            "Expected Budget": payload.Expected_Budget,
-          });
-          setData(res.data);
-        } catch (error) {
-          setError("Error fetching data");
-          console.error("Error parsing payload:", error);
-        } finally {
-          setLoading(false); // Set loading to false once data fetching is done
-        }
-      } else {
-        setLoading(false); // Set loading to false if no payload is found
-      }
+    const getProjects = async () => {
+      const res = await axios.get("/get-projects");
+      localStorage.setItem("projects", JSON.stringify(res.data));
+      const names = res.data.map((prj) => {
+        return prj.Name;
+      });
+      console.log(names);
+      setProjectName(names);
     };
-
-    sendDetails();
+    getProjects();
   }, []);
 
   const reCalculate = () => {
@@ -99,6 +76,47 @@ const RiskType = () => {
     setIsModalVisible(false);
   };
 
+  const onFinish = async (values) => {
+    setLoading(true);
+    const projects = localStorage.getItem("projects");
+    const parsedPrj = JSON.parse(projects) || [];
+    const selectedProject = parsedPrj.filter((prj) => prj.Name === values.name);
+
+    console.log(selectedProject[0]);
+
+    localStorage.setItem("SearchPayload", JSON.stringify(selectedProject[0]));
+
+    const payload = selectedProject[0];
+
+    if (payload) {
+      try {
+        const res = await axios.post("risk", {
+          Domain: payload.Domain,
+          "ML Components": payload.ML_Components,
+          Backend: payload.Backend,
+          Frontend: payload.Frontend,
+          "Core Features": payload.Core_Features,
+          "Tech Stack": payload.Tech_Stack,
+          Mobile: payload.Mobile,
+          Desktop: payload.Desktop,
+          Web: payload.Web,
+          IoT: payload.IoT,
+          Date_Difference: payload.Date_Difference,
+          "Expected Team Size": payload.Expected_Team_Size,
+          "Expected Budget": payload.Expected_Budget,
+        });
+        setData(res.data);
+      } catch (error) {
+        setError("Error fetching data");
+        console.error("Error parsing payload:", error);
+      } finally {
+        setLoading(false); // Set loading to false once data fetching is done
+      }
+    } else {
+      setLoading(false); // Set loading to false if no payload is found
+    }
+  };
+
   const handleViewPayload = () => {
     const payloadLocal = localStorage.getItem("SearchPayload");
     if (payloadLocal) {
@@ -125,6 +143,40 @@ const RiskType = () => {
             View Current Payload
           </Button>
         </div>
+      </div>
+      <div className=" mt-10">
+        <Form form={form} name="control-hooks" onFinish={onFinish}>
+          <div className="flex flex-row">
+            <Form.Item
+              name="name"
+              label="Project Name"
+              rules={[
+                {
+                  required: true,
+                  message: "Please Select a Project Name",
+                },
+              ]}
+              style={{ width: "48%" }}
+            >
+              <Select placeholder="--Select a Project--" allowClear>
+                {projectName.map((name) => (
+                  <Option value={name}>{name}</Option>
+                ))}
+              </Select>
+            </Form.Item>
+
+            <Form.Item
+              wrapperCol={{
+                offset: 6,
+                span: 16,
+              }}
+            >
+              <Button type="primary" htmlType="submit" loading={loading}>
+                Submit
+              </Button>
+            </Form.Item>
+          </div>
+        </Form>
       </div>
       <div className="mt-10">
         {loading ? (
