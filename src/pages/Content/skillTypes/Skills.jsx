@@ -1,25 +1,28 @@
 import React, { useState } from "react";
-import { Button, Form, Table, Select, Spin, Input, Radio } from "antd";
+import { Button, Form, Select, Input, Radio } from "antd";
 import axios from "../../../apis/axiosInstance";
 import Swal from "sweetalert2";
 
+const { Option } = Select;
+
 const Skills = () => {
   const [form] = Form.useForm();
-  const [loading, setLoading] = useState(false); // Added loading state
-  const [error, setError] = useState(null); // Added error state
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [value, setValue] = useState("add"); // Initialize with a valid option
 
-  const [value, setValue] = useState(1);
   const onChange = (e) => {
     console.log("radio checked", e.target.value);
     setValue(e.target.value);
   };
 
   const onFinish = async (values) => {
-    setLoading(true); // Start loading
-    setError(null); // Reset error state
+    setLoading(true);
+    setError(null);
+    console.log(values);
     try {
       const res = await axios.post("kpi/crud", {
-        operation: values.operation,
+        operation: value,
         role: values.role,
         crud_json: {
           type: "skills",
@@ -33,20 +36,23 @@ const Skills = () => {
         },
       });
       console.log(res);
-
       Swal.fire(res.data.response, "", "success");
     } catch (error) {
       setError("Error fetching data");
       console.error("Error fetching data:", error);
-      Swal.fire(error.response, "", "error");
+      Swal.fire(
+        "Error",
+        error.response?.data?.message || "Request failed",
+        "error"
+      );
     } finally {
       setLoading(false);
     }
   };
+
   return (
     <div>
-      {" "}
-      <Form name="common" onFinish={onFinish} autoComplete="off">
+      <Form form={form} name="common" onFinish={onFinish} autoComplete="off">
         <div className="flex flex-row justify-between">
           <Form.Item
             name="operation"
@@ -54,7 +60,7 @@ const Skills = () => {
             rules={[
               {
                 required: true,
-                message: "Please Select a Operation",
+                message: "Please Select an Operation",
               },
             ]}
             style={{ width: "48%" }}
@@ -148,7 +154,7 @@ const Skills = () => {
         </div>
 
         <Form.Item
-          label="weight"
+          label="Weight"
           name="weight"
           rules={[
             {
