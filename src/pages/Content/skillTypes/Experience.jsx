@@ -50,12 +50,13 @@ const Experience = () => {
       Swal.fire(error.response, "", "error");
     } finally {
       setLoading(false);
+      form.resetFields();
     }
   };
   return (
     <div>
       {" "}
-      <Form name="common" onFinish={onFinish} autoComplete="off">
+      <Form form={form} name="common" onFinish={onFinish} autoComplete="off">
         <div className="flex flex-row justify-between">
           <Form.Item
             name="operation"
@@ -153,19 +154,13 @@ const Experience = () => {
           job === "Quality Assurance Engineer" ||
           job === "DevOps Engineer") && (
           <div className="flex flex-row justify-between">
-            <Form.Item
-              name="lead"
-              label="Lead"
-              style={{ width: "48%" }}
-              rules={[{ required: true, message: "Please input a value!" }]}
-            >
+            <Form.Item name="lead" label="Lead" style={{ width: "48%" }}>
               <Input type="number" />
             </Form.Item>
             <Form.Item
               name="non_lead"
               label="Non Lead"
               style={{ width: "48%" }}
-              rules={[{ required: true, message: "Please input a value!" }]}
             >
               <Input type="number" />
             </Form.Item>

@@ -27,9 +27,8 @@ const Education = () => {
           type: "experience",
           criteria: values.criteria,
           level: {
-            Novice: values.Novice,
-            Intermediate: values.Intermediate,
-            Advanced: values.Advanced,
+            "Unrelated field": values.un_related,
+            "related field": values.related,
           },
           weight: values.weight / 100,
         },
@@ -42,12 +41,13 @@ const Education = () => {
       Swal.fire(error.response, "", "error");
     } finally {
       setLoading(false);
+      form.resetFields();
     }
   };
 
   return (
     <div>
-      <Form name="common" onFinish={onFinish} autoComplete="off">
+      <Form form={form} name="common" onFinish={onFinish} autoComplete="off">
         <div className="flex flex-row justify-between">
           <Form.Item
             name="operation"

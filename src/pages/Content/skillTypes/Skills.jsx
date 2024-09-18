@@ -47,6 +47,7 @@ const Skills = () => {
       );
     } finally {
       setLoading(false);
+      form.resetFields();
     }
   };
 
