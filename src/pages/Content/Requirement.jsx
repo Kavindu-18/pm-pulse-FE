@@ -223,7 +223,7 @@ const Requirement = () => {
           </div>
           <div className="flex flex-row justify-between">
             <Form.Item
-              label="Schedule Variance"
+              label="Potential Delay (In Days)"
               name="Date_Difference"
               rules={[
                 {
