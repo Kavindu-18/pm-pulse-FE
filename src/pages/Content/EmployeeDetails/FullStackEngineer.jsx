@@ -18,8 +18,10 @@ const FullStackEngineer = () => {
       const res = await axios.post("employee/insert", {
         role: "FullStack Engineer",
         insert_json: {
-          name: values.name,
-
+          "Name": values.name,
+          "Age": values.age,
+          "Home Town": values.home,
+          "Phone Number": values.phone,
           "Proficiency in Frontend Technologies":
             values.Proficiency_in_Frontend_Technologies,
           "Proficiency in Backend Technologies ":

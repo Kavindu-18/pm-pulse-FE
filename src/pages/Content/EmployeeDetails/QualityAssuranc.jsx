@@ -18,6 +18,10 @@ const QualityAssuranc = () => {
       const res = await axios.post("employee/insert", {
         role: "Quality Assurance Engineer",
         insert_json: {
+          "Name": values.name,
+          "Age":values.age,
+          "Home Town":values.home,
+          "Phone Number":values.phone,
           "Excellent communication ": values.Excellent_communication,
           "Test Automation": values.Test_Automation,
           "Knowledge of testing methodologies":

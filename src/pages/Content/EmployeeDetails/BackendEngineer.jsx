@@ -18,6 +18,10 @@ const BackendEngineer = () => {
       const res = await axios.post("employee/insert", {
         role: "Backend Engineer",
         insert_json: {
+          "Name": values.name,
+          "Age": values.age,
+          "Home Town": values.home,
+          "Phone Number": values.phone,
           "Proficiency in Programming Languages":
             values.Proficiency_in_Programming_Languages,
           "Database Management (SQL, NoSQL)": values.Database_Management,
