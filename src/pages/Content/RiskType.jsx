@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../apis/axiosInstance";
-import { Spin, Button, Modal, Form, Input, Select } from "antd";
+import { Spin, Button, Modal, Form, Input, Select, Tag } from "antd";
+import { SyncOutlined } from "@ant-design/icons";
 
 const RiskType = () => {
   const [data, setData] = useState();
@@ -12,6 +13,7 @@ const RiskType = () => {
   const [form] = Form.useForm();
   const [currentPayload, setCurrentPayload] = useState(null);
   const [projectName, setProjectName] = useState();
+  const [pending, setPending] = useState();
 
   const { Option } = Select;
 
@@ -21,6 +23,7 @@ const RiskType = () => {
       localStorage.setItem("projects", JSON.stringify(res.data));
 
       setProjectName(res.data);
+      setPending(4);
     };
     getProjects();
   }, []);
@@ -75,6 +78,7 @@ const RiskType = () => {
 
   const onFinish = async (values) => {
     setLoading(true);
+    setPending(3);
     const projects = localStorage.getItem("projects");
     const parsedPrj = JSON.parse(projects) || [];
     const selectedProject = parsedPrj.filter((prj) => prj.Name === values.name);
@@ -84,7 +88,6 @@ const RiskType = () => {
     localStorage.setItem("SearchPayload", JSON.stringify(selectedProject[0]));
 
     const payload = selectedProject[0];
-
     if (payload) {
       try {
         const res = await axios.post("risk", {
@@ -103,6 +106,7 @@ const RiskType = () => {
           "Expected Budget": payload.Expected_Budget,
         });
         setData(res.data);
+        setPending(1);
       } catch (error) {
         setError("Error fetching data");
         console.error("Error parsing payload:", error);
@@ -174,6 +178,21 @@ const RiskType = () => {
             </Form.Item>
           </div>
         </Form>
+
+        <div>
+          Project Status :{" "}
+          {pending === 1 ? (
+            <Tag color="success">Approved</Tag>
+          ) : pending === 2 ? (
+            <Tag color="warning">Pending</Tag>
+          ) : pending === 3 ? (
+            <Tag icon={<SyncOutlined spin />} color="processing">
+              processing
+            </Tag>
+          ) : (
+            <Tag color="error">Select a Project</Tag>
+          )}
+        </div>
       </div>
       <div className="mt-10">
         {loading ? (
