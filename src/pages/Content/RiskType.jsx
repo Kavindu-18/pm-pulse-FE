@@ -14,6 +14,7 @@ const RiskType = () => {
   const [currentPayload, setCurrentPayload] = useState(null);
   const [projectName, setProjectName] = useState();
   const [pending, setPending] = useState();
+  const [isPending, setIsPending] = useState(false);
 
   const { Option } = Select;
 
@@ -132,6 +133,17 @@ const RiskType = () => {
     setIsViewPayloadModalVisible(false);
   };
 
+  const handlePending = (action) => {
+    setIsPending(action);
+  };
+  const handleApprove = (action) => {
+    if (action) {
+      alert("true");
+    } else {
+      alert("false");
+    }
+  };
+
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
@@ -184,7 +196,15 @@ const RiskType = () => {
           {pending === 1 ? (
             <Tag color="success">Approved</Tag>
           ) : pending === 2 ? (
-            <Tag color="warning">Pending</Tag>
+            <>
+              <Tag color="warning">Pending</Tag>
+
+              <div className="pt-4">
+                <Button onClick={() => handlePending(true)} type="primary">
+                  Approve / Decline
+                </Button>
+              </div>
+            </>
           ) : pending === 3 ? (
             <Tag icon={<SyncOutlined spin />} color="processing">
               processing
@@ -467,6 +487,31 @@ const RiskType = () => {
         ) : (
           <div>No payload found in local storage.</div>
         )}
+      </Modal>
+
+      <Modal
+        title="Edit Payload"
+        open={isPending}
+        footer={false}
+        onCancel={() => handlePending(false)}
+      >
+        <div>Do You Want to Approve this Project</div>
+        <div className="flex flex-row gap-2 mt-4 justify-end">
+          <div>
+            <Button onClick={() => handleApprove(true)} type="primary">
+              Approve Project
+            </Button>
+          </div>
+          <div>
+            <Button
+              onClick={() => handleApprove(false)}
+              className="bg-red-600"
+              type="primary"
+            >
+              Delete Project
+            </Button>
+          </div>
+        </div>
       </Modal>
     </div>
   );
