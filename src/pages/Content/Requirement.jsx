@@ -293,19 +293,19 @@ const Requirement = () => {
             >
               <Input type="number" />
             </Form.Item>
-            {/* <Form.Item
-              label="Number of Stakeholders"
-              name="Num_of_stackholders"
+            <Form.Item
+              label="Project Scope"
+              name="scope"
               rules={[
                 {
                   required: true,
-                  message: "Please input Stakeholders!",
+                  message: "Please input Project Scope!",
                 },
               ]}
               style={{ width: "48%" }}
             >
-              <Input type="number" />
-            </Form.Item> */}
+              <Input type="text" />
+            </Form.Item>
           </div>
 
           <Form.Item className="flex justify-end">

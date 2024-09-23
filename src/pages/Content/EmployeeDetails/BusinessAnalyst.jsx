@@ -18,10 +18,10 @@ const BusinessAnalyst = () => {
       const res = await axios.post("employee/insert", {
         role: "Business Analyst",
         insert_json: {
-          "Name": values.name,
-          "Age":values.age,
-          "Home Town":values.home,
-          "Phone Number":values.phone,
+          Name: values.name,
+          Age: values.age,
+          "Home Town": values.home,
+          "Phone Number": values.phone,
           "Analytical Skills": values.Analytical_Skills,
           "Technical Proficiency": values.Technical_Proficiency,
           "Communication Skills": values.Communication_Skills,
@@ -130,9 +130,9 @@ const BusinessAnalyst = () => {
             style={{ width: "48%" }}
           >
             <Select placeholder="--Select a Value--" allowClear>
-              <Option value="Novice">Novice</Option>
-              <Option value="Intermediate">Intermediate</Option>
-              <Option value="Advanced">Advanced</Option>
+              <Option value="Novice">Novice (20)</Option>
+              <Option value="Intermediate">Intermediate (50)</Option>
+              <Option value="Advanced">Advanced (100)</Option>
             </Select>
           </Form.Item>
 
@@ -148,9 +148,9 @@ const BusinessAnalyst = () => {
             style={{ width: "48%" }}
           >
             <Select placeholder="--Select a Value--" allowClear>
-              <Option value="Novice">Novice</Option>
-              <Option value="Intermediate">Intermediate</Option>
-              <Option value="Advanced">Advanced</Option>
+              <Option value="Novice">Novice (20)</Option>
+              <Option value="Intermediate">Intermediate (50)</Option>
+              <Option value="Advanced">Advanced (100)</Option>
             </Select>
           </Form.Item>
 
@@ -167,9 +167,9 @@ const BusinessAnalyst = () => {
               style={{ width: "48%" }}
             >
               <Select placeholder="--Select a Value--" allowClear>
-                <Option value="Novice">Novice</Option>
-                <Option value="Intermediate">Intermediate</Option>
-                <Option value="Advanced">Advanced</Option>
+                <Option value="Novice">Novice (20)</Option>
+                <Option value="Intermediate">Intermediate (50)</Option>
+                <Option value="Advanced">Advanced (100)</Option>
               </Select>
             </Form.Item>
 
@@ -185,9 +185,9 @@ const BusinessAnalyst = () => {
               style={{ width: "48%" }}
             >
               <Select placeholder="--Select a Value--" allowClear>
-                <Option value="Novice">Novice</Option>
-                <Option value="Intermediate">Intermediate</Option>
-                <Option value="Advanced">Advanced</Option>
+                <Option value="Novice">Novice (20)</Option>
+                <Option value="Intermediate">Intermediate (50)</Option>
+                <Option value="Advanced">Advanced (100)</Option>
               </Select>
             </Form.Item>
           </div>

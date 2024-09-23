@@ -32,7 +32,7 @@ const Skills = () => {
             Intermediate: values.Intermediate,
             Advanced: values.Advanced,
           },
-          weight: values.weight / 100,
+          weight: values.weight,
         },
       });
       console.log(res);
@@ -169,7 +169,7 @@ const Skills = () => {
         </Form.Item>
         <Form.Item className="flex justify-end">
           <Button type="primary" htmlType="submit" loading={loading}>
-            CRUD Operation
+            Add
           </Button>
         </Form.Item>
       </Form>

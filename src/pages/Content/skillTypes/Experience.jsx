@@ -38,7 +38,7 @@ const Experience = () => {
             "Non-Lead": values.lead,
             Leadership: values.non_lead,
           },
-          weight: values.weight / 100,
+          weight: values.weight,
         },
       });
       console.log(res);
@@ -181,7 +181,7 @@ const Experience = () => {
         </Form.Item>
         <Form.Item className="flex justify-end">
           <Button type="primary" htmlType="submit" loading={loading}>
-            CRUD Operation
+            Add
           </Button>
         </Form.Item>
       </Form>

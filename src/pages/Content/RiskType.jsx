@@ -19,11 +19,8 @@ const RiskType = () => {
     const getProjects = async () => {
       const res = await axios.get("/get-projects");
       localStorage.setItem("projects", JSON.stringify(res.data));
-      const names = res.data.map((prj) => {
-        return prj.Name;
-      });
-      console.log(names);
-      setProjectName(names);
+
+      setProjectName(res.data);
     };
     getProjects();
   }, []);
@@ -159,8 +156,8 @@ const RiskType = () => {
               style={{ width: "48%" }}
             >
               <Select placeholder="--Select a Project--" allowClear>
-                {projectName.map((name) => (
-                  <Option value={name}>{name}</Option>
+                {projectName?.map((prj) => (
+                  <Option value={prj.Name}>{prj.Name}</Option>
                 ))}
               </Select>
             </Form.Item>

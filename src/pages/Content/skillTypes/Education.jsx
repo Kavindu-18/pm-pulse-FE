@@ -30,7 +30,7 @@ const Education = () => {
             "Unrelated field": values.un_related,
             "related field": values.related,
           },
-          weight: values.weight / 100,
+          weight: values.weight,
         },
       });
 
@@ -121,7 +121,7 @@ const Education = () => {
         </Form.Item>
         <Form.Item className="flex justify-end">
           <Button type="primary" htmlType="submit" loading={loading}>
-            CRUD Operation
+            Add
           </Button>
         </Form.Item>
       </Form>
