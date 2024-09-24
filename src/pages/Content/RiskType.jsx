@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import axios from "../../apis/axiosInstance";
 import { Spin, Button, Modal, Form, Input, Select, Tag } from "antd";
 import { SyncOutlined } from "@ant-design/icons";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const RiskType = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -16,7 +19,7 @@ const RiskType = () => {
   const [pending, setPending] = useState();
   const [isPending, setIsPending] = useState(false);
 
-  const [selectedProject, setSeletedProject] = useState({})
+  const [selectedProject, setSeletedProject] = useState({});
 
   const { Option } = Select;
 
@@ -24,8 +27,12 @@ const RiskType = () => {
     const getProjects = async () => {
       const res = await axios.get("/get-projects");
       localStorage.setItem("projects", JSON.stringify(res.data));
-
-      setProjectName(res.data);
+      const selectionProjects = res.data?.filter((prj) => {
+        return prj.status === 1 || prj.status === 2;
+      });
+      console.log("res", res.data);
+      console.log("selection", selectionProjects);
+      setProjectName(selectionProjects);
       setPending(4);
     };
     getProjects();
@@ -86,13 +93,12 @@ const RiskType = () => {
     const parsedPrj = JSON.parse(projects) || [];
     const selectedProj = parsedPrj.filter((prj) => prj.Name === values.name);
 
-
     console.log(selectedProj[0]);
 
     localStorage.setItem("SearchPayload", JSON.stringify(selectedProj[0]));
 
     const payload = selectedProj[0];
-    setSeletedProject(payload)
+    setSeletedProject(payload);
     if (payload) {
       try {
         const res = await axios.post("risk", {
@@ -109,10 +115,9 @@ const RiskType = () => {
           Date_Difference: payload.Date_Difference,
           "Expected Team Size": payload.Expected_Team_Size,
           "Expected Budget": payload.Expected_Budget,
-          status: payload.status
+          status: payload.status,
         });
         setData(res.data);
-        setPending(2);
       } catch (error) {
         setError("Error fetching data");
         console.error("Error parsing payload:", error);
@@ -142,13 +147,8 @@ const RiskType = () => {
     setIsPending(action);
   };
   const handleApprove = async (action) => {
-    console.log('ava')
     if (action) {
       try {
-        console.log('ava 2')
-
-        console.log(selectedProject)
-
         const data = await axios.post("save-data", {
           Name: selectedProject.Name,
           // Num_of_stackholders:Num_of_stackholders,
@@ -167,32 +167,41 @@ const RiskType = () => {
           Expected_Budget: Number(selectedProject.Expected_Budget),
           status: 1,
         });
-
-      } catch {
-
+        handlePending(false);
+        Swal.fire("Project Approved", "", "success");
+        setTimeout(() => {
+          navigate("/projects");
+        }, 2000);
+      } catch (error) {
+        console.log(error);
       }
     } else {
       try {
-
-      } catch {
         const data = await axios.post("save-data", {
-        Name: selectedProject.Name,
-        // Num_of_stackholders:Num_of_stackholders,
-        Domain: selectedProject.Domain,
-        ML_Components: selectedProject.ML_Components,
-        Backend: selectedProject.Backend,
-        Frontend: selectedProject.Frontend,
-        Core_Features: selectedProject.Core_Features,
-        Tech_Stack: selectedProject.Tech_Stack,
-        Mobile: Number(selectedProject.Mobile),
-        Desktop: Number(selectedProject.Desktop),
-        Web: Number(selectedProject.Web),
-        IoT: Number(selectedProject.IoT),
-        Date_Difference: Number(selectedProject.Date_Difference),
-        Expected_Team_Size: Number(selectedProject.Expected_Team_Size),
-        Expected_Budget: Number(selectedProject.Expected_Budget),
-        status: 4,
-      });
+          Name: selectedProject.Name,
+          // Num_of_stackholders:Num_of_stackholders,
+          Domain: selectedProject.Domain,
+          ML_Components: selectedProject.ML_Components,
+          Backend: selectedProject.Backend,
+          Frontend: selectedProject.Frontend,
+          Core_Features: selectedProject.Core_Features,
+          Tech_Stack: selectedProject.Tech_Stack,
+          Mobile: Number(selectedProject.Mobile),
+          Desktop: Number(selectedProject.Desktop),
+          Web: Number(selectedProject.Web),
+          IoT: Number(selectedProject.IoT),
+          Date_Difference: Number(selectedProject.Date_Difference),
+          Expected_Team_Size: Number(selectedProject.Expected_Team_Size),
+          Expected_Budget: Number(selectedProject.Expected_Budget),
+          status: 4,
+        });
+        handlePending(false);
+        Swal.fire("Project Deleted", "", "success");
+        setTimeout(() => {
+          navigate("/projects");
+        }, 2000);
+      } catch (error) {
+        console.log("error");
       }
     }
   };
@@ -280,15 +289,15 @@ const RiskType = () => {
               dangerouslySetInnerHTML={{
                 __html: data.risk
                   ? data.risk
-                    .replace(
-                      /###\s*(.*)/g,
-                      "<strong style='font-size: 1.2em; margin-bottom: 16px; display: block;'>$1</strong>"
-                    ) // Make headers bold and larger
-                    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // Replace **bold text** with <strong> tags
-                    .replace(
-                      /(\d+\.\s.*)/g,
-                      "<div style='font-size: 1em; margin-bottom: 8px;'>$1</div>"
-                    ) // Change font size for sentences with numbers and display them block-level
+                      .replace(
+                        /###\s*(.*)/g,
+                        "<strong style='font-size: 1.2em; margin-bottom: 16px; display: block;'>$1</strong>"
+                      ) // Make headers bold and larger
+                      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // Replace **bold text** with <strong> tags
+                      .replace(
+                        /(\d+\.\s.*)/g,
+                        "<div style='font-size: 1em; margin-bottom: 8px;'>$1</div>"
+                      ) // Change font size for sentences with numbers and display them block-level
                   : "No Risk Data Available",
               }}
             ></p>

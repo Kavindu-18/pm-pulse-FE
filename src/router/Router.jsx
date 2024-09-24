@@ -12,6 +12,7 @@ import RiskType from "../pages/Content/RiskType";
 import Crud from "../pages/Content/Crud";
 import Requirements from "../pages/Content/Requirement";
 import { AuthGuard, ProtectedRoute } from "../guards/Authguard";
+import Projects from "../pages/Content/Projects";
 
 const router = createBrowserRouter([
   {
@@ -103,6 +104,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Crud />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "projects",
+        element: (
+          <ProtectedRoute>
+            <Projects />
           </ProtectedRoute>
         ),
       },

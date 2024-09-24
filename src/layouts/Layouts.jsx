@@ -11,7 +11,7 @@ const { Header, Sider, Content, Footer } = Layout;
 import { LuUsers2 } from "react-icons/lu";
 import { GrCircleInformation } from "react-icons/gr";
 import { TbUsersGroup, TbTopologyComplex } from "react-icons/tb";
-import { RiSkull2Fill } from "react-icons/ri";
+import { RiSkull2Fill, RiShoppingBasket2Fill } from "react-icons/ri";
 import { GrDocumentPerformance } from "react-icons/gr";
 import logo from "../assets/logoIcon.jpeg";
 import { CgProfile } from "react-icons/cg";
@@ -30,6 +30,7 @@ const AppLayout = () => {
     localStorage.removeItem("SearchPayload");
     localStorage.removeItem("user");
     localStorage.removeItem("team");
+    localStorage.removeItem("projects");
     Swal.fire({
       icon: "success",
       title: "",
@@ -65,16 +66,19 @@ const AppLayout = () => {
             <Menu.Item key="5" icon={<GrCircleInformation />}>
               <Link to="/skill">Skill Info</Link>
             </Menu.Item>
-            <Menu.Item key="9" icon={<MdOutlineAddChart />}>
+            <Menu.Item key="6" icon={<MdOutlineAddChart />}>
               <Link to="/crud">Add Skills</Link>
             </Menu.Item>
-            <Menu.Item key="6" icon={<TbUsersGroup />}>
+            <Menu.Item key="7" icon={<TbUsersGroup />}>
               <Link to="/team">Team</Link>
             </Menu.Item>
-            <Menu.Item key="7" icon={<TbTopologyComplex />}>
+            <Menu.Item key="8" icon={<TbTopologyComplex />}>
               <Link to="/complexity">Complexity</Link>
             </Menu.Item>
-            <Menu.Item key="8" icon={<RiSkull2Fill />}>
+            <Menu.Item key="9" icon={<RiShoppingBasket2Fill />}>
+              <Link to="/projects">Project Details</Link>
+            </Menu.Item>
+            <Menu.Item key="10" icon={<RiSkull2Fill />}>
               <Link to="/risk-type">Risk Type</Link>
             </Menu.Item>
           </Menu>
