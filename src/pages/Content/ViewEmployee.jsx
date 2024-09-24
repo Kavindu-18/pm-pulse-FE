@@ -6,6 +6,21 @@ const { Option } = Select;
 
 const columns = [
   {
+    title: "Name",
+    dataIndex: "Name",
+    key: "name",
+  },
+  {
+    title: "Home Town",
+    dataIndex: "Home Town",
+    key: "home town",
+  },
+  {
+    title: "Age",
+    dataIndex: "Age",
+    key: "age",
+  },
+  {
     title: "Domain",
     dataIndex: "Domain",
     key: "domain",

@@ -23,6 +23,7 @@ const Requirement = () => {
         Date_Difference: Number(values.Date_Difference),
         Expected_Team_Size: Number(values.Expected_Team_Size),
         Expected_Budget: Number(values.Expected_Budget),
+        status: 2,
       };
       const res = await axios.post("save-data", {
         Name: values.name,
@@ -40,6 +41,7 @@ const Requirement = () => {
         Date_Difference: Number(values.Date_Difference),
         Expected_Team_Size: Number(values.Expected_Team_Size),
         Expected_Budget: Number(values.Expected_Budget),
+        status: 2,
       });
 
       localStorage.setItem("SearchPayload", JSON.stringify(data));

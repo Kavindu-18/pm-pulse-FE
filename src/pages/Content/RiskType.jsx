@@ -16,6 +16,8 @@ const RiskType = () => {
   const [pending, setPending] = useState();
   const [isPending, setIsPending] = useState(false);
 
+  const [selectedProject, setSeletedProject] = useState({})
+
   const { Option } = Select;
 
   useEffect(() => {
@@ -82,13 +84,15 @@ const RiskType = () => {
     setPending(3);
     const projects = localStorage.getItem("projects");
     const parsedPrj = JSON.parse(projects) || [];
-    const selectedProject = parsedPrj.filter((prj) => prj.Name === values.name);
+    const selectedProj = parsedPrj.filter((prj) => prj.Name === values.name);
+    
 
-    console.log(selectedProject[0]);
+    console.log(selectedProj[0]);
 
-    localStorage.setItem("SearchPayload", JSON.stringify(selectedProject[0]));
+    localStorage.setItem("SearchPayload", JSON.stringify(selectedProj[0]));
 
-    const payload = selectedProject[0];
+    const payload = selectedProj[0];
+    setSeletedProject(payload)
     if (payload) {
       try {
         const res = await axios.post("risk", {
@@ -105,9 +109,10 @@ const RiskType = () => {
           Date_Difference: payload.Date_Difference,
           "Expected Team Size": payload.Expected_Team_Size,
           "Expected Budget": payload.Expected_Budget,
+          status: payload.status
         });
         setData(res.data);
-        setPending(1);
+        setPending(2);
       } catch (error) {
         setError("Error fetching data");
         console.error("Error parsing payload:", error);
@@ -136,9 +141,36 @@ const RiskType = () => {
   const handlePending = (action) => {
     setIsPending(action);
   };
-  const handleApprove = (action) => {
+  const handleApprove = async(action) => {
+    console.log('ava')
     if (action) {
-      alert("true");
+      try {
+        console.log('ava 2')
+
+        console.log(selectedProject)
+
+        const data = await axios.post("save-data", {
+          Name: selectedProject.Name,
+          // Num_of_stackholders:Num_of_stackholders,
+          Domain: selectedProject.Domain,
+          ML_Components: selectedProject.ML_Components,
+          Backend: selectedProject.Backend,
+          Frontend: selectedProject.Frontend,
+          Core_Features: selectedProject.Core_Features,
+          Tech_Stack: selectedProject.Tech_Stack,
+          Mobile: Number(selectedProject.Mobile),
+          Desktop: Number(selectedProject.Desktop),
+          Web: Number(selectedProject.Web),
+          IoT: Number(selectedProject.IoT),
+          Date_Difference: Number(selectedProject.Date_Difference),
+          Expected_Team_Size: Number(selectedProject.Expected_Team_Size),
+          Expected_Budget: Number(selectedProject.Expected_Budget),
+          status: 1,
+        });
+
+      } catch {
+
+      }
     } else {
       alert("false");
     }
@@ -193,9 +225,9 @@ const RiskType = () => {
 
         <div>
           Project Status :{" "}
-          {pending === 1 ? (
+          {selectedProject.status === 1 ? (
             <Tag color="success">Approved</Tag>
-          ) : pending === 2 ? (
+          ) : selectedProject.status === 2 ? (
             <>
               <Tag color="warning">Pending</Tag>
 
@@ -205,7 +237,7 @@ const RiskType = () => {
                 </Button>
               </div>
             </>
-          ) : pending === 3 ? (
+          ) : selectedProject.status === 3 ? (
             <Tag icon={<SyncOutlined spin />} color="processing">
               processing
             </Tag>
@@ -227,15 +259,15 @@ const RiskType = () => {
               dangerouslySetInnerHTML={{
                 __html: data.risk
                   ? data.risk
-                      .replace(
-                        /###\s*(.*)/g,
-                        "<strong style='font-size: 1.2em; margin-bottom: 16px; display: block;'>$1</strong>"
-                      ) // Make headers bold and larger
-                      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // Replace **bold text** with <strong> tags
-                      .replace(
-                        /(\d+\.\s.*)/g,
-                        "<div style='font-size: 1em; margin-bottom: 8px;'>$1</div>"
-                      ) // Change font size for sentences with numbers and display them block-level
+                    .replace(
+                      /###\s*(.*)/g,
+                      "<strong style='font-size: 1.2em; margin-bottom: 16px; display: block;'>$1</strong>"
+                    ) // Make headers bold and larger
+                    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // Replace **bold text** with <strong> tags
+                    .replace(
+                      /(\d+\.\s.*)/g,
+                      "<div style='font-size: 1em; margin-bottom: 8px;'>$1</div>"
+                    ) // Change font size for sentences with numbers and display them block-level
                   : "No Risk Data Available",
               }}
             ></p>
