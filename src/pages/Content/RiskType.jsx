@@ -85,7 +85,7 @@ const RiskType = () => {
     const projects = localStorage.getItem("projects");
     const parsedPrj = JSON.parse(projects) || [];
     const selectedProj = parsedPrj.filter((prj) => prj.Name === values.name);
-    
+
 
     console.log(selectedProj[0]);
 
@@ -141,7 +141,7 @@ const RiskType = () => {
   const handlePending = (action) => {
     setIsPending(action);
   };
-  const handleApprove = async(action) => {
+  const handleApprove = async (action) => {
     console.log('ava')
     if (action) {
       try {
@@ -172,7 +172,28 @@ const RiskType = () => {
 
       }
     } else {
-      alert("false");
+      try {
+
+      } catch {
+        const data = await axios.post("save-data", {
+        Name: selectedProject.Name,
+        // Num_of_stackholders:Num_of_stackholders,
+        Domain: selectedProject.Domain,
+        ML_Components: selectedProject.ML_Components,
+        Backend: selectedProject.Backend,
+        Frontend: selectedProject.Frontend,
+        Core_Features: selectedProject.Core_Features,
+        Tech_Stack: selectedProject.Tech_Stack,
+        Mobile: Number(selectedProject.Mobile),
+        Desktop: Number(selectedProject.Desktop),
+        Web: Number(selectedProject.Web),
+        IoT: Number(selectedProject.IoT),
+        Date_Difference: Number(selectedProject.Date_Difference),
+        Expected_Team_Size: Number(selectedProject.Expected_Team_Size),
+        Expected_Budget: Number(selectedProject.Expected_Budget),
+        status: 4,
+      });
+      }
     }
   };
 
