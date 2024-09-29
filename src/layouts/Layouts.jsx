@@ -18,6 +18,7 @@ import { CgProfile } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { MdOutlineAddChart } from "react-icons/md";
+import { BsGearWideConnected } from "react-icons/bs";
 
 const AppLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -80,6 +81,9 @@ const AppLayout = () => {
             </Menu.Item>
             <Menu.Item key="10" icon={<RiSkull2Fill />}>
               <Link to="/risk-type">Risk Type</Link>
+            </Menu.Item>
+            <Menu.Item key="11" icon={<BsGearWideConnected />}>
+              <Link to="/sdlc">SDLC</Link>
             </Menu.Item>
           </Menu>
           <Footer

@@ -13,6 +13,7 @@ import Crud from "../pages/Content/Crud";
 import Requirements from "../pages/Content/Requirement";
 import { AuthGuard, ProtectedRoute } from "../guards/Authguard";
 import Projects from "../pages/Content/Projects";
+import SDLC from "../pages/Content/SDLC";
 
 const router = createBrowserRouter([
   {
@@ -112,6 +113,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Projects />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "sdlc",
+        element: (
+          <ProtectedRoute>
+            <SDLC />
           </ProtectedRoute>
         ),
       },

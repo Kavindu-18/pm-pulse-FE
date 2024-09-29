@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Form, Input, message, Select } from "antd";
 import Swal from "sweetalert2";
 import axios from "../../apis/axiosInstance";
 
 const Requirement = () => {
   const [form] = Form.useForm();
+  const [isOther, setIsOther] = useState(false);
   const onFinish = async (values) => {
     console.log("Success:", values);
     try {
@@ -29,27 +30,27 @@ const Requirement = () => {
         team_experience: values.team_experience,
       };
 
-      // const res = await axios.post("save-data", {
-      //   Name: values.name,
-      //   // Num_of_stackholders:Num_of_stackholders,
-      //   Domain: values.domain,
-      //   ML_Components: values.ML_Components,
-      //   Backend: values.Backend,
-      //   Frontend: values.Frontend,
-      //   Core_Features: values.Core_Features,
-      //   Tech_Stack: values.Tech_Stack,
-      //   Mobile: Number(values.Mobile),
-      //   Desktop: Number(values.Desktop),
-      //   Web: Number(values.Web),
-      //   IoT: Number(values.IoT),
-      //   Date_Difference: Number(values.Date_Difference),
-      //   Expected_Team_Size: Number(values.Expected_Team_Size),
-      //   Expected_Budget: Number(values.Expected_Budget),
-      //   status: 2,
-      //   project_scope: values.project_scope,
-      //   requirement_specifity: values.requirement_specifity,
-      //   team_experience: values.team_experience,
-      // });
+      const res = await axios.post("save-data", {
+        Name: values.name,
+        // Num_of_stackholders:Num_of_stackholders,
+        Domain: values.domain,
+        ML_Components: values.ML_Components,
+        Backend: values.Backend,
+        Frontend: values.Frontend,
+        Core_Features: values.Core_Features,
+        Tech_Stack: values.Tech_Stack,
+        Mobile: Number(values.Mobile),
+        Desktop: Number(values.Desktop),
+        Web: Number(values.Web),
+        IoT: Number(values.IoT),
+        Date_Difference: Number(values.Date_Difference),
+        Expected_Team_Size: Number(values.Expected_Team_Size),
+        Expected_Budget: Number(values.Expected_Budget),
+        status: 2,
+        project_scope: values.project_scope,
+        requirement_specifity: values.requirement_specifity,
+        team_experience: values.team_experience,
+      });
 
       localStorage.setItem("SearchPayload", JSON.stringify(data));
       Swal.fire("Details Saved", "", "success");
@@ -58,6 +59,10 @@ const Requirement = () => {
     } finally {
       form.resetFields();
     }
+  };
+
+  const handleOnChange = (value) => {
+    setIsOther(value === "Other");
   };
 
   return (
@@ -78,23 +83,6 @@ const Requirement = () => {
               style={{ width: "48%" }}
             >
               <Input type="text" />
-            </Form.Item>
-            <Form.Item
-              label="Project Scope"
-              name="project_scope"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input Project scope!",
-                },
-              ]}
-              style={{ width: "48%" }}
-            >
-              <Select placeholder="--Select a value--" allowClear>
-                <Option value="Small">Small</Option>
-                <Option value="Medium">Medium</Option>
-                <Option value="Large">Large</Option>
-              </Select>
             </Form.Item>
           </div>
           <div className="flex flex-row justify-between">
@@ -154,13 +142,34 @@ const Requirement = () => {
                 <Option value="Education">Education</Option>
               </Select>
             </Form.Item>
-
+            <Form.Item
+              label="Project Scope"
+              name="project_scope"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input Project scope!",
+                },
+              ]}
+              style={{ width: "48%" }}
+            >
+              <Select placeholder="--Select a value--" allowClear>
+                <Option value="Wide">Wide</Option>
+                <Option value="Medium">Medium</Option>
+              </Select>
+            </Form.Item>
+          </div>
+          <div className="flex flex-row justify-between">
             <Form.Item
               label="ML Component"
               name="ML_Components"
               style={{ width: "48%" }}
             >
-              <Select placeholder="--Select a ML Component--" allowClear>
+              <Select
+                onChange={handleOnChange}
+                placeholder="--Select a ML Component--"
+                allowClear
+              >
                 <Option value="Prediction Model">Prediction Model</Option>
                 <Option value="Recommendation Engine">
                   Recommendation Engine
@@ -171,8 +180,14 @@ const Requirement = () => {
                 <Option value="Clustering Algorithm">
                   Clustering Algorithm
                 </Option>
+                <Option value="Other"></Option>
               </Select>
             </Form.Item>
+            {isOther && (
+              <Form.Item label="Other" name="other" style={{ width: "48%" }}>
+                <Input type="text" />
+              </Form.Item>
+            )}
           </div>
           <div className="flex flex-row justify-between">
             <Form.Item

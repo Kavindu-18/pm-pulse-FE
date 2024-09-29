@@ -221,9 +221,9 @@ const RiskType = () => {
       <div className="flex justify-between items-center mb-4">
         <div className="text-2xl">Risk Analysis</div>
         <div>
-          <Button onClick={reCalculate} type="primary" className="mr-2">
+          {/* <Button onClick={reCalculate} type="primary" className="mr-2">
             Re Calculate
-          </Button>
+          </Button> */}
           <Button onClick={handleViewPayload} type="default">
             View Current Payload
           </Button>

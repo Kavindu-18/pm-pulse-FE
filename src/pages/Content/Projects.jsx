@@ -34,6 +34,11 @@ const columns = [
     key: "Tech_Stack",
   },
   {
+    title: "Project Scope",
+    dataIndex: "project_scope",
+    key: "project_scope",
+  },
+  {
     title: "Status",
     dataIndex: "status",
     key: "status",
@@ -52,11 +57,6 @@ const columns = [
         </>
       );
     },
-  },
-  {
-    title: "Project Scope",
-    dataIndex: "Project Scope",
-    key: "Project Scope",
   },
 ];
 
@@ -83,7 +83,7 @@ const Projects = () => {
 
   return (
     <div>
-      <div className="text-2xl pb-10">View Projects</div>
+      <div className="text-2xl pb-10">Admin Approve Status</div>
       <div>
         {error && <div style={{ color: "red" }}>{error}</div>}
         <Table columns={columns} dataSource={data} loading={loading} />
