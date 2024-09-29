@@ -71,6 +71,7 @@ const RiskType = () => {
         Date_Difference: updatedPayload.Date_Difference,
         "Expected Team Size": updatedPayload.Expected_Team_Size,
         "Expected Budget": updatedPayload.Expected_Budget,
+        project_scope: updatedPayload.project_scope,
       });
 
       setData(res.data);
@@ -116,6 +117,9 @@ const RiskType = () => {
           "Expected Team Size": payload.Expected_Team_Size,
           "Expected Budget": payload.Expected_Budget,
           status: payload.status,
+          "Project Scope": payload.project_scope,
+          "Requirement specifity": payload.requirement_specifity,
+          "Team Experience": payload.team_experience,
         });
         setData(res.data);
       } catch (error) {
@@ -166,6 +170,9 @@ const RiskType = () => {
           Expected_Team_Size: Number(selectedProject.Expected_Team_Size),
           Expected_Budget: Number(selectedProject.Expected_Budget),
           status: 1,
+          project_scope: selectedProject.project_scope,
+          requirement_specification: selectedProject.requirement_specification,
+          team_experience: selectedProject.team_experience,
         });
         handlePending(false);
         Swal.fire("Project Approved", "", "success");
@@ -194,6 +201,9 @@ const RiskType = () => {
           Expected_Team_Size: Number(selectedProject.Expected_Team_Size),
           Expected_Budget: Number(selectedProject.Expected_Budget),
           status: 4,
+          project_scope: selectedProject.project_scope,
+          requirement_specification: selectedProject.requirement_specification,
+          team_experience: selectedProject.team_experience,
         });
         handlePending(false);
         Swal.fire("Project Deleted", "", "success");

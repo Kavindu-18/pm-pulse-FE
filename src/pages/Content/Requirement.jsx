@@ -24,25 +24,32 @@ const Requirement = () => {
         Expected_Team_Size: Number(values.Expected_Team_Size),
         Expected_Budget: Number(values.Expected_Budget),
         status: 2,
+        project_scope: values.project_scope,
+        requirement_specifity: values.requirement_specifity,
+        team_experience: values.team_experience,
       };
-      const res = await axios.post("save-data", {
-        Name: values.name,
-        // Num_of_stackholders:Num_of_stackholders,
-        Domain: values.domain,
-        ML_Components: values.ML_Components,
-        Backend: values.Backend,
-        Frontend: values.Frontend,
-        Core_Features: values.Core_Features,
-        Tech_Stack: values.Tech_Stack,
-        Mobile: Number(values.Mobile),
-        Desktop: Number(values.Desktop),
-        Web: Number(values.Web),
-        IoT: Number(values.IoT),
-        Date_Difference: Number(values.Date_Difference),
-        Expected_Team_Size: Number(values.Expected_Team_Size),
-        Expected_Budget: Number(values.Expected_Budget),
-        status: 2,
-      });
+
+      // const res = await axios.post("save-data", {
+      //   Name: values.name,
+      //   // Num_of_stackholders:Num_of_stackholders,
+      //   Domain: values.domain,
+      //   ML_Components: values.ML_Components,
+      //   Backend: values.Backend,
+      //   Frontend: values.Frontend,
+      //   Core_Features: values.Core_Features,
+      //   Tech_Stack: values.Tech_Stack,
+      //   Mobile: Number(values.Mobile),
+      //   Desktop: Number(values.Desktop),
+      //   Web: Number(values.Web),
+      //   IoT: Number(values.IoT),
+      //   Date_Difference: Number(values.Date_Difference),
+      //   Expected_Team_Size: Number(values.Expected_Team_Size),
+      //   Expected_Budget: Number(values.Expected_Budget),
+      //   status: 2,
+      //   project_scope: values.project_scope,
+      //   requirement_specifity: values.requirement_specifity,
+      //   team_experience: values.team_experience,
+      // });
 
       localStorage.setItem("SearchPayload", JSON.stringify(data));
       Swal.fire("Details Saved", "", "success");
@@ -56,21 +63,40 @@ const Requirement = () => {
   return (
     <div>
       <div className="text-2xl">Requirements</div>
-      <div className="mt-10">
+      <div className="mt-10 ">
         <Form name="common" onFinish={onFinish} autoComplete="off">
-          <Form.Item
-            label="Project Name"
-            name="name"
-            rules={[
-              {
-                required: true,
-                message: "Please input project name",
-              },
-            ]}
-            style={{ width: "48%" }}
-          >
-            <Input type="text" />
-          </Form.Item>
+          <div className="flex flex-row justify-between">
+            <Form.Item
+              label="Project Name"
+              name="name"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input project name",
+                },
+              ]}
+              style={{ width: "48%" }}
+            >
+              <Input type="text" />
+            </Form.Item>
+            <Form.Item
+              label="Project Scope"
+              name="project_scope"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input Project scope!",
+                },
+              ]}
+              style={{ width: "48%" }}
+            >
+              <Select placeholder="--Select a value--" allowClear>
+                <Option value="Small">Small</Option>
+                <Option value="Medium">Medium</Option>
+                <Option value="Large">Large</Option>
+              </Select>
+            </Form.Item>
+          </div>
           <div className="flex flex-row justify-between">
             <Form.Item
               name="Backend"
@@ -296,17 +322,36 @@ const Requirement = () => {
               <Input type="number" />
             </Form.Item>
             <Form.Item
-              label="Project Scope"
-              name="scope"
+              label="Team Experience"
+              name="team_experience"
               rules={[
                 {
                   required: true,
-                  message: "Please input Project Scope!",
+                  message: "Please Select Team Experience!",
                 },
               ]}
               style={{ width: "48%" }}
             >
-              <Input type="text" />
+              <Select placeholder="--Select one--" allowClear>
+                <Option value="High">High</Option>
+              </Select>
+            </Form.Item>
+          </div>
+          <div className="flex flex-row justify-between">
+            <Form.Item
+              label="Requirement specifity"
+              name="requirement_specifity"
+              rules={[
+                {
+                  required: true,
+                  message: "Please Select Requirement Specifity!",
+                },
+              ]}
+              style={{ width: "48%" }}
+            >
+              <Select placeholder="--Select one--" allowClear>
+                <Option value="Well defined">Well Defined</Option>
+              </Select>
             </Form.Item>
           </div>
 

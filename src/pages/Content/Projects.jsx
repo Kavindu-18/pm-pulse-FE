@@ -26,7 +26,7 @@ const columns = [
   {
     title: "Expected Budget",
     dataIndex: "Expected_Budget",
-    key: "Expected_Budget", // Corrected key spelling
+    key: "Expected_Budget",
   },
   {
     title: "Tech Stack",
@@ -43,9 +43,7 @@ const columns = [
           {record.status === 1 ? (
             <Tag color="success">Approved</Tag>
           ) : record.status === 2 ? (
-            <>
-              <Tag color="warning">Pending</Tag>
-            </>
+            <Tag color="warning">Pending</Tag>
           ) : record.status === 4 ? (
             <Tag color="error">Deleted</Tag>
           ) : (
@@ -55,30 +53,40 @@ const columns = [
       );
     },
   },
+  {
+    title: "Project Scope",
+    dataIndex: "Project Scope",
+    key: "Project Scope",
+  },
 ];
 
 const Projects = () => {
-  const [data, setData] = useState();
-  const [loading, setLoading] = useState(false); // Added loading state
-  const [error, setError] = useState(null); // Added error state
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
   useEffect(() => {
     const getProjects = async () => {
+      setLoading(true);
       try {
         const res = await axios.get("/get-projects");
         setData(res.data);
       } catch (error) {
         setError("Error fetching data");
-        console.log(error);
+        console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
     getProjects();
   }, []);
+
   return (
     <div>
-      <div className="text-2xl pb-10">View Employee</div>
+      <div className="text-2xl pb-10">View Projects</div>
       <div>
         {error && <div style={{ color: "red" }}>{error}</div>}
-        <Table columns={columns} dataSource={data} loading={loading} />{" "}
+        <Table columns={columns} dataSource={data} loading={loading} />
       </div>
     </div>
   );

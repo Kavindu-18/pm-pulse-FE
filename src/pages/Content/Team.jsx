@@ -42,6 +42,9 @@ const Team = () => {
             Date_Difference: payload.Date_Difference,
             "Expected Team Size": payload.Expected_Team_Size,
             "Expected Budget": payload.Expected_Budget,
+            "Project Scope": payload.project_scope,
+            "Requirement specifity": payload.requirement_specifity,
+            "Team Experience": payload.team_experience,
           });
           const formattedData = Object.keys(res.data.selected_team).map(
             (role) => ({
