@@ -349,6 +349,8 @@ const Requirement = () => {
             >
               <Select placeholder="--Select one--" allowClear>
                 <Option value="High">High</Option>
+                <Option value="Medium">Medium</Option>
+                <Option value="Low">Low</Option>
               </Select>
             </Form.Item>
           </div>
