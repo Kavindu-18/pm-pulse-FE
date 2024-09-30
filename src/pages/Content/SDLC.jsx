@@ -4,6 +4,16 @@ import { Spin, Button, Modal, Form, Input, Select, Tag } from "antd";
 import { SyncOutlined } from "@ant-design/icons";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
 const SDLC = () => {
   const navigate = useNavigate();
@@ -85,6 +95,13 @@ const SDLC = () => {
     }
   };
 
+  const prepareChartData = (baseTime) => {
+    return Object.keys(baseTime).map((key) => ({
+      name: key,
+      time: baseTime[key],
+    }));
+  };
+
   const formatSDLCData = (sdlc) => {
     return sdlc
       .replace(
@@ -96,6 +113,9 @@ const SDLC = () => {
         /- (.*?)(?=\n|$)/g,
         "<div style='font-size: 1em; margin-bottom: 8px;'>- $1</div>"
       );
+  };
+  const calculateSum = (baseTime) => {
+    return Object.values(baseTime).reduce((sum, value) => sum + value, 0);
   };
 
   const handleViewPayload = () => {
@@ -187,6 +207,28 @@ const SDLC = () => {
           <Spin />
         ) : data ? (
           <div>
+            <p>
+              {" "}
+              {/* Line Chart for Base Time */}
+              {data && (
+                <ResponsiveContainer width="100%" height={400}>
+                  <LineChart
+                    data={prepareChartData(data.base_time)}
+                    margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="time" stroke="#8884d8" />
+                  </LineChart>
+                </ResponsiveContainer>
+              )}
+            </p>
+            <div className="mt-4 text-lg text-center font-bold pb-10">
+              Total Time: {calculateSum(data.base_time)} Days
+            </div>
             <p
               dangerouslySetInnerHTML={{
                 __html: data.sdlc
