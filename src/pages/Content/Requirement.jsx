@@ -368,6 +368,8 @@ const Requirement = () => {
             >
               <Select placeholder="--Select one--" allowClear>
                 <Option value="Well defined">Well Defined</Option>
+                <Option value="Average">Average</Option>
+                <Option value="Poor">Poor</Option>
               </Select>
             </Form.Item>
           </div>
