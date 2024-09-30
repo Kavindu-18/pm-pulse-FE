@@ -22,7 +22,7 @@ const Experience = () => {
     setLoading(true); // Start loading
     setError(null); // Reset error state
     try {
-      const res = await axios.post("kpi/crud", {
+      const res = await axios.post("http://localhost:5001/kpi/crud", {
         operation: values.operation,
         role: values.role,
         crud_json: {
@@ -71,8 +71,6 @@ const Experience = () => {
           >
             <Radio.Group onChange={onChange} value={value}>
               <Radio value="add">Add</Radio>
-              <Radio value="delete">Delete</Radio>
-              <Radio value="update">Update</Radio>
             </Radio.Group>
           </Form.Item>
           <Form.Item

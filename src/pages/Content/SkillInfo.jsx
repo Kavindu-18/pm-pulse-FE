@@ -25,6 +25,22 @@ const SkillInfo = () => {
           dataIndex: key,
           key: key,
         }));
+
+        // Add a delete column with a delete button
+        dynamicColumns.push({
+          title: "Action",
+          key: "action",
+          render: (_, record) => (
+            <Button
+              type="primary"
+              danger
+              onClick={() => handleDelete(record, values.role)}
+            >
+              Delete
+            </Button>
+          ),
+        });
+
         setColumns(dynamicColumns);
       }
 
@@ -32,6 +48,31 @@ const SkillInfo = () => {
     } catch (error) {
       setError("Error fetching data");
       console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (record, role) => {
+    setLoading(true);
+    setError(null);
+    try {
+      // Assuming there's an API endpoint to delete the record
+      await axios.post("kpi/crud", {
+        operation: "delete",
+        role: role,
+        crud_json: {
+          type: record.Type,
+          criteria: record.Criteria,
+          weight: record.Weight,
+        },
+      });
+
+      // Remove the deleted record from the local state
+      window.location.reload();
+    } catch (error) {
+      setError("Error deleting record");
+      console.error("Error deleting record:", error);
     } finally {
       setLoading(false);
     }
