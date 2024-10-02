@@ -21,7 +21,7 @@ const Requirement = () => {
         Desktop: Number(values.Desktop),
         Web: Number(values.Web),
         IoT: Number(values.IoT),
-        Date_Difference: Number(values.Date_Difference),
+        Date_Difference: 0,
         Expected_Team_Size: Number(values.Expected_Team_Size),
         Expected_Budget: Number(values.Expected_Budget),
         status: 2,
@@ -43,7 +43,7 @@ const Requirement = () => {
         Desktop: Number(values.Desktop),
         Web: Number(values.Web),
         IoT: Number(values.IoT),
-        Date_Difference: Number(values.Date_Difference),
+        Date_Difference: 0,
         Expected_Team_Size: Number(values.Expected_Team_Size),
         Expected_Budget: Number(values.Expected_Budget),
         status: 2,
@@ -296,17 +296,21 @@ const Requirement = () => {
           </div>
           <div className="flex flex-row justify-between">
             <Form.Item
-              label="Potential Delay (In Days)"
-              name="Date_Difference"
+              label="Requirement specifity"
+              name="requirement_specifity"
               rules={[
                 {
                   required: true,
-                  message: "Please input Shcedule Variance!",
+                  message: "Please Select Requirement Specifity!",
                 },
               ]}
               style={{ width: "48%" }}
             >
-              <Input type="number" />
+              <Select placeholder="--Select one--" allowClear>
+                <Option value="Well defined">Well Defined</Option>
+                <Option value="Average">Average</Option>
+                <Option value="Poor">Poor</Option>
+              </Select>
             </Form.Item>
             <Form.Item
               label="Expected Team Size"
@@ -354,7 +358,7 @@ const Requirement = () => {
               </Select>
             </Form.Item>
           </div>
-          <div className="flex flex-row justify-between">
+          {/* <div className="flex flex-row justify-between">
             <Form.Item
               label="Requirement specifity"
               name="requirement_specifity"
@@ -372,7 +376,7 @@ const Requirement = () => {
                 <Option value="Poor">Poor</Option>
               </Select>
             </Form.Item>
-          </div>
+          </div> */}
 
           <Form.Item className="flex justify-end">
             <Button type="primary" htmlType="submit">

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form, Table, Select } from "antd";
 import axios from "../../apis/axiosInstance";
+import axios2 from "axios";
 
 const { Option } = Select;
 
@@ -58,18 +59,19 @@ const SkillInfo = () => {
     setError(null);
     try {
       // Assuming there's an API endpoint to delete the record
-      await axios.post("kpi/crud", {
-        operation: "delete",
-        role: role,
-        crud_json: {
-          criteria: record.Criteria,
-          weight: record.Weight,
-        },
-      });
+      const res = await axios2.delete(
+        `http://localhost:5001/delete-row?name=${record.Criteria}&&role=${role}`
+      );
 
+      // Show the success message from the response
+      if (res.data && res.data.message) {
+        alert(res.data.message);
+      }
+      console.log(data);
       // Remove the deleted record from the local state
-      // window.location.reload();
-      alert("deleted");
+      setData((prevData) =>
+        prevData.filter((item) => item.Criteria !== record.Criteria)
+      );
     } catch (error) {
       setError("Error deleting record");
       console.error("Error deleting record:", error);

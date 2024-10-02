@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form, Table, Select, Spin, Input, Radio } from "antd";
-import axios from "../../../apis/axiosInstance";
+// import axios from "../../../apis/axiosInstance";
+import axios from "axios";
 import Swal from "sweetalert2";
 
 const Experience = () => {
@@ -22,7 +23,7 @@ const Experience = () => {
     setLoading(true); // Start loading
     setError(null); // Reset error state
     try {
-      const res = await axios.post("kpi/crud", {
+      const res = await axios.post("http://localhost:5001/kpi/crud", {
         operation: values.operation,
         role: values.role,
         crud_json: {

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form, Select, Input, Radio } from "antd";
-import axios from "../../../apis/axiosInstance";
+// import axios from "../../../apis/axiosInstance";
+import axios from "axios";
 import Swal from "sweetalert2";
 
 const { Option } = Select; // Import Option from Select
@@ -20,7 +21,7 @@ const Education = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await axios.post("kpi/crud", {
+      const res = await axios.post("http://localhost:5001/kpi/crud", {
         operation: value,
         role: values.role,
         crud_json: {

@@ -47,7 +47,13 @@ const ViewKPI = () => {
 
   return (
     <div>
-      <div className="text-2xl">Employee's KPI</div>
+      <div className="text-2xl mb-3">Employee's KPI</div>
+      <div className="text-xl mt-2 flex justify-end">
+        KPI Score = (P1 X Wa) + (P2 X Wb) + (P3 X Wc) + ... <br />
+      </div>
+      <span className="text-md mt-3 flex justify-end">
+        P = Performance Index W = Weights in each criteria
+      </span>
       <div className="mt-10">
         <Form
           form={form}
