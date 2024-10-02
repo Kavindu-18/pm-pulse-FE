@@ -62,14 +62,14 @@ const SkillInfo = () => {
         operation: "delete",
         role: role,
         crud_json: {
-          type: record.Type,
           criteria: record.Criteria,
           weight: record.Weight,
         },
       });
 
       // Remove the deleted record from the local state
-      window.location.reload();
+      // window.location.reload();
+      alert("deleted");
     } catch (error) {
       setError("Error deleting record");
       console.error("Error deleting record:", error);

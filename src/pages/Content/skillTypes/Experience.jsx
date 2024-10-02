@@ -22,7 +22,7 @@ const Experience = () => {
     setLoading(true); // Start loading
     setError(null); // Reset error state
     try {
-      const res = await axios.post("http://localhost:5001/kpi/crud", {
+      const res = await axios.post("kpi/crud", {
         operation: values.operation,
         role: values.role,
         crud_json: {
