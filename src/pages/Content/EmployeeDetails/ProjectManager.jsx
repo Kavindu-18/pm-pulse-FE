@@ -18,8 +18,8 @@ const ProjectManager = () => {
       const res = await axios.post("employee/insert", {
         role: "Project Manager",
         insert_json: {
-          "Name": values.name,
-          "Age": values.age,
+          Name: values.name,
+          Age: values.age,
           "Home Town": values.home,
           "Phone Number": values.phone,
           "planning & scheduling": values.planning_scheduling,
@@ -357,8 +357,8 @@ const ProjectManager = () => {
               style={{ width: "48%" }}
             >
               <Select placeholder="--Select a Value--" allowClear>
-                <Option value="related">Related</Option>
-                <Option value="Unrelated">Unrelated</Option>
+                <Option value="related">Yes</Option>
+                <Option value="Unrelated">No</Option>
               </Select>
             </Form.Item>
 
@@ -374,8 +374,8 @@ const ProjectManager = () => {
               style={{ width: "48%" }}
             >
               <Select placeholder="--Select a Value--" allowClear>
-                <Option value="related">Related</Option>
-                <Option value="Unrelated">Unrelated</Option>
+                <Option value="related">Yes</Option>
+                <Option value="Unrelated">No</Option>
               </Select>
             </Form.Item>
           </div>

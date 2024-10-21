@@ -18,8 +18,8 @@ const FullStackEngineer = () => {
       const res = await axios.post("employee/insert", {
         role: "FullStack Engineer",
         insert_json: {
-          "Name": values.name,
-          "Age": values.age,
+          Name: values.name,
+          Age: values.age,
           "Home Town": values.home,
           "Phone Number": values.phone,
           "Proficiency in Frontend Technologies":
@@ -360,8 +360,8 @@ const FullStackEngineer = () => {
               style={{ width: "48%" }}
             >
               <Select placeholder="--Select a Value--" allowClear>
-                <Option value="related">Related</Option>
-                <Option value="Unrelated">Unrelated</Option>
+                <Option value="related">Yes</Option>
+                <Option value="Unrelated">No</Option>
               </Select>
             </Form.Item>
 
@@ -377,8 +377,8 @@ const FullStackEngineer = () => {
               style={{ width: "48%" }}
             >
               <Select placeholder="--Select a Value--" allowClear>
-                <Option value="related">Related</Option>
-                <Option value="Unrelated">Unrelated</Option>
+                <Option value="related">Yes</Option>
+                <Option value="Unrelated">No</Option>
               </Select>
             </Form.Item>
           </div>

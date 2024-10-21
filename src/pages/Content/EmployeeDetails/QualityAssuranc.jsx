@@ -18,10 +18,10 @@ const QualityAssuranc = () => {
       const res = await axios.post("employee/insert", {
         role: "Quality Assurance Engineer",
         insert_json: {
-          "Name": values.name,
-          "Age":values.age,
-          "Home Town":values.home,
-          "Phone Number":values.phone,
+          Name: values.name,
+          Age: values.age,
+          "Home Town": values.home,
+          "Phone Number": values.phone,
           "Excellent communication ": values.Excellent_communication,
           "Test Automation": values.Test_Automation,
           "Knowledge of testing methodologies":
@@ -336,8 +336,8 @@ const QualityAssuranc = () => {
               style={{ width: "48%" }}
             >
               <Select placeholder="--Select a Value--" allowClear>
-                <Option value="related">Related</Option>
-                <Option value="Unrelated">Unrelated</Option>
+                <Option value="related">Yes</Option>
+                <Option value="Unrelated">No</Option>
               </Select>
             </Form.Item>
 
@@ -353,8 +353,8 @@ const QualityAssuranc = () => {
               style={{ width: "48%" }}
             >
               <Select placeholder="--Select a Value--" allowClear>
-                <Option value="related">Related</Option>
-                <Option value="Unrelated">Unrelated</Option>
+                <Option value="related">Yes</Option>
+                <Option value="Unrelated">No</Option>
               </Select>
             </Form.Item>
           </div>

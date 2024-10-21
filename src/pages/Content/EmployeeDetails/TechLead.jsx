@@ -18,8 +18,8 @@ const TechLead = () => {
       const res = await axios.post("employee/insert", {
         role: "Tech Lead",
         insert_json: {
-          "Name": values.name,
-          "Age": values.age,
+          Name: values.name,
+          Age: values.age,
           "Home Town": values.home,
           "Phone Number": values.phone,
           "Technical Expertise": values.Technical_Expertise,
@@ -339,8 +339,8 @@ const TechLead = () => {
               style={{ width: "48%" }}
             >
               <Select placeholder="--Select a Value--" allowClear>
-                <Option value="related">Related</Option>
-                <Option value="Unrelated">Unrelated</Option>
+                <Option value="related">Yes</Option>
+                <Option value="Unrelated">No</Option>
               </Select>
             </Form.Item>
 
@@ -356,8 +356,8 @@ const TechLead = () => {
               style={{ width: "48%" }}
             >
               <Select placeholder="--Select a Value--" allowClear>
-                <Option value="related">Related</Option>
-                <Option value="Unrelated">Unrelated</Option>
+                <Option value="related">Yes</Option>
+                <Option value="Unrelated">No</Option>
               </Select>
             </Form.Item>
           </div>

@@ -339,8 +339,8 @@ const BusinessAnalyst = () => {
               style={{ width: "48%" }}
             >
               <Select placeholder="--Select a Value--" allowClear>
-                <Option value="related">Related</Option>
-                <Option value="Unrelated">Unrelated</Option>
+                <Option value="related">Yes</Option>
+                <Option value="Unrelated">No</Option>
               </Select>
             </Form.Item>
 
@@ -356,8 +356,8 @@ const BusinessAnalyst = () => {
               style={{ width: "48%" }}
             >
               <Select placeholder="--Select a Value--" allowClear>
-                <Option value="related">Related</Option>
-                <Option value="Unrelated">Unrelated</Option>
+                <Option value="related">Yes</Option>
+                <Option value="Unrelated">No</Option>
               </Select>
             </Form.Item>
           </div>
