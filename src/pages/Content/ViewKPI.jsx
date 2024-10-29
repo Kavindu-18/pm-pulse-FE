@@ -11,7 +11,7 @@ const columns = [
     key: "empId",
   },
   {
-    title: "KPI Value",
+    title: "KPI Value (out of 100)",
     dataIndex: "KPI",
     key: "kpi",
   },

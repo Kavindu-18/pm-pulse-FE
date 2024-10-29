@@ -26,7 +26,7 @@ const columns = [
     key: "domain",
   },
   {
-    title: "KPI Value",
+    title: "KPI Value (out of 100)",
     dataIndex: "KPI",
     key: "kpi",
   },
