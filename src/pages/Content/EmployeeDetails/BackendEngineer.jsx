@@ -340,8 +340,8 @@ const BackendEngineer = () => {
               style={{ width: "48%" }}
             >
               <Select placeholder="--Select a Value--" allowClear>
-                <Option value="related">Yes (50)</Option>
-                <Option value="Unrelated">No (100)</Option>
+                <Option value="related">Yes (100)</Option>
+                <Option value="Unrelated">No (50)</Option>
               </Select>
             </Form.Item>
 
@@ -357,8 +357,8 @@ const BackendEngineer = () => {
               style={{ width: "48%" }}
             >
               <Select placeholder="--Select a Value--" allowClear>
-                <Option value="related">Yes (50)</Option>
-                <Option value="Unrelated">No (100)</Option>
+                <Option value="related">Yes (100)</Option>
+                <Option value="Unrelated">No (50)</Option>
               </Select>
             </Form.Item>
           </div>
