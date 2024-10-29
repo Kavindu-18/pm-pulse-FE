@@ -130,9 +130,9 @@ const ProjectManager = () => {
             style={{ width: "48%" }}
           >
             <Select placeholder="--Select a Value--" allowClear>
-              <Option value="Novice">Novice</Option>
-              <Option value="Intermediate">Intermediate</Option>
-              <Option value="Advanced">Advanced</Option>
+              <Option value="Novice">Novice (20)</Option>
+              <Option value="Intermediate">Intermediate (50)</Option>
+              <Option value="Advanced">Advanced (100)</Option>
             </Select>
           </Form.Item>
           <Form.Item
@@ -148,9 +148,9 @@ const ProjectManager = () => {
             style={{ width: "48%" }}
           >
             <Select placeholder="--Select a Value--" allowClear>
-              <Option value="Novice">Novice</Option>
-              <Option value="Intermediate">Intermediate</Option>
-              <Option value="Advanced">Advanced</Option>
+              <Option value="Novice">Novice (20)</Option>
+              <Option value="Intermediate">Intermediate (50)</Option>
+              <Option value="Advanced">Advanced (100)</Option>
             </Select>
           </Form.Item>
           <div className="flex flex-row justify-between">
@@ -166,9 +166,9 @@ const ProjectManager = () => {
               style={{ width: "48%" }}
             >
               <Select placeholder="--Select a Value--" allowClear>
-                <Option value="Novice">Novice</Option>
-                <Option value="Intermediate">Intermediate</Option>
-                <Option value="Advanced">Advanced</Option>
+                <Option value="Novice">Novice (20)</Option>
+                <Option value="Intermediate">Intermediate (50)</Option>
+                <Option value="Advanced">Advanced (100)</Option>
               </Select>
             </Form.Item>
             <Form.Item
@@ -183,9 +183,9 @@ const ProjectManager = () => {
               style={{ width: "48%" }}
             >
               <Select placeholder="--Select a Value--" allowClear>
-                <Option value="Novice">Novice</Option>
-                <Option value="Intermediate">Intermediate</Option>
-                <Option value="Advanced">Advanced</Option>
+                <Option value="Novice">Novice (20)</Option>
+                <Option value="Intermediate">Intermediate (50)</Option>
+                <Option value="Advanced">Advanced (100)</Option>
               </Select>
             </Form.Item>
           </div>
@@ -202,9 +202,9 @@ const ProjectManager = () => {
               style={{ width: "48%" }}
             >
               <Select placeholder="--Select a Value--" allowClear>
-                <Option value="Novice">Novice</Option>
-                <Option value="Intermediate">Intermediate</Option>
-                <Option value="Advanced">Advanced</Option>
+                <Option value="Novice">Novice (20)</Option>
+                <Option value="Intermediate">Intermediate (50)</Option>
+                <Option value="Advanced">Advanced (100)</Option>
               </Select>
             </Form.Item>
 
@@ -220,9 +220,9 @@ const ProjectManager = () => {
               style={{ width: "48%" }}
             >
               <Select placeholder="--Select a Value--" allowClear>
-                <Option value="Novice">Novice</Option>
-                <Option value="Intermediate">Intermediate</Option>
-                <Option value="Advanced">Advanced</Option>
+                <Option value="Novice">Novice (20)</Option>
+                <Option value="Intermediate">Intermediate (50)</Option>
+                <Option value="Advanced">Advanced (100)</Option>
               </Select>
             </Form.Item>
           </div>
@@ -243,9 +243,9 @@ const ProjectManager = () => {
               style={{ width: "48%" }}
             >
               <Select placeholder="--Select years--" allowClear>
-                <Option value="1-2 years">1 - 2 years</Option>
-                <Option value="3-5 years">3-5 years</Option>
-                <Option value="5+ years">5+ years</Option>
+                <Option value="1-2 years">1 - 2 years (20)</Option>
+                <Option value="3-5 years">3-5 years (50)</Option>
+                <Option value="5+ years">5+ years (100)</Option>
               </Select>
             </Form.Item>
           </div>
@@ -319,9 +319,9 @@ const ProjectManager = () => {
                         ]}
                       >
                         <Select placeholder="--Select Years--" allowClear>
-                          <Option value="0 - 5">0 - 5 Years</Option>
-                          <Option value="6 - 14">6 - 14 years</Option>
-                          <Option value="15+">15+ Years</Option>
+                          <Option value="0 - 5">0 - 5 Years (20)</Option>
+                          <Option value="6 - 14">6 - 14 years (50)</Option>
+                          <Option value="15+">15+ Years (100)</Option>
                         </Select>
                       </Form.Item>
                     </div>
@@ -357,8 +357,8 @@ const ProjectManager = () => {
               style={{ width: "48%" }}
             >
               <Select placeholder="--Select a Value--" allowClear>
-                <Option value="related">Yes</Option>
-                <Option value="Unrelated">No</Option>
+                <Option value="related">Yes (50)</Option>
+                <Option value="Unrelated">No (100)</Option>
               </Select>
             </Form.Item>
 
@@ -374,8 +374,8 @@ const ProjectManager = () => {
               style={{ width: "48%" }}
             >
               <Select placeholder="--Select a Value--" allowClear>
-                <Option value="related">Yes</Option>
-                <Option value="Unrelated">No</Option>
+                <Option value="related">Yes (50)</Option>
+                <Option value="Unrelated">No (100)</Option>
               </Select>
             </Form.Item>
           </div>
