@@ -22,11 +22,18 @@ const AddEmployee = () => {
     <div>
       <div className="text-2xl">Add Employee</div>
       <div className="text-xl mt-2 flex justify-end">
-        KPI Score = (P1 X Wa) + (P2 X Wb) + (P3 X Wc) + ... <br />
+        KPI Score = (P<span className="mt-2 text-sm">1</span> × W
+        <span className="mt-2 text-sm">a</span>) + (P
+        <span className="mt-2 text-sm">2</span> × W
+        <span className="mt-2 text-sm">b</span>) + (P
+        <span className="mt-2 text-sm">3</span> × W
+        <span className="mt-2 text-sm">c</span>) + ...
+        <br />
       </div>
       <span className="text-md mt-3 flex justify-end">
-        P = Performance Index W = Weights in each criteria
+        P = Performance Index, W = Weight for each criterion
       </span>
+
       <div className="mt-10">
         <Form name="common" onValuesChange={onValuesChange} autoComplete="off">
           <Form.Item
