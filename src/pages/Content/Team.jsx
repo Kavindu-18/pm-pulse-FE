@@ -39,7 +39,6 @@ const Team = () => {
             Desktop: payload.Desktop,
             Web: payload.Web,
             IoT: payload.IoT,
-            Date_Difference: payload.Date_Difference,
             "Expected Team Size": payload.Expected_Team_Size,
             "Expected Budget": payload.Expected_Budget,
             "Project Scope": payload.project_scope,

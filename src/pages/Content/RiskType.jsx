@@ -68,7 +68,6 @@ const RiskType = () => {
         Desktop: updatedPayload.Desktop,
         Web: updatedPayload.Web,
         IoT: updatedPayload.IoT,
-        Date_Difference: updatedPayload.Date_Difference,
         "Expected Team Size": updatedPayload.Expected_Team_Size,
         "Expected Budget": updatedPayload.Expected_Budget,
         project_scope: updatedPayload.project_scope,
@@ -113,7 +112,6 @@ const RiskType = () => {
           Desktop: payload.Desktop,
           Web: payload.Web,
           IoT: payload.IoT,
-          Date_Difference: payload.Date_Difference,
           "Expected Team Size": payload.Expected_Team_Size,
           "Expected Budget": payload.Expected_Budget,
           status: payload.status,
@@ -166,7 +164,6 @@ const RiskType = () => {
           Desktop: Number(selectedProject.Desktop),
           Web: Number(selectedProject.Web),
           IoT: Number(selectedProject.IoT),
-          Date_Difference: Number(selectedProject.Date_Difference),
           Expected_Team_Size: Number(selectedProject.Expected_Team_Size),
           Expected_Budget: Number(selectedProject.Expected_Budget),
           status: 1,
@@ -197,7 +194,6 @@ const RiskType = () => {
           Desktop: Number(selectedProject.Desktop),
           Web: Number(selectedProject.Web),
           IoT: Number(selectedProject.IoT),
-          Date_Difference: Number(selectedProject.Date_Difference),
           Expected_Team_Size: Number(selectedProject.Expected_Team_Size),
           Expected_Budget: Number(selectedProject.Expected_Budget),
           status: 4,
@@ -496,19 +492,6 @@ const RiskType = () => {
               <Option value="1">Yes</Option>
               <Option value="0">No</Option>
             </Select>
-          </Form.Item>
-
-          <Form.Item
-            name="Date_Difference"
-            label="Schedule Variance"
-            rules={[
-              {
-                required: true,
-                message: "Please input Schedule Variance!",
-              },
-            ]}
-          >
-            <Input type="number" />
           </Form.Item>
 
           <Form.Item
