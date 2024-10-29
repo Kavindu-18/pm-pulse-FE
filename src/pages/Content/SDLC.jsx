@@ -14,6 +14,8 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 const SDLC = () => {
   const navigate = useNavigate();
@@ -47,6 +49,37 @@ const SDLC = () => {
     };
     getProjects();
   }, []);
+
+  // const exportToPDF = () => {
+  //   const input = document.getElementById("sdlc-content");
+  //   if (input) {
+  //     html2canvas(input).then((canvas) => {
+  //       const imgData = canvas.toDataURL("image/png");
+  //       const pdf = new jsPDF("p", "mm", "a4");
+  //       const imgWidth = 210;
+  //       const imgHeight = (canvas.height * imgWidth) / canvas.width;
+  //       pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+  //       pdf.save("sdlc-output.pdf");
+  //     });
+  //   } else {
+  //     console.error("Input element for PDF generation not found.");
+  //   }
+  // };
+  const exportToPDF = () => {
+    const input = document.getElementById("sdlc-content");
+    if (input) {
+      html2canvas(input).then((canvas) => {
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jsPDF("p", "mm", "a4");
+        const imgWidth = 210;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        pdf.addImage(imgData, "PNG", 10, 10, imgWidth - 20, imgHeight - 20);
+        pdf.save("sdlc-output.pdf");
+      });
+    } else {
+      console.error("Input element for PDF generation not found.");
+    }
+  };
 
   const onFinish = async (values) => {
     setLoading(true);
@@ -132,16 +165,20 @@ const SDLC = () => {
   };
 
   return (
-    <div>
+    <div id="sdlc-content">
       <div className="flex justify-between items-center mb-4">
         <div className="text-2xl">SDLC</div>
-        <div>
-          {/* <Button onClick={reCalculate} type="primary" className="mr-2">
-            Re Calculate
-          </Button> */}
-          <Button onClick={handleViewPayload} type="default">
-            View Current Payload
-          </Button>
+        <div className="flex gap-3">
+          <div>
+            <Button onClick={handleViewPayload} type="default">
+              View Current Payload
+            </Button>
+          </div>
+          <div>
+            <Button onClick={exportToPDF} type="primary" disabled={!data}>
+              Export to PDF
+            </Button>
+          </div>
         </div>
       </div>
       <div className=" mt-10">
@@ -160,7 +197,9 @@ const SDLC = () => {
             >
               <Select placeholder="--Select a Project--" allowClear>
                 {projectName?.map((prj) => (
-                  <Option value={prj.Name}>{prj.Name}</Option>
+                  <Option key={prj.Name} value={prj.Name}>
+                    {prj.Name}
+                  </Option>
                 ))}
               </Select>
             </Form.Item>
@@ -207,8 +246,6 @@ const SDLC = () => {
         ) : data ? (
           <div>
             <p>
-              {" "}
-              {/* Line Chart for Base Time */}
               {data && (
                 <ResponsiveContainer width="100%" height={400}>
                   <LineChart

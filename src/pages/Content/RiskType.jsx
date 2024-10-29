@@ -4,6 +4,8 @@ import { Spin, Button, Modal, Form, Input, Select, Tag } from "antd";
 import { SyncOutlined } from "@ant-design/icons";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 const RiskType = () => {
   const navigate = useNavigate();
@@ -38,6 +40,22 @@ const RiskType = () => {
     getProjects();
   }, []);
 
+  const exportToPDF = () => {
+    const input = document.getElementById("risk-type-content");
+    if (input) {
+      html2canvas(input).then((canvas) => {
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jsPDF("p", "mm", "a4");
+        pdf.setFontSize(50); // Increase the font size for better readability
+        const imgWidth = 210;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        pdf.addImage(imgData, "PNG", 10, 10, imgWidth - 20, imgHeight - 20);
+        pdf.save("risk-analysis-output.pdf");
+      });
+    } else {
+      console.error("Input element for PDF generation not found.");
+    }
+  };
   const reCalculate = () => {
     const payloadLocal = localStorage.getItem("SearchPayload");
 
@@ -213,15 +231,15 @@ const RiskType = () => {
   };
 
   return (
-    <div>
+    <div id="risk-type-content" style={{ padding: "20px" }}>
       <div className="flex justify-between items-center mb-4">
         <div className="text-2xl">Risk Analysis</div>
         <div>
-          {/* <Button onClick={reCalculate} type="primary" className="mr-2">
-            Re Calculate
-          </Button> */}
           <Button onClick={handleViewPayload} type="default">
             View Current Payload
+          </Button>
+          <Button onClick={exportToPDF} type="primary" disabled={!data} className="ml-3">
+            Export to PDF
           </Button>
         </div>
       </div>
