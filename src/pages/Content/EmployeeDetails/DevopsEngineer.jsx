@@ -248,7 +248,7 @@ const DevopsEngineer = () => {
             >
               <Select placeholder="--Select a Value--" allowClear>
                 <Option value="Non-Lead">Non-Lead (0)</Option>
-                <Option value="Leadership">Leadership (100)</Option>
+                <Option value="Leadership">Lead (100)</Option>
               </Select>
             </Form.Item>
           </div>
