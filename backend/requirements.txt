@@ -1,0 +1,11 @@
+numpy
+pandas 
+openpyxl
+llama-index
+llama-index-core
+llama-index-llms-openai
+scikit-learn
+xgboost
+flask
+flask_cors
+python-dotenv
