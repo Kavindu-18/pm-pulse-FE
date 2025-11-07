@@ -32,8 +32,6 @@ const RiskType = () => {
       const selectionProjects = res.data?.filter((prj) => {
         return prj.status === 1 || prj.status === 2;
       });
-      console.log("res", res.data);
-      console.log("selection", selectionProjects);
       setProjectName(selectionProjects);
       setPending(4);
     };
@@ -64,7 +62,7 @@ const RiskType = () => {
       form.setFieldsValue(payload); // Set form values with the current payload
       setIsModalVisible(true); // Open the modal
     } else {
-      console.log("No payload found in local storage.");
+      console.warn("No payload found in local storage.");
     }
   };
 
@@ -94,7 +92,7 @@ const RiskType = () => {
       setData(res.data);
       localStorage.setItem("SearchPayload", JSON.stringify(updatedPayload));
     } catch (error) {
-      console.log("Validation Failed:", error);
+      console.error("Validation Failed:", error);
     } finally {
       setLoading(false);
     }
@@ -110,8 +108,6 @@ const RiskType = () => {
     const projects = localStorage.getItem("projects");
     const parsedPrj = JSON.parse(projects) || [];
     const selectedProj = parsedPrj.filter((prj) => prj.Name === values.name);
-
-    console.log(selectedProj[0]);
 
     localStorage.setItem("SearchPayload", JSON.stringify(selectedProj[0]));
 
@@ -306,7 +302,7 @@ const RiskType = () => {
         ) : data ? (
           <div>
             <h2 className="text-lg mb-5">
-              Risk Level : <span className="text-xl">{data.mitigation}</span>
+               Risk Level : <span className="text-xl">{data.mitigation}</span>
             </h2>
 
             <p

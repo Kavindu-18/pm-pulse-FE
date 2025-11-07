@@ -8,7 +8,7 @@ import {
 import { Button, Layout, Menu, theme } from "antd";
 import { Outlet, Link } from "react-router-dom";
 const { Header, Sider, Content, Footer } = Layout;
-import { LuUsers2 } from "react-icons/lu";
+import { LuUsers } from "react-icons/lu";
 import { GrCircleInformation } from "react-icons/gr";
 import { TbUsersGroup, TbTopologyComplex } from "react-icons/tb";
 import { RiSkull2Fill, RiShoppingBasket2Fill } from "react-icons/ri";
@@ -58,7 +58,7 @@ const AppLayout = () => {
             <Menu.Item key="2" icon={<UserAddOutlined />}>
               <Link to="/add-employee">Add Employee</Link>
             </Menu.Item>
-            <Menu.Item key="3" icon={<LuUsers2 />}>
+            <Menu.Item key="3" icon={<LuUsers />}>
               <Link to="/view-employee">View Employees</Link>
             </Menu.Item>
             <Menu.Item key="4" icon={<GrDocumentPerformance />}>

@@ -42,8 +42,6 @@ const SDLC = () => {
       const selectionProjects = res.data?.filter((prj) => {
         return prj.status === 1 || prj.status === 2;
       });
-      console.log("res", res.data);
-      console.log("selection", selectionProjects);
       setProjectName(selectionProjects);
       setPending(4);
     };
@@ -88,8 +86,6 @@ const SDLC = () => {
     const parsedPrj = JSON.parse(projects) || [];
     const selectedProj = parsedPrj.filter((prj) => prj.Name === values.name);
 
-    console.log(selectedProj[0]);
-
     localStorage.setItem("SearchPayload", JSON.stringify(selectedProj[0]));
 
     const payload = selectedProj[0];
@@ -114,10 +110,10 @@ const SDLC = () => {
           "Requirement specifity": payload.requirement_specifity,
           "Team Experience": payload.team_experience,
         });
-        console.log(res.data);
         setData(res.data);
       } catch (error) {
         setError("Error fetching data");
+        console.error("Error fetching SDLC data:", error);
         console.error("Error parsing payload:", error);
       } finally {
         setLoading(false); // Set loading to false once data fetching is done
@@ -156,7 +152,7 @@ const SDLC = () => {
       setCurrentPayload(JSON.parse(payloadLocal));
       setIsViewPayloadModalVisible(true);
     } else {
-      console.log("No payload found in local storage.");
+      console.warn("No payload found in local storage.");
     }
   };
 
