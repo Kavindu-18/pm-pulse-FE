@@ -52,11 +52,10 @@ const Team = () => {
             })
           );
 
-          console.log(formattedData);
           setData(formattedData);
         } catch (error) {
           setError("Error fetching data");
-          console.error("Error parsing payload:", error);
+          console.error("Error fetching team data:", error);
         } finally {
           setLoading(false);
         }

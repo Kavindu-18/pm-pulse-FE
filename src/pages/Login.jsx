@@ -23,9 +23,9 @@ const Login = () => {
         text: res.data.response,
       });
       localStorage.setItem("user", "true");
-      navigate("/requiremenT");
+      navigate("/requirement");
     } catch (err) {
-      console.log(err);
+      console.error("Login error:", err);
 
       Swal.fire({
         icon: "error",
