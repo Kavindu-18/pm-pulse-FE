@@ -5,7 +5,7 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from "@ant-design/icons";
-import { Button, Layout, Menu, theme } from "antd";
+import { Button, Layout, Menu, theme, ConfigProvider } from "antd";
 import { Outlet, Link } from "react-router-dom";
 const { Header, Sider, Content, Footer } = Layout;
 import { LuUsers } from "react-icons/lu";
@@ -13,12 +13,20 @@ import { GrCircleInformation } from "react-icons/gr";
 import { TbUsersGroup, TbTopologyComplex } from "react-icons/tb";
 import { RiSkull2Fill, RiShoppingBasket2Fill } from "react-icons/ri";
 import { GrDocumentPerformance } from "react-icons/gr";
-import logo from "../assets/logoIcon.jpeg";
 import { CgProfile } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { MdOutlineAddChart } from "react-icons/md";
 import { BsGearWideConnected } from "react-icons/bs";
+import weeNetLogo from "../assets/WeeNet Logo Green.png";
+
+// Green color palette
+const greenColors = {
+  lightGreen: "#B0D287",
+  mediumLightGreen: "#96BD68",
+  mediumGreen: "#6A953F",
+  darkGreen: "#4D6F2F",
+};
 
 const AppLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -40,57 +48,99 @@ const AppLayout = () => {
     navigate("/login");
   };
   return (
-    <Layout style={{ minHeight: "100vh" }}>
-      <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            height: "100%",
-          }}
-        >
-          <img src={logo} alt="logo" />
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: greenColors.mediumGreen,
+          colorBgBase: "#ffffff",
+        },
+        components: {
+          Button: {
+            colorPrimary: greenColors.mediumGreen,
+            colorPrimaryHover: greenColors.mediumLightGreen,
+            colorPrimaryActive: greenColors.darkGreen,
+          },
+        },
+      }}
+    >
+      <Layout style={{ minHeight: "100vh" }}>
+        <Sider trigger={null} collapsible collapsed={collapsed}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              height: "100%",
+            }}
+          >
+            <img src={weeNetLogo} alt="WeeNet Logo" style={{ padding: "10px" }} />
 
-          <Menu theme="dark" mode="inline" style={{ flex: 1 }}>
-            <Menu.Item key="1" icon={<HomeOutlined />}>
-              <Link to="/requirement">Requirements</Link>
-            </Menu.Item>
-            <Menu.Item key="2" icon={<UserAddOutlined />}>
-              <Link to="/add-employee">Add Employee</Link>
-            </Menu.Item>
-            <Menu.Item key="3" icon={<LuUsers />}>
-              <Link to="/view-employee">View Employees</Link>
-            </Menu.Item>
-            <Menu.Item key="4" icon={<GrDocumentPerformance />}>
-              <Link to="/view-KPI">View KPI</Link>
-            </Menu.Item>
-            <Menu.Item key="5" icon={<GrCircleInformation />}>
-              <Link to="/skill">Skill Info</Link>
-            </Menu.Item>
-            <Menu.Item key="6" icon={<MdOutlineAddChart />}>
-              <Link to="/crud">Add Skills</Link>
-            </Menu.Item>
-            <Menu.Item key="7" icon={<TbUsersGroup />}>
-              <Link to="/team">Team</Link>
-            </Menu.Item>
-            <Menu.Item key="8" icon={<TbTopologyComplex />}>
-              <Link to="/complexity">Complexity</Link>
-            </Menu.Item>
-            <Menu.Item key="9" icon={<RiShoppingBasket2Fill />}>
-              <Link to="/projects">Project Details</Link>
-            </Menu.Item>
-            <Menu.Item key="10" icon={<RiSkull2Fill />}>
-              <Link to="/risk-type">Risk Type</Link>
-            </Menu.Item>
-            <Menu.Item key="11" icon={<BsGearWideConnected />}>
-              <Link to="/sdlc">SDLC</Link>
-            </Menu.Item>
-          </Menu>
+            <Menu
+              theme="dark"
+              mode="inline"
+              style={{ flex: 1 }}
+              items={[
+                {
+                  key: "1",
+                  icon: <HomeOutlined />,
+                  label: <Link to="/requirement">Requirements</Link>,
+                },
+                {
+                  key: "2",
+                  icon: <UserAddOutlined />,
+                  label: <Link to="/add-employee">Add Employee</Link>,
+                },
+                {
+                  key: "3",
+                  icon: <LuUsers />,
+                  label: <Link to="/view-employee">View Employees</Link>,
+                },
+                {
+                  key: "4",
+                  icon: <GrDocumentPerformance />,
+                  label: <Link to="/view-KPI">View KPI</Link>,
+                },
+                {
+                  key: "5",
+                  icon: <GrCircleInformation />,
+                  label: <Link to="/skill">Skill Info</Link>,
+                },
+                {
+                  key: "6",
+                  icon: <MdOutlineAddChart />,
+                  label: <Link to="/crud">Add Skills</Link>,
+                },
+                {
+                  key: "7",
+                  icon: <TbUsersGroup />,
+                  label: <Link to="/team">Team</Link>,
+                },
+                {
+                  key: "8",
+                  icon: <TbTopologyComplex />,
+                  label: <Link to="/complexity">Complexity</Link>,
+                },
+                {
+                  key: "9",
+                  icon: <RiShoppingBasket2Fill />,
+                  label: <Link to="/projects">Project Details</Link>,
+                },
+                {
+                  key: "10",
+                  icon: <RiSkull2Fill />,
+                  label: <Link to="/risk-type">Risk Type</Link>,
+                },
+                {
+                  key: "11",
+                  icon: <BsGearWideConnected />,
+                  label: <Link to="/sdlc">SDLC</Link>,
+                },
+              ]}
+            />
           <Footer
             style={{
               textAlign: "center",
-              backgroundColor: "black",
-              color: "white",
+              backgroundColor: "#001529",
+              color: "#ffffff",
               padding: 10,
             }}
           >
@@ -137,7 +187,7 @@ const AppLayout = () => {
                 )}
               </div>
             </div>
-          </Footer>
+            </Footer>
         </div>
       </Sider>
       <Layout>
@@ -158,19 +208,20 @@ const AppLayout = () => {
             }}
           />
         </Header>
-        <Content
-          style={{
-            margin: "24px 16px",
-            padding: 24,
-            minHeight: "80vh",
-            background: colorBgContainer,
-            borderRadius: borderRadiusLG,
-          }}
-        >
-          <Outlet />
-        </Content>
+          <Content
+            style={{
+              margin: "24px 16px",
+              padding: 24,
+              minHeight: "80vh",
+              background: colorBgContainer,
+              borderRadius: borderRadiusLG,
+            }}
+          >
+            <Outlet />
+          </Content>
+        </Layout>
       </Layout>
-    </Layout>
+    </ConfigProvider>
   );
 };
 

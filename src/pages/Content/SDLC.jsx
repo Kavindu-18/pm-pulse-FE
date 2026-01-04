@@ -1,21 +1,56 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../apis/axiosInstance";
-import { Spin, Button, Modal, Form, Input, Select, Tag } from "antd";
-import { SyncOutlined } from "@ant-design/icons";
+import {
+  Spin,
+  Button,
+  Modal,
+  Form,
+  Select,
+  Tag,
+  Card,
+  Statistic,
+  Row,
+  Col,
+  Divider,
+  Timeline,
+  Progress,
+} from "antd";
+import {
+  SyncOutlined,
+  ClockCircleOutlined,
+  CheckCircleOutlined,
+  FileTextOutlined,
+  DownloadOutlined,
+  EyeOutlined,
+  RocketOutlined,
+  CalendarOutlined,
+} from "@ant-design/icons";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import {
-  LineChart,
-  Line,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   Legend,
   ResponsiveContainer,
+  BarChart,
+  Bar,
+  Cell,
 } from "recharts";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+
+// Green color palette
+const colors = {
+  primary: "#6A953F",
+  secondary: "#96BD68",
+  light: "#B0D287",
+  dark: "#4D6F2F",
+  background: "#f0f5eb",
+};
 
 const SDLC = () => {
   const navigate = useNavigate();
@@ -123,7 +158,47 @@ const SDLC = () => {
     }
   };
 
+  const handlePending = (value) => {
+    setIsPending(value);
+  };
+
+  const handleApprove = async (approve) => {
+    try {
+      if (approve) {
+        // Update project status to approved (1)
+        await axios.put(`/update-project/${selectedProject.Name}`, {
+          ...selectedProject,
+          status: 1,
+        });
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Project has been approved!",
+        });
+      } else {
+        // Delete or decline the project
+        await axios.delete(`/delete-project/${selectedProject.Name}`);
+        Swal.fire({
+          icon: "success",
+          title: "Declined",
+          text: "Project has been declined.",
+        });
+      }
+      setIsPending(false);
+      // Refresh the page or update state
+      window.location.reload();
+    } catch (error) {
+      console.error("Error updating project:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Failed to update project status.",
+      });
+    }
+  };
+
   const prepareChartData = (baseTime) => {
+    if (!baseTime) return [];
     return Object.keys(baseTime).map((key) => ({
       name: key,
       time: baseTime[key],
@@ -143,7 +218,20 @@ const SDLC = () => {
       );
   };
   const calculateSum = (baseTime) => {
+    if (!baseTime) return 0;
     return Object.values(baseTime).reduce((sum, value) => sum + value, 0);
+  };
+
+  const getPhaseColor = (index) => {
+    const phaseColors = [
+      colors.dark,
+      colors.primary,
+      colors.secondary,
+      colors.light,
+      "#82ca9d",
+      "#8884d8",
+    ];
+    return phaseColors[index % phaseColors.length];
   };
 
   const handleViewPayload = () => {
@@ -161,163 +249,418 @@ const SDLC = () => {
   };
 
   return (
-    <div id="sdlc-content">
-      <div className="flex justify-between items-center mb-4">
-        <div className="text-2xl">SDLC</div>
-        <div className="flex gap-3">
-          <div>
-            <Button onClick={handleViewPayload} type="default">
-              View Current Payload
-            </Button>
+    <div id="sdlc-content" style={{ background: "#fafafa", minHeight: "100vh", padding: "24px" }}>
+      {/* Header Section */}
+      <Card
+        style={{
+          marginBottom: 24,
+          borderRadius: 12,
+          boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+        }}
+      >
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            <RocketOutlined style={{ fontSize: 32, color: colors.primary }} />
+            <div>
+              <h1 style={{ margin: 0, fontSize: 28, color: colors.dark }}>
+                SDLC Prediction
+              </h1>
+              <p style={{ margin: 0, color: "#666" }}>
+                Software Development Life Cycle Analysis
+              </p>
+            </div>
           </div>
-          <div>
-            <Button onClick={exportToPDF} type="primary" disabled={!data}>
-              Export to PDF
+          <div className="flex gap-3">
+            <Button
+              onClick={handleViewPayload}
+              icon={<EyeOutlined />}
+              style={{ borderColor: colors.primary, color: colors.primary }}
+            >
+              View Payload
+            </Button>
+            <Button
+              onClick={exportToPDF}
+              type="primary"
+              icon={<DownloadOutlined />}
+              disabled={!data}
+              style={{ background: colors.primary, borderColor: colors.primary }}
+            >
+              Export PDF
             </Button>
           </div>
         </div>
-      </div>
-      <div className=" mt-10">
-        <Form form={form} name="control-hooks" onFinish={onFinish}>
-          <div className="flex flex-row">
-            <Form.Item
-              name="name"
-              label="Project Name"
-              rules={[
-                {
-                  required: true,
-                  message: "Please Select a Project Name",
-                },
-              ]}
-              style={{ width: "48%" }}
-            >
-              <Select placeholder="--Select a Project--" allowClear>
-                {projectName?.map((prj) => (
-                  <Option key={prj.Name} value={prj.Name}>
-                    {prj.Name}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
+      </Card>
 
-            <Form.Item
-              wrapperCol={{
-                offset: 6,
-                span: 16,
-              }}
-            >
-              <Button type="primary" htmlType="submit" loading={loading}>
-                Submit
-              </Button>
-            </Form.Item>
-          </div>
+      {/* Project Selection Card */}
+      <Card
+        title={
+          <span style={{ color: colors.dark }}>
+            <FileTextOutlined style={{ marginRight: 8 }} />
+            Select Project
+          </span>
+        }
+        style={{
+          marginBottom: 24,
+          borderRadius: 12,
+          boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+        }}
+      >
+        <Form form={form} name="control-hooks" onFinish={onFinish} layout="vertical">
+          <Row gutter={24} align="middle">
+            <Col xs={24} md={16}>
+              <Form.Item
+                name="name"
+                label={<span style={{ fontWeight: 500 }}>Project Name</span>}
+                rules={[{ required: true, message: "Please Select a Project Name" }]}
+              >
+                <Select
+                  placeholder="--Select a Project--"
+                  allowClear
+                  size="large"
+                  style={{ width: "100%" }}
+                >
+                  {projectName?.map((prj) => (
+                    <Option key={prj.Name} value={prj.Name}>
+                      {prj.Name}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+              <Form.Item label=" ">
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={loading}
+                  size="large"
+                  block
+                  style={{ background: colors.primary, borderColor: colors.primary }}
+                >
+                  Analyze SDLC
+                </Button>
+              </Form.Item>
+            </Col>
+          </Row>
         </Form>
 
-        <div>
-          Project Status :{" "}
+        {/* Project Status */}
+        <Divider style={{ margin: "16px 0" }} />
+        <div className="flex items-center gap-2">
+          <span style={{ fontWeight: 500 }}>Project Status:</span>
           {selectedProject.status === 1 ? (
-            <Tag color="success">Approved</Tag>
+            <Tag icon={<CheckCircleOutlined />} color="success" style={{ fontSize: 14, padding: "4px 12px" }}>
+              Approved
+            </Tag>
           ) : selectedProject.status === 2 ? (
-            <>
-              <Tag color="warning">Pending</Tag>
-
-              <div className="pt-4">
-                <Button onClick={() => handlePending(true)} type="primary">
-                  Approve / Decline
-                </Button>
-              </div>
-            </>
+            <div className="flex items-center gap-3">
+              <Tag icon={<ClockCircleOutlined />} color="warning" style={{ fontSize: 14, padding: "4px 12px" }}>
+                Pending Approval
+              </Tag>
+              <Button
+                onClick={() => handlePending(true)}
+                type="primary"
+                size="small"
+                style={{ background: colors.primary }}
+              >
+                Approve / Decline
+              </Button>
+            </div>
           ) : selectedProject.status === 3 ? (
-            <Tag icon={<SyncOutlined spin />} color="processing">
-              processing
+            <Tag icon={<SyncOutlined spin />} color="processing" style={{ fontSize: 14, padding: "4px 12px" }}>
+              Processing
             </Tag>
           ) : (
-            <Tag color="error">Select a Project</Tag>
+            <Tag color="default" style={{ fontSize: 14, padding: "4px 12px" }}>
+              No Project Selected
+            </Tag>
           )}
         </div>
-      </div>
-      <div className="mt-10">
+      </Card>
+
+      {/* Results Section */}
+      <div className="mt-6">
         {loading ? (
-          <Spin />
+          <Card style={{ textAlign: "center", padding: 60, borderRadius: 12 }}>
+            <Spin size="large" />
+            <p style={{ marginTop: 16, color: "#666" }}>Analyzing SDLC phases...</p>
+          </Card>
         ) : data ? (
           <div>
-            <p>
-              {data && (
-                <ResponsiveContainer width="100%" height={400}>
-                  <LineChart
-                    data={prepareChartData(data.base_time)}
-                    margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Line type="monotone" dataKey="time" stroke="#8884d8" />
-                  </LineChart>
-                </ResponsiveContainer>
-              )}
-            </p>
-            <div className="mt-4 text-lg text-center font-bold pb-10">
-              Total Time: {calculateSum(data.base_time)} Days
-            </div>
-            <p
-              dangerouslySetInnerHTML={{
-                __html: data.sdlc
-                  ? formatSDLCData(data.sdlc)
-                  : "No SDLC Data Available",
-              }}
-            ></p>
+            {/* Statistics Cards */}
+            <Row gutter={[24, 24]} style={{ marginBottom: 24 }}>
+              <Col xs={24} sm={12} lg={6}>
+                <Card
+                  style={{
+                    borderRadius: 12,
+                    background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.dark} 100%)`,
+                    border: "none",
+                  }}
+                >
+                  <Statistic
+                    title={<span style={{ color: "rgba(255,255,255,0.8)" }}>Total Duration</span>}
+                    value={calculateSum(data.base_time)}
+                    suffix="Days"
+                    valueStyle={{ color: "#fff", fontSize: 32 }}
+                    prefix={<CalendarOutlined />}
+                  />
+                </Card>
+              </Col>
+              <Col xs={24} sm={12} lg={6}>
+                <Card
+                  style={{
+                    borderRadius: 12,
+                    background: `linear-gradient(135deg, ${colors.secondary} 0%, ${colors.primary} 100%)`,
+                    border: "none",
+                  }}
+                >
+                  <Statistic
+                    title={<span style={{ color: "rgba(255,255,255,0.8)" }}>Total Phases</span>}
+                    value={data.base_time ? Object.keys(data.base_time).length : 0}
+                    suffix="Phases"
+                    valueStyle={{ color: "#fff", fontSize: 32 }}
+                    prefix={<RocketOutlined />}
+                  />
+                </Card>
+              </Col>
+              <Col xs={24} sm={12} lg={6}>
+                <Card
+                  style={{
+                    borderRadius: 12,
+                    background: `linear-gradient(135deg, ${colors.light} 0%, ${colors.secondary} 100%)`,
+                    border: "none",
+                  }}
+                >
+                  <Statistic
+                    title={<span style={{ color: "rgba(255,255,255,0.8)" }}>Avg Phase Duration</span>}
+                    value={data.base_time ? (calculateSum(data.base_time) / Object.keys(data.base_time).length).toFixed(1) : 0}
+                    suffix="Days"
+                    valueStyle={{ color: "#fff", fontSize: 32 }}
+                    prefix={<ClockCircleOutlined />}
+                  />
+                </Card>
+              </Col>
+              <Col xs={24} sm={12} lg={6}>
+                <Card
+                  style={{
+                    borderRadius: 12,
+                    background: `linear-gradient(135deg, #52c41a 0%, #237804 100%)`,
+                    border: "none",
+                  }}
+                >
+                  <Statistic
+                    title={<span style={{ color: "rgba(255,255,255,0.8)" }}>Estimated Weeks</span>}
+                    value={(calculateSum(data.base_time) / 7).toFixed(1)}
+                    suffix="Weeks"
+                    valueStyle={{ color: "#fff", fontSize: 32 }}
+                    prefix={<CheckCircleOutlined />}
+                  />
+                </Card>
+              </Col>
+            </Row>
+
+            {/* Charts Section */}
+            <Row gutter={[24, 24]} style={{ marginBottom: 24 }}>
+              <Col xs={24} lg={14}>
+                <Card
+                  title={
+                    <span style={{ color: colors.dark }}>
+                      <CalendarOutlined style={{ marginRight: 8 }} />
+                      Timeline Overview
+                    </span>
+                  }
+                  style={{ borderRadius: 12, boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}
+                >
+                  <ResponsiveContainer width="100%" height={350}>
+                    <AreaChart
+                      data={prepareChartData(data.base_time)}
+                      margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                    >
+                      <defs>
+                        <linearGradient id="colorTime" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor={colors.primary} stopOpacity={0.8} />
+                          <stop offset="95%" stopColor={colors.primary} stopOpacity={0.1} />
+                        </linearGradient>
+                      </defs>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
+                      <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                      <YAxis tick={{ fontSize: 12 }} />
+                      <Tooltip
+                        contentStyle={{
+                          background: "#fff",
+                          border: `1px solid ${colors.light}`,
+                          borderRadius: 8,
+                        }}
+                      />
+                      <Legend />
+                      <Area
+                        type="monotone"
+                        dataKey="time"
+                        stroke={colors.primary}
+                        fillOpacity={1}
+                        fill="url(#colorTime)"
+                        name="Duration (Days)"
+                      />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </Card>
+              </Col>
+              <Col xs={24} lg={10}>
+                <Card
+                  title={
+                    <span style={{ color: colors.dark }}>
+                      <RocketOutlined style={{ marginRight: 8 }} />
+                      Phase Distribution
+                    </span>
+                  }
+                  style={{ borderRadius: 12, boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}
+                >
+                  <ResponsiveContainer width="100%" height={350}>
+                    <BarChart
+                      data={prepareChartData(data.base_time)}
+                      layout="vertical"
+                      margin={{ top: 20, right: 30, left: 60, bottom: 5 }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
+                      <XAxis type="number" tick={{ fontSize: 12 }} />
+                      <YAxis dataKey="name" type="category" tick={{ fontSize: 11 }} width={80} />
+                      <Tooltip
+                        contentStyle={{
+                          background: "#fff",
+                          border: `1px solid ${colors.light}`,
+                          borderRadius: 8,
+                        }}
+                      />
+                      <Bar dataKey="time" name="Duration (Days)" radius={[0, 4, 4, 0]}>
+                        {prepareChartData(data.base_time).map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={getPhaseColor(index)} />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </Card>
+              </Col>
+            </Row>
+
+            {/* Phase Timeline */}
+            <Card
+              title={
+                <span style={{ color: colors.dark }}>
+                  <ClockCircleOutlined style={{ marginRight: 8 }} />
+                  Phase Progress Timeline
+                </span>
+              }
+              style={{ borderRadius: 12, marginBottom: 24, boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}
+            >
+              <Row gutter={[16, 16]}>
+                {data.base_time && Object.entries(data.base_time).map(([phase, days], index) => {
+                  const totalDays = calculateSum(data.base_time);
+                  const percentage = totalDays > 0 ? ((days / totalDays) * 100).toFixed(1) : 0;
+                  return (
+                    <Col xs={24} sm={12} md={8} lg={6} key={phase}>
+                      <Card
+                        size="small"
+                        style={{
+                          borderLeft: `4px solid ${getPhaseColor(index)}`,
+                          borderRadius: 8,
+                        }}
+                      >
+                        <div style={{ fontWeight: 600, marginBottom: 8 }}>{phase}</div>
+                        <Progress
+                          percent={parseFloat(percentage)}
+                          strokeColor={getPhaseColor(index)}
+                          size="small"
+                        />
+                        <div style={{ fontSize: 12, color: "#666", marginTop: 4 }}>
+                          {days} days ({percentage}%)
+                        </div>
+                      </Card>
+                    </Col>
+                  );
+                })}
+              </Row>
+            </Card>
+
+            {/* SDLC Details */}
+            <Card
+              title={
+                <span style={{ color: colors.dark }}>
+                  <FileTextOutlined style={{ marginRight: 8 }} />
+                  SDLC Methodology Details
+                </span>
+              }
+              style={{ borderRadius: 12, boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}
+            >
+              <div
+                style={{
+                  padding: "16px",
+                  background: colors.background,
+                  borderRadius: 8,
+                  lineHeight: 1.8,
+                }}
+                dangerouslySetInnerHTML={{
+                  __html: data.sdlc ? formatSDLCData(data.sdlc) : "No SDLC Data Available",
+                }}
+              />
+            </Card>
           </div>
         ) : (
-          "No Data Found! Please Provide Data"
+          <Card
+            style={{
+              textAlign: "center",
+              padding: 60,
+              borderRadius: 12,
+              background: colors.background,
+            }}
+          >
+            <RocketOutlined style={{ fontSize: 64, color: colors.light, marginBottom: 16 }} />
+            <h3 style={{ color: colors.dark }}>No Data Available</h3>
+            <p style={{ color: "#666" }}>Please select a project and click "Analyze SDLC" to get started</p>
+          </Card>
         )}
       </div>
 
+      {/* View Payload Modal */}
       <Modal
-        title="Current Payload"
+        title={
+          <span>
+            <EyeOutlined style={{ marginRight: 8 }} />
+            Current Payload
+          </span>
+        }
         open={isViewPayloadModalVisible}
         onOk={handleCloseViewPayloadModal}
         onCancel={handleCloseViewPayloadModal}
         footer={[
-          <Button
-            key="close"
-            type="primary"
-            onClick={handleCloseViewPayloadModal}
-          >
+          <Button key="close" type="primary" onClick={handleCloseViewPayloadModal} style={{ background: colors.primary }}>
             Close
           </Button>,
         ]}
       >
         {currentPayload ? (
-          <pre>{JSON.stringify(currentPayload, null, 2)}</pre>
+          <pre style={{ background: "#f5f5f5", padding: 16, borderRadius: 8, overflow: "auto" }}>
+            {JSON.stringify(currentPayload, null, 2)}
+          </pre>
         ) : (
           <div>No payload found in local storage.</div>
         )}
       </Modal>
 
+      {/* Approve/Decline Modal */}
       <Modal
-        title="Edit Payload"
+        title="Project Approval"
         open={isPending}
         footer={false}
         onCancel={() => handlePending(false)}
       >
-        <div>Do You Want to Approve this Project</div>
-        <div className="flex flex-row gap-2 mt-4 justify-end">
-          <div>
-            <Button onClick={() => handleApprove(true)} type="primary">
-              Approve Project
-            </Button>
-          </div>
-          <div>
-            <Button
-              onClick={() => handleApprove(false)}
-              className="bg-red-600"
-              type="primary"
-            >
-              Delete Project
-            </Button>
-          </div>
+        <p style={{ marginBottom: 16 }}>Do you want to approve this project?</p>
+        <div className="flex flex-row gap-2 justify-end">
+          <Button onClick={() => handleApprove(true)} type="primary" style={{ background: colors.primary }}>
+            Approve Project
+          </Button>
+          <Button onClick={() => handleApprove(false)} danger type="primary">
+            Decline Project
+          </Button>
         </div>
       </Modal>
     </div>

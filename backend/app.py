@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*", "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"], "allow_headers": ["Content-Type", "Authorization"]}})
 
 # Get API key from environment variable
 api_key = os.getenv('OPENAI_API_KEY')
@@ -87,14 +87,25 @@ def inference_risk(
     data = data[[
                 'Domain', 'Mobile', 'Desktop', 
                 'Web', 'IoT', 'Expected Team Size', 'Expected Budget'
-                ]]
+                ]].copy()
         
     data_json = {k : v for k, v in data_json.items() if k in data.columns}
-    data['Domain'] = data['Domain'].map({
-                                        'E-Commerce':1, 
-                                        'Health':2, 'Education':3, 
-                                        'Finance':4
-                                        })
+    
+    # Domain mapping with case-insensitive matching
+    domain_mapping = {
+        'e-commerce': 1, 'ecommerce': 1,
+        'health': 2,
+        'education': 3,
+        'finance': 4
+    }
+    # Convert domain to lowercase for matching, default to 1 if not found
+    domain_value = str(data['Domain'].iloc[0]).lower().strip()
+    mapped_domain = domain_mapping.get(domain_value, 1)
+    data.loc[:, 'Domain'] = mapped_domain
+    
+    # Ensure all columns are numeric
+    for col in data.columns:
+        data[col] = pd.to_numeric(data[col], errors='coerce').fillna(0).astype(int)
 
     df_pj = pd.read_excel(dataset_path)
     df_pj = df_pj[[
@@ -109,7 +120,7 @@ def inference_risk(
                 'Expected Budget']] == data_to_json
     # find the row index that all inndices are true
     match_index = match_flag[match_flag.all(axis=1)].index.values
-    if match_index:
+    if match_index.size > 0:
         match_index = match_index[0]
         row = df_pj.iloc[match_index]
         risk = int(row['Risk']) -1
@@ -309,11 +320,25 @@ def calculate_kpi_value(
     print("awa12")
     criteria_df['Level'] = criteria_df['Level'].str.strip()
     print("awa13")
+    
+    # Check if df_role has a 'Level' column that would conflict
+    if 'Level' in df_role.columns:
+        df_role = df_role.drop(columns=['Level'])
+    
     criteria_df = criteria_df.merge(
                                     df_role, 
                                     on = 'Criteria', 
                                     how = 'left'
                                     )
+    
+    # Handle any suffix issues from merge (Level_x, Level_y)
+    if 'Level_x' in criteria_df.columns:
+        criteria_df['Level'] = criteria_df['Level_x']
+        criteria_df = criteria_df.drop(columns=['Level_x'])
+    if 'Level_y' in criteria_df.columns:
+        criteria_df = criteria_df.drop(columns=['Level_y'])
+    
+    print("Columns after merge:", criteria_df.columns.tolist())
     criteria_df['Weight'] = criteria_df['Weight'].fillna(0)
     print(criteria_df['Weight'])
     criteria_df['KPI'] = criteria_df.apply(apply_kpi_level, axis = 1, json_role_updated=json_role_updated)
@@ -334,7 +359,8 @@ def calculate_kpi_sheet(
                                     employee_file_path,
                                     sheet_name=role
                                     )
-    df_role_values = df_role_values[df_role_values['Domain'] == domain]
+    # Case-insensitive domain matching to handle variations like 'E-commerce' vs 'E-Commerce'
+    df_role_values = df_role_values[df_role_values['Domain'].str.lower() == domain.lower()]
     print("awa1.1")
     df_role_values.reset_index(drop=True, inplace=True)
 
@@ -370,6 +396,21 @@ def calculate_kpi_sheet(
     return df_kpi
         
 def inference_complexity(data_json):
+    # Fix domain value to match encoder's expected format
+    domain_mapping = {
+        'E-Commerce': 'E-commerce',
+        'e-commerce': 'E-commerce',
+        'ecommerce': 'E-commerce',
+        'HEALTH': 'Health',
+        'health': 'Health',
+        'EDUCATION': 'Education',
+        'education': 'Education',
+        'FINANCE': 'Finance',
+        'finance': 'Finance'
+    }
+    if data_json.get('Domain') in domain_mapping:
+        data_json['Domain'] = domain_mapping[data_json['Domain']]
+    
     complexity_prompt_template = [
                             ChatMessage(
                                 role=MessageRole.SYSTEM,
@@ -525,15 +566,26 @@ def insert_employee(
     for col in columns:
         user_new_dict[col] = []
 
-    for i in range(4):
+    # Get the number of domain experience entries from the input data
+    domain_experience_count = len(insert_json.get("Experience of related Domain", []))
+    # Default to 4 if no domain experience data is provided
+    num_entries = max(domain_experience_count, 4) if domain_experience_count > 0 else 4
+
+    for i in range(num_entries):
         for col in columns:
             if col == 'Domain':
                 pass
             elif col != "Experience of related Domain":
                 user_new_dict[col].append(insert_json[col])
             else:
-                user_new_dict[col].append(insert_json[col][i]['Years'])
-                user_new_dict['Domain'].append(insert_json[col][i]['Domain'])
+                # Check if index exists in the domain experience array
+                if i < len(insert_json.get(col, [])):
+                    user_new_dict[col].append(insert_json[col][i]['Years'])
+                    user_new_dict['Domain'].append(insert_json[col][i]['Domain'])
+                else:
+                    # Fill with default/empty values if data is missing
+                    user_new_dict[col].append(0)
+                    user_new_dict['Domain'].append('N/A')
 
     df_user_new = pd.DataFrame(user_new_dict)
     df_role_specified = pd.concat([df_employee, df_user_new], axis=0)
@@ -625,6 +677,16 @@ def sdlc_pipeline(data_json):
     print("awa3")
     data_json_sdlc["Complexity"] = complexity_level
     print("awa4")
+    
+    # Map Domain values to match SDLC encoder format
+    # SDLC encoder uses 'E- Commerce' (with space) while other encoders use 'E-commerce'
+    domain_mapping_to_sdlc = {
+        'E-commerce': 'E- Commerce',
+        'e-commerce': 'E- Commerce',
+    }
+    if data_json_sdlc.get('Domain') in domain_mapping_to_sdlc:
+        data_json_sdlc['Domain'] = domain_mapping_to_sdlc[data_json_sdlc['Domain']]
+    
     sdlc_dict = inference_sdlc(data_json_sdlc)
     print("awa5")
 
@@ -801,15 +863,22 @@ def kpi_sheet():
 
 @app.route('/kpi/employee', methods=['POST'])
 def kpi_employee():
-    data_json = request.json
-    print("awa0")
-    kpis = kpi_for_employee(
-                            data_json['emp_id'],
-                            data_json['role']
-                            )
-    return jsonify({
-                    "kpis" : kpis
-                    })
+    try:
+        data_json = request.json
+        print("awa0")
+        print(f"Received data: {data_json}")
+        kpis = kpi_for_employee(
+                                data_json['emp_id'],
+                                data_json['role']
+                                )
+        return jsonify({
+                        "kpis" : kpis
+                        })
+    except Exception as e:
+        print(f"Error in kpi_employee: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/employee/insert', methods=['POST'])
 def employee_insert():

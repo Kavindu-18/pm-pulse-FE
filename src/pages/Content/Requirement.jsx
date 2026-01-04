@@ -3,6 +3,8 @@ import { Button, Form, Input, message, Select } from "antd";
 import Swal from "sweetalert2";
 import axios from "../../apis/axiosInstance";
 
+const { Option } = Select;
+
 const Requirement = () => {
   const [form] = Form.useForm();
   const [isOther, setIsOther] = useState(false);

@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 # Get API key from environment variable
 api_key = os.getenv('OPENAI_API_KEY')
@@ -109,7 +109,7 @@ def inference_risk(
                 'Expected Budget']] == data_to_json
     # find the row index that all inndices are true
     match_index = match_flag[match_flag.all(axis=1)].index.values
-    if match_index:
+    if match_index.size > 0:
         match_index = match_index[0]
         row = df_pj.iloc[match_index]
         risk = int(row['Risk']) - 1
@@ -413,6 +413,20 @@ def inference_complexity(data_json):
   
     domain = data_json['Domain']
 
+    # Normalize input data to match encoder's expected values
+    # Map common variations to the correct format
+    domain_mapping = {
+        'E-Commerce': 'E-commerce',
+        'e-commerce': 'E-commerce',
+        'ecommerce': 'E-commerce',
+        'Ecommerce': 'E-commerce'
+    }
+    
+    # Apply domain mapping if needed
+    if data_json['Domain'] in domain_mapping:
+        data_json['Domain'] = domain_mapping[data_json['Domain']]
+        domain = data_json['Domain']
+
     sample_df = pd.DataFrame(data_json, index=[0])
 
     sample_df = sample_df[[
@@ -421,7 +435,19 @@ def inference_complexity(data_json):
                             'Tech Stack', 'Project Scope'
                             ]]
     
-    sample_df = sample_df.apply(lambda x: encoder_dict[x.name].transform(x))
+    # Try to transform with better error handling
+    try:
+        sample_df = sample_df.apply(lambda x: encoder_dict[x.name].transform(x))
+    except ValueError as e:
+        # Provide helpful error message showing what values are expected
+        error_msg = str(e)
+        if "previously unseen labels" in error_msg:
+            valid_values_msg = "\n\nValid values for each field:"
+            for col in sample_df.columns:
+                if col in encoder_dict:
+                    valid_values_msg += f"\n  {col}: {list(encoder_dict[col].classes_)}"
+            raise ValueError(error_msg + valid_values_msg)
+        raise
 
     sample_df = sample_df.values
 
@@ -436,7 +462,10 @@ def inference_complexity(data_json):
 
     del df_unoccupied['IsOccupied']
 
-    while True:
+    max_retries = 5
+    retry_count = 0
+    
+    while retry_count < max_retries:
         try:
             response = llm.chat(complexity_prompt_template)
             selected_team = eval(response.message.content)
@@ -464,8 +493,13 @@ def inference_complexity(data_json):
                     selected_employees.append(emp_dict_temp)
 
             return selected_team, selected_employees, prediction
-        except:
-            print("Error occured, trying again...")
+        except Exception as e:
+            retry_count += 1
+            print(f"Error occurred (attempt {retry_count}/{max_retries}): {str(e)}")
+            import traceback
+            traceback.print_exc()
+            if retry_count >= max_retries:
+                raise Exception(f"Failed after {max_retries} attempts. Last error: {str(e)}")
 
 def kpi_for_employee(
                     emp_id, role,
@@ -692,12 +726,19 @@ def login():
         
 @app.route('/risk', methods=['POST'])
 def risk():
-    data_json = request.json
-    response_risk, prediction_risk = inference_risk(data_json)
-    return jsonify({
-                    'risk' : response_risk,
-                    'mitigation' : prediction_risk
-                    })
+    try:
+        data_json = request.json
+        print("Received risk data:", data_json)  # Debug logging
+        response_risk, prediction_risk = inference_risk(data_json)
+        return jsonify({
+                        'risk': response_risk,
+                        'mitigation': prediction_risk
+                        })
+    except Exception as e:
+        print(f"Error in risk endpoint: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/employee/all', methods=['GET'])
 def employee_all():
@@ -723,27 +764,41 @@ def employee_all():
 
 @app.route('/complexity', methods=['POST'])
 def complexity():
-    data_json = request.json
-    selected_team, selected_employees, prediction_complexity= inference_complexity(data_json)
-    return jsonify({
-                    'selected_team' : selected_team,
-                    'selected_employees' : selected_employees,
-                    'complexity' : prediction_complexity
-                    })
+    try:
+        data_json = request.json
+        print("Received data:", data_json)  # Debug logging
+        selected_team, selected_employees, prediction_complexity = inference_complexity(data_json)
+        return jsonify({
+                        'selected_team': selected_team,
+                        'selected_employees': selected_employees,
+                        'complexity': prediction_complexity
+                        })
+    except Exception as e:
+        print(f"Error in complexity endpoint: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/sdlc', methods=['POST'])
 def sdlc():
-    data_json = request.json
-    response_sdlc, sdlc_dict = sdlc_pipeline(data_json)
-    
-    # Convert int64 objects to native Python int
-    sdlc_dict = {key: int(value) if isinstance(value, (np.int64, int)) else value for key, value in sdlc_dict.items()}
+    try:
+        data_json = request.json
+        print("Received SDLC data:", data_json)  # Debug logging
+        response_sdlc, sdlc_dict = sdlc_pipeline(data_json)
+        
+        # Convert int64 objects to native Python int
+        sdlc_dict = {key: int(value) if isinstance(value, (np.int64, int)) else value for key, value in sdlc_dict.items()}
 
-    print(sdlc_dict)
-    return jsonify({
-        'sdlc': response_sdlc,
-        'base_time': sdlc_dict
-    })
+        print(sdlc_dict)
+        return jsonify({
+            'sdlc': response_sdlc,
+            'base_time': sdlc_dict
+        })
+    except Exception as e:
+        print(f"Error in sdlc endpoint: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/kpi/crud', methods=['POST'])
 def kpi_crud():
@@ -882,6 +937,7 @@ def get_projects():
 
 if __name__ == '__main__':
     app.run(
-            debug=True, 
-            port=5000
+            debug=True,
+            port=5001,
+            use_reloader=False
             )

@@ -254,8 +254,8 @@ const RiskType = () => {
               style={{ width: "48%" }}
             >
               <Select placeholder="--Select a Project--" allowClear>
-                {projectName?.map((prj) => (
-                  <Option value={prj.Name}>{prj.Name}</Option>
+                {projectName?.map((prj, index) => (
+                  <Option key={prj.Name || index} value={prj.Name}>{prj.Name}</Option>
                 ))}
               </Select>
             </Form.Item>

@@ -81,7 +81,7 @@ const Complexity = () => {
       </div>
       <div>
         {error && <div style={{ color: "red" }}>{error}</div>}
-        <Table columns={columns} dataSource={tableData} loading={loading} />
+        <Table columns={columns} dataSource={tableData} loading={loading} rowKey={(record) => record["Emp ID"] || Math.random()} />
       </div>
     </div>
   );
