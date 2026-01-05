@@ -5,20 +5,11 @@ from flask_cors import CORS
 from flask import Flask, request, jsonify
 from llama_index.llms.openai import OpenAI
 from llama_index.core.llms import ChatMessage, MessageRole
-from dotenv import load_dotenv
-
-# Load environment variables
-load_dotenv()
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+CORS(app)
 
-# Get API key from environment variable
-api_key = os.getenv('OPENAI_API_KEY')
-if not api_key:
-    raise ValueError("OPENAI_API_KEY not found in environment variables. Please set it in the .env file.")
-
-os.environ['OPENAI_API_KEY'] = api_key
+os.environ['OPENAI_API_KEY'] = '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'
 
 llm = OpenAI(
             engine="gpt-4o",
@@ -109,7 +100,7 @@ def inference_risk(
                 'Expected Budget']] == data_to_json
     # find the row index that all inndices are true
     match_index = match_flag[match_flag.all(axis=1)].index.values
-    if match_index.size > 0:
+    if match_index:
         match_index = match_index[0]
         row = df_pj.iloc[match_index]
         risk = int(row['Risk']) - 1
@@ -244,7 +235,7 @@ def apply_kpi_level(
         json_role_updated=None
 ):
     weight = row['Weight']
-    criteria = row['Criteria'].replace(r'\/', '-').replace('\\', '').replace('/', '-')
+    criteria = row['Criteria'].replace('\\/', '-').replace('\\', '').replace('\/', '-')
     level = row['Level']
     print(level, criteria, weight)
 
@@ -266,7 +257,7 @@ def apply_kpi_level_2(
     print("awa2")
     weight = row['Weight']
     print("awa3")
-    criteria = row['Criteria'].replace(r'\/', '-').replace('\\', '').replace('/', '-')
+    criteria = row['Criteria'].replace('\\/', '-').replace('\\', '').replace('\/', '-')
     print("awa4",row["Criteria"])
     level = row['Level']
     print(level,criteria,weight)
@@ -287,7 +278,7 @@ def calculate_kpi_value(
 
     df_role = df_arr[role]
     print("awa5")
-    df_role['Criteria'] = df_role['Criteria'].str.replace(r'\/', '-', regex=True).str.replace('\\', '', regex=True).str.replace('/', '-', regex=True)
+    df_role['Criteria'] = df_role['Criteria'].str.replace('\\/', '-').str.replace('\\', '').str.replace('/', '-')
     print("awa6")
     json_role = json_arr[role][0]
     print("awa7")
@@ -346,7 +337,7 @@ def calculate_kpi_sheet(
         for key in ['Name', 'Home Town', 'Phone Number', 'Age']:
             if key in criteria_json:
                 del criteria_json[key]
-        criteria_json = {k.replace(r'\/', '-').replace('\\', '').replace('/', '-'): v for k, v in criteria_json.items()}
+        criteria_json = {k.replace('\\/', '-').replace('\\', '').replace('\/', '-'): v for k, v in criteria_json.items()}
         emp_id = criteria_json['EMP ID']
         domain = criteria_json['Domain']
         del criteria_json['EMP ID'], criteria_json['Domain']
@@ -413,20 +404,6 @@ def inference_complexity(data_json):
   
     domain = data_json['Domain']
 
-    # Normalize input data to match encoder's expected values
-    # Map common variations to the correct format
-    domain_mapping = {
-        'E-Commerce': 'E-commerce',
-        'e-commerce': 'E-commerce',
-        'ecommerce': 'E-commerce',
-        'Ecommerce': 'E-commerce'
-    }
-    
-    # Apply domain mapping if needed
-    if data_json['Domain'] in domain_mapping:
-        data_json['Domain'] = domain_mapping[data_json['Domain']]
-        domain = data_json['Domain']
-
     sample_df = pd.DataFrame(data_json, index=[0])
 
     sample_df = sample_df[[
@@ -435,19 +412,7 @@ def inference_complexity(data_json):
                             'Tech Stack', 'Project Scope'
                             ]]
     
-    # Try to transform with better error handling
-    try:
-        sample_df = sample_df.apply(lambda x: encoder_dict[x.name].transform(x))
-    except ValueError as e:
-        # Provide helpful error message showing what values are expected
-        error_msg = str(e)
-        if "previously unseen labels" in error_msg:
-            valid_values_msg = "\n\nValid values for each field:"
-            for col in sample_df.columns:
-                if col in encoder_dict:
-                    valid_values_msg += f"\n  {col}: {list(encoder_dict[col].classes_)}"
-            raise ValueError(error_msg + valid_values_msg)
-        raise
+    sample_df = sample_df.apply(lambda x: encoder_dict[x.name].transform(x))
 
     sample_df = sample_df.values
 
@@ -462,10 +427,7 @@ def inference_complexity(data_json):
 
     del df_unoccupied['IsOccupied']
 
-    max_retries = 5
-    retry_count = 0
-    
-    while retry_count < max_retries:
+    while True:
         try:
             response = llm.chat(complexity_prompt_template)
             selected_team = eval(response.message.content)
@@ -493,13 +455,8 @@ def inference_complexity(data_json):
                     selected_employees.append(emp_dict_temp)
 
             return selected_team, selected_employees, prediction
-        except Exception as e:
-            retry_count += 1
-            print(f"Error occurred (attempt {retry_count}/{max_retries}): {str(e)}")
-            import traceback
-            traceback.print_exc()
-            if retry_count >= max_retries:
-                raise Exception(f"Failed after {max_retries} attempts. Last error: {str(e)}")
+        except:
+            print("Error occured, trying again...")
 
 def kpi_for_employee(
                     emp_id, role,
@@ -512,7 +469,7 @@ def kpi_for_employee(
     kpis = []
     for i in range(df_employee.shape[0]):
         criteria_json = eval(df_employee.loc[i, :].to_json())
-        criteria_json = {k.replace(r'\/', '-').replace('\\', '').replace('/', '-'): v for k, v in criteria_json.items()}
+        criteria_json = {k.replace('\\/', '-').replace('\\', '').replace('\/', '-'): v for k, v in criteria_json.items()}
         emp_id = criteria_json['EMP ID']
         domain = criteria_json['Domain']
         name = criteria_json.get('Name')  # Added
@@ -537,55 +494,182 @@ def kpi_for_employee(
                     })
         
     return kpis
-
 def insert_employee(
                     insert_json, role, 
                     employee_file_path = 'data/KPI/employees.xlsx'
                     ):
-    df_employee = pd.read_excel(
-                                employee_file_path, 
-                                sheet_name=role, 
-                                engine='openpyxl'
-                                )
-    columns = df_employee.columns.values
-    empids = list(df_employee['EMP ID'].unique())
-    empids_ = [int(empid[2:]) for empid in empids]
-    emp_prefix = empids[0][:2]
-    max_empid = max(empids_)
-    new_empid = f'{emp_prefix}{max_empid + 1}'
-    insert_json['EMP ID'] = new_empid
-
-    user_new_dict = {}
-    for col in columns:
-        user_new_dict[col] = []
-
-    for i in range(4):
+    """
+    Insert a new employee into the Excel file for the specified role.
+    
+    Args:
+        insert_json: Dictionary containing employee data including 'Experience of related Domain'
+        role: Role of the employee (e.g., 'Frontend Engineer')
+        employee_file_path: Path to the employees Excel file
+    """
+    try:
+        # Read existing data
+        df_employee = pd.read_excel(
+                                    employee_file_path, 
+                                    sheet_name=role, 
+                                    engine='openpyxl'
+                                    )
+        
+        columns = df_employee.columns.values
+        print(f"Excel columns for {role}:")
         for col in columns:
-            if col == 'Domain':
-                pass
-            elif col != "Experience of related Domain":
-                user_new_dict[col].append(insert_json[col])
+            print(f"  - '{col}'")
+        
+        empids = list(df_employee['EMP ID'].unique())
+        
+        # Generate new employee ID
+        empids_ = [int(empid[2:]) for empid in empids]
+        emp_prefix = empids[0][:2]
+        max_empid = max(empids_)
+        new_empid = f'{emp_prefix}{max_empid + 1}'
+        
+        # Create a copy to avoid modifying the original
+        insert_json_copy = insert_json.copy()
+        insert_json_copy['EMP ID'] = new_empid
+
+        # Initialize dictionary for new user data
+        user_new_dict = {col: [] for col in columns}
+
+        # Extract experience data
+        experience_data = insert_json_copy.get('Experience of related Domain', [])
+        
+        # Validate experience data
+        if not experience_data or len(experience_data) == 0:
+            raise ValueError("Experience of related Domain is required and must contain at least one entry")
+        
+        # Validate that experience_data is a list
+        if not isinstance(experience_data, list):
+            raise ValueError("Experience of related Domain must be a list")
+        
+        print(f"\nInserting {len(experience_data)} domain experience(s)")
+        
+        # Process each domain experience entry (can be 1, 2, 3, or 4 domains)
+        for exp_idx, exp in enumerate(experience_data):
+            if not isinstance(exp, dict) or 'Domain' not in exp or 'Years' not in exp:
+                raise ValueError("Each experience entry must have 'Domain' and 'Years' fields")
+            
+            domain = exp['Domain']
+            years = exp['Years']
+            
+            print(f"\nProcessing experience {exp_idx + 1}: {domain} - {years}")
+            
+            # Add a row for each domain
+            for col in columns:
+                if col == 'Domain':
+                    user_new_dict[col].append(domain)
+                elif col == "Experience of related Domain":
+                    user_new_dict[col].append(years)
+                elif col == 'EMP ID':
+                    user_new_dict[col].append(new_empid)
+                elif col in insert_json_copy:
+                    # For columns that exist in insert_json, use that value
+                    user_new_dict[col].append(insert_json_copy[col])
+                else:
+                    # For columns not in insert_json, try to find a match with different casing/spacing
+                    matched = False
+                    
+                    # Normalize the column name for comparison
+                    col_normalized = col.lower().strip().replace('  ', ' ')
+                    
+                    for key in insert_json_copy.keys():
+                        key_normalized = key.lower().strip().replace('  ', ' ')
+                        if col_normalized == key_normalized:
+                            user_new_dict[col].append(insert_json_copy[key])
+                            matched = True
+                            print(f"  Matched '{col}' with '{key}'")
+                            break
+                    
+                    if not matched:
+                        # If still no match, append empty value
+                        print(f"  Warning: Column '{col}' not found in input data, using empty value")
+                        user_new_dict[col].append('')
+
+        # Create DataFrame from new user data
+        df_user_new = pd.DataFrame(user_new_dict)
+        
+        print(f"\nNew employee data shape: {df_user_new.shape}")
+        
+        # Concatenate with existing data
+        df_role_specified = pd.concat([df_employee, df_user_new], axis=0, ignore_index=True)
+
+        # Read all role sheets
+        df_role_dict = {}
+        for role_ in roles:
+            if role_ != role:
+                df_role_dict[role_] = pd.read_excel(
+                                                    employee_file_path, 
+                                                    sheet_name=role_, 
+                                                    engine='openpyxl'
+                                                    )
             else:
-                user_new_dict[col].append(insert_json[col][i]['Years'])
-                user_new_dict['Domain'].append(insert_json[col][i]['Domain'])
+                df_role_dict[role_] = df_role_specified
 
-    df_user_new = pd.DataFrame(user_new_dict)
-    df_role_specified = pd.concat([df_employee, df_user_new], axis=0)
+        # Write all sheets back to Excel
+        with pd.ExcelWriter(employee_file_path, engine='openpyxl') as writer:  
+            for role_, df_role_ in df_role_dict.items():
+                df_role_.to_excel(writer, sheet_name=role_, index=False)
+        
+        print(f"\n✓ Successfully inserted employee {new_empid} for role {role} with {len(experience_data)} domain(s)")
+        return {"success": True, "emp_id": new_empid, "message": "Employee inserted successfully"}
+        
+    except Exception as e:
+        print(f"\n✗ Error in insert_employee: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        raise Exception(f"Failed to insert employee: {str(e)}")
 
-    df_role_dict = {}
-    for role_ in roles:
-        if role_ != role:
-            df_role_dict[role_] = pd.read_excel(
-                                                employee_file_path, 
-                                                sheet_name=role_, 
-                                                engine='openpyxl'
-                                                )
-        else:
-            df_role_dict[role_] = df_role_specified
+# def insert_employee(
+#                     insert_json, role, 
+#                     employee_file_path = 'data/KPI/employees.xlsx'
+#                     ):
+#     df_employee = pd.read_excel(
+#                                 employee_file_path, 
+#                                 sheet_name=role, 
+#                                 engine='openpyxl'
+#                                 )
+#     columns = df_employee.columns.values
+#     empids = list(df_employee['EMP ID'].unique())
+#     empids_ = [int(empid[2:]) for empid in empids]
+#     emp_prefix = empids[0][:2]
+#     max_empid = max(empids_)
+#     new_empid = f'{emp_prefix}{max_empid + 1}'
+#     insert_json['EMP ID'] = new_empid
 
-    with pd.ExcelWriter(employee_file_path) as writer:  
-        for role_, df_role_ in df_role_dict.items():
-            df_role_.to_excel(writer, sheet_name=role_, index=False)
+#     user_new_dict = {}
+#     for col in columns:
+#         user_new_dict[col] = []
+
+#     for i in range(4):
+#         for col in columns:
+#             if col == 'Domain':
+#                 pass
+#             elif col != "Experience of related Domain":
+#                 user_new_dict[col].append(insert_json[col])
+#             else:
+#                 user_new_dict[col].append(insert_json[col][i]['Years'])
+#                 user_new_dict['Domain'].append(insert_json[col][i]['Domain'])
+
+#     df_user_new = pd.DataFrame(user_new_dict)
+#     df_role_specified = pd.concat([df_employee, df_user_new], axis=0)
+
+#     df_role_dict = {}
+#     for role_ in roles:
+#         if role_ != role:
+#             df_role_dict[role_] = pd.read_excel(
+#                                                 employee_file_path, 
+#                                                 sheet_name=role_, 
+#                                                 engine='openpyxl'
+#                                                 )
+#         else:
+#             df_role_dict[role_] = df_role_specified
+
+#     with pd.ExcelWriter(employee_file_path) as writer:  
+#         for role_, df_role_ in df_role_dict.items():
+#             df_role_.to_excel(writer, sheet_name=role_, index=False)
 
 def inference_sdlc(
                     data_json,
@@ -726,19 +810,12 @@ def login():
         
 @app.route('/risk', methods=['POST'])
 def risk():
-    try:
-        data_json = request.json
-        print("Received risk data:", data_json)  # Debug logging
-        response_risk, prediction_risk = inference_risk(data_json)
-        return jsonify({
-                        'risk': response_risk,
-                        'mitigation': prediction_risk
-                        })
-    except Exception as e:
-        print(f"Error in risk endpoint: {str(e)}")
-        import traceback
-        traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
+    data_json = request.json
+    response_risk, prediction_risk = inference_risk(data_json)
+    return jsonify({
+                    'risk' : response_risk,
+                    'mitigation' : prediction_risk
+                    })
 
 @app.route('/employee/all', methods=['GET'])
 def employee_all():
@@ -764,41 +841,27 @@ def employee_all():
 
 @app.route('/complexity', methods=['POST'])
 def complexity():
-    try:
-        data_json = request.json
-        print("Received data:", data_json)  # Debug logging
-        selected_team, selected_employees, prediction_complexity = inference_complexity(data_json)
-        return jsonify({
-                        'selected_team': selected_team,
-                        'selected_employees': selected_employees,
-                        'complexity': prediction_complexity
-                        })
-    except Exception as e:
-        print(f"Error in complexity endpoint: {str(e)}")
-        import traceback
-        traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
+    data_json = request.json
+    selected_team, selected_employees, prediction_complexity= inference_complexity(data_json)
+    return jsonify({
+                    'selected_team' : selected_team,
+                    'selected_employees' : selected_employees,
+                    'complexity' : prediction_complexity
+                    })
 
 @app.route('/sdlc', methods=['POST'])
 def sdlc():
-    try:
-        data_json = request.json
-        print("Received SDLC data:", data_json)  # Debug logging
-        response_sdlc, sdlc_dict = sdlc_pipeline(data_json)
-        
-        # Convert int64 objects to native Python int
-        sdlc_dict = {key: int(value) if isinstance(value, (np.int64, int)) else value for key, value in sdlc_dict.items()}
+    data_json = request.json
+    response_sdlc, sdlc_dict = sdlc_pipeline(data_json)
+    
+    # Convert int64 objects to native Python int
+    sdlc_dict = {key: int(value) if isinstance(value, (np.int64, int)) else value for key, value in sdlc_dict.items()}
 
-        print(sdlc_dict)
-        return jsonify({
-            'sdlc': response_sdlc,
-            'base_time': sdlc_dict
-        })
-    except Exception as e:
-        print(f"Error in sdlc endpoint: {str(e)}")
-        import traceback
-        traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
+    print(sdlc_dict)
+    return jsonify({
+        'sdlc': response_sdlc,
+        'base_time': sdlc_dict
+    })
 
 @app.route('/kpi/crud', methods=['POST'])
 def kpi_crud():
@@ -937,7 +1000,6 @@ def get_projects():
 
 if __name__ == '__main__':
     app.run(
-            debug=True,
-            port=5001,
-            use_reloader=False
+            debug=True, 
+            port=5001
             )
