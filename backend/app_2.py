@@ -9,13 +9,18 @@ from llama_index.core.llms import ChatMessage, MessageRole
 app = Flask(__name__)
 CORS(app)
 
-os.environ['OPENAI_API_KEY'] = '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'
+api_key = os.getenv('OPENAI_API_KEY')
+if not api_key:
+    raise ValueError("OPENAI_API_KEY not found in environment variables. Please set it in the .env file.")
+
+os.environ['OPENAI_API_KEY'] = api_key
 
 llm = OpenAI(
             engine="gpt-4o",
             temperature=0.3,
             max_tokens=1000
             )
+
 
 roles = [
         'Business Analyst',
